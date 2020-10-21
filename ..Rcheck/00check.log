@@ -1,0 +1,360 @@
+* using log directory ‘/Volumes/Cloud/Research/Alleloscope/..Rcheck’
+* using R version 4.0.2 (2020-06-22)
+* using platform: x86_64-apple-darwin17.0 (64-bit)
+* using session charset: UTF-8
+* checking for file ‘./DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘Alleloscope’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... WARNING
+Found the following executable files:
+  .git/objects/06/37a088a01e8ddab3bf3fa98dbe804cbde1a0dc
+  .git/objects/07/9393175083de79ce49cb5fa37cdfee242733c6
+  .git/objects/09/f1bedc26dace4d12f9fd72d677d5181fd01792
+  .git/objects/0a/d48917632a4eb49fc11b08991e41226e2570c4
+  .git/objects/0b/cf02c8cebe89d78aa9c382429a367d107191c9
+  .git/objects/0c/7ab9471a4da49740e9e18db47a4334d27657bc
+  .git/objects/0c/7d801517be0aca679055a6f422754289cc0355
+  .git/objects/0e/21a7e60f75efad3e7fa2446891a49b634ea8e5
+  .git/objects/10/2f33c93ee9ad5bbb299e644d270853de197663
+  .git/objects/10/e6f7326ed2fb9edf40a64e790548edd7e4cf38
+  .git/objects/17/2beeb56e7865dfc69d00e215088daed1082529
+  .git/objects/17/88e686604202ce4f5e12f188c7359e752cf950
+  .git/objects/1b/1c05990f896ee733ed5d33827eaaa1e2950e48
+  .git/objects/1c/38c415dd8e9bc48c9bff486aa226a3d4561807
+  .git/objects/1c/b782de4ba3136ab5c6a559681ac4742d530807
+  .git/objects/1d/94aee9ec855d7eaffd7f3d7cdc0854088d92b7
+  .git/objects/1d/9776087c64b281e5b4601a6a96cb7b4bc24aee
+  .git/objects/21/48c656a1e65f65ea5d54cefca054ac5565a921
+  .git/objects/23/d3f586b2674ab85b4be2b569ee6ae7ef66efa8
+  .git/objects/24/00de52a9cf4d1a6f8071989b1fc0ae1ca2bd0f
+  .git/objects/26/6a2c9c3054a811009520ed7e4c6377a5efb85a
+  .git/objects/27/be9a3fc2a1215eb249e8923632caa73a31d3fc
+  .git/objects/28/5ae15c1b1bf3ebafeeaef561cd68f05af5576c
+  .git/objects/28/9759c5592dad051cd35c0749b719d357c32d46
+  .git/objects/2b/1bef112ac6921abda6162a65dbfcd8c6d55c80
+  .git/objects/2c/9da55d37d543e5b37096bd0e2b93235b9353cf
+  .git/objects/2c/f554586d5b0c3d5b1e1f467cdd4426323e3df3
+  .git/objects/2d/2a1e99e566c8f3b98ea5aa39286e3d3bf033da
+  .git/objects/2d/83718bf89c80826cf0e93a21a13455e033da23
+  .git/objects/2e/98bbf48fbb074ccef8aa4c3f97256eb1ef3897
+  .git/objects/30/b11475bd2de976bc8404c81ef6f8853834efc9
+  .git/objects/32/d9d92de65bf8c73250a92673819ff38902cb66
+  .git/objects/33/6b15a30919bd0e6a927f4442cd2cf2ab9689d5
+  .git/objects/33/aaf12c0273226ac7e54ad6d5f372e8584347fc
+  .git/objects/33/b174ca7af82f0af649dc5723d23cb95e1b632b
+  .git/objects/37/0b4608aa415c3d698f5d78398d310759a4318a
+  .git/objects/3c/3557416a16b1538846a9f08c8d49b36bef2d2e
+  .git/objects/3c/e5af1895ca40158daee967d35486326150d1b4
+  .git/objects/3f/2ff2d6cc8f257ffcade7ead1ca4042c0e884b9
+  .git/objects/41/d1127cfd4712b0cda3c3b69577604f6e75f5ce
+  .git/objects/46/f59b62e05fee5c7c84844a3010d2d53476a557
+  .git/objects/48/71839fa0e7abb4491f021e97caca4b748cb9fb
+  .git/objects/4c/233292572d272f6ec0d748a57e41d8a850e250
+  .git/objects/4d/9e15bc363ae867bf171cf9be5afca640d7bcfe
+  .git/objects/4e/12d9b4c47b68ed863a0d56a72be0068d454850
+  .git/objects/4e/63253f5efe536dbee85e91706c2f4880dc1ff8
+  .git/objects/4e/8e8fad0abee5c131eb1646ac61f98d567c92b7
+  .git/objects/4f/6dd65024f89efcc54b2db31ed078cf0e245009
+  .git/objects/50/08ddfcf53c02e82d7eee2e57c38e5672ef89f6
+  .git/objects/56/2c395a5b877da9e20fce4b0c93f9a68d6703ce
+  .git/objects/59/c3a16d4859790906b13dcba207f71aba791159
+  .git/objects/5b/7023df0c58ee653d2ac9032057c9c446fc554c
+  .git/objects/5b/d3eee61bbb8593cdf9f1f8331b137607cb23fd
+  .git/objects/5d/e64c9d463d697f72fd2d918be5501951b65c90
+  .git/objects/5e/d0130760db759c5ea5ca7dd53eed9b98e2c58f
+  .git/objects/5e/e76b69fdf7dbaa07fd3196e26308c97933b153
+  .git/objects/5f/a893dca63426ef9e4024d7efefa77fd23f74b0
+  .git/objects/67/28ca6864f817d2077588b0acad89d63d3af0f4
+  .git/objects/6a/a5c82caa7d9999dc5b9172eb33081eac5ebe72
+  .git/objects/6b/2f725ee6baeba36f4dcf363c294716a3d1b8a5
+  .git/objects/6d/7ea18caf96a45aaf689be7adde0bcdc9043f6a
+  .git/objects/6e/482e54c64d58143d086b867855738c874a193b
+  .git/objects/6f/2e622c823f5f74ee84691dc0032ed28d519ade
+  .git/objects/72/09ebd123b793bcec4b559311c6154a1c774ac9
+  .git/objects/73/adfc65ff979d533fbfcfd82bfa1a3152eb3c83
+  .git/objects/78/29655734ec5fab877bc64624c40d27b0c71f73
+  .git/objects/78/e08566f338067af38f000b42dc596933835847
+  .git/objects/78/e334380ca078aeba3a20deb56d4f5f8c4f34e4
+  .git/objects/7b/33deda06468b3e5dda739b57043f71b8fe7c8d
+  .git/objects/7c/b67085842da79efc41906a4268b73c4b8c5c22
+  .git/objects/7d/82d52ff0ef7bd3ac52a40ba21c5c8ab22da2df
+  .git/objects/80/5d2024ea064f6b0cafa97c6c8dcd2a466487cc
+  .git/objects/84/1dbcb16ebb522cd518435df9b0516ffebcf55e
+  .git/objects/84/f9866506ec47c594be81d729dae3fd9bc4ba90
+  .git/objects/85/76e19b456fe5749c30b057e3598f8b207de936
+  .git/objects/88/3d0fcba5a1595765d82e4e0513e1f13dc58802
+  .git/objects/8a/a4b9da796550c5235f1b3d38101083630e8d34
+  .git/objects/8b/8ef90ef66fde968963155bce6f5a4babb15dc5
+  .git/objects/8c/52ae9c73ca42c5ade0672707c87a4c36070107
+  .git/objects/8d/8333b3131ecfb6750991d9a8b71034aca3a6d2
+  .git/objects/8d/e133bcabb24dd5cf38cd1f2832048756a3c380
+  .git/objects/8e/2b3b166a5242d4cbcfa00cc4f95cb0808cc430
+  .git/objects/91/114bf2f2bba5e0c5252e75018da19b869776f1
+  .git/objects/91/f390e8f10cc3cbb94fb5171a74438d44dc68a8
+  .git/objects/92/c81311a6a02261307865c8a67adefa5d4215dc
+  .git/objects/9a/35545caa57ce461b4906a51be76c5040ac6273
+  .git/objects/9f/02843a920094552a6a14b103198d79fa566b93
+  .git/objects/a0/63be20afb385b1ec443ef43abe32eb624331c7
+  .git/objects/a1/4fdc2704c48f0426a60385d12bfc764a79c236
+  .git/objects/a3/971dcbcb6837f2e1e1743b1f9a65845421e192
+  .git/objects/a3/f5318a4fd11f17498f6ac99347c1e42958bf9d
+  .git/objects/a5/28f3b7b2488815ca855ebd4b56128c1ddc8a6f
+  .git/objects/a6/1777492e7a04b09ac74efa6c5f775dc7bedeee
+  .git/objects/ab/5e9509c3c88740118596738fc0c659f9afd95a
+  .git/objects/ac/5c4d8ef7b6690cfb2697a530f23d616e965a64
+  .git/objects/ad/38a6769feea5364f74305e8096a9668beddfaf
+  .git/objects/ad/a81557b38588d2dd05f03d7b3e1c775e8d2e3b
+  .git/objects/b0/05e364404a9c2c7e0ebac79cfc98abd7bef8c5
+  .git/objects/b0/26973187e737882760fdc46bec6f1b11dec849
+  .git/objects/b3/2aab39f61c393d6232aed5aafc88264b547499
+  .git/objects/b5/9fa4174244972a69350fa5784e96316abe4e0e
+  .git/objects/b8/22772cfca61c45be4cfb54b583713bd07b19e6
+  .git/objects/b9/c8f1ab3a837582b17fca8915c22ae86737b850
+  .git/objects/ba/bbaf1c1925f99d71c04416ca317b7c1871d584
+  .git/objects/be/786cf6541631c90accb3d1d7d5847e2ab82129
+  .git/objects/bf/fc7cef15092af19dbb8168a15d343d2113e911
+  .git/objects/c0/db71d628ed33f60804cda2a1a697242c3ec16e
+  .git/objects/c1/047544dd4dc4e28498ce3514171c86c66bbf25
+  .git/objects/c3/27a2c796f16d8483039e6f7172112692ff0b97
+  .git/objects/c4/d88e248487f903ea31c6d8248a79d2899cddf8
+  .git/objects/c5/7d32c32696f879cb2e84c8b9cac3d983c7785e
+  .git/objects/c6/76a6888ef158b75d51ed3d0922287911b1deb8
+  .git/objects/c9/1aadb175559b4e8ac8425e1dc74cc020202818
+  .git/objects/ca/fe7369447ee00ef0eaa80fcc5664c5a6f1f22e
+  .git/objects/cb/4033058382631e45060263606f3bd72f965cc9
+  .git/objects/cb/ffdbbc33c3308a8bb99eba96a111dedab2ddbd
+  .git/objects/cc/471d29dd56c8db9ea88dc4f76b2d224ddfe251
+  .git/objects/d5/1703e906f6611a0ed23f295a26148dcc63fdae
+  .git/objects/d5/9b1e57e88b3217e8de6c7bf6b7b2b6cc423f98
+  .git/objects/d9/909a6efb554a6c05878e7fe7925c266a987d27
+  .git/objects/da/a136c212f420742b99bd6b8a2a26a1727a40c9
+  .git/objects/db/cfdfc9a2577b566fb410dce5c2b41182eecd42
+  .git/objects/df/04866a54f620bd0526ee3ab53a285d4de9a21f
+  .git/objects/df/a36eca007782c279f8ec1191f7c36e9c8c8c8b
+  .git/objects/e0/503a39b62bbeaa3db39019dd174b5211f6b38a
+  .git/objects/e3/1bab1d233496d985d157e769497197f5aedd5d
+  .git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+  .git/objects/e9/29fa6bea8fa2fa396713442d0783670ed3d0b7
+  .git/objects/ee/08f8bd7da653cc3a0c7d7271066371651ea349
+  .git/objects/f2/2736be0635701e292b806ee5b2ec668c209d1d
+  .git/objects/f5/34ad9627d18ff810f714dd6a358c60ca790e47
+  .git/objects/f5/5ce819292f77e9d55e1d26d8c0122f33e7ff63
+  .git/objects/f5/6f62d5bbb8d5f3617ee82b46d866f8b136278d
+  .git/objects/f6/f8bfe8e878fdbffb7da459634f2ed83818af72
+  .git/objects/fb/127652e4888cf75961eb864196737abef6a203
+  .git/objects/fb/295228d8bfdf5097b9931b28fac48c90965a86
+  .git/objects/fc/36ec2a06631aa75884780d38966605fc432f7d
+Source packages should not contain undeclared executable files.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .DS_Store
+  R/.DS_Store
+  data-raw/.DS_Store
+  data-raw/P5847/.DS_Store
+  data-raw/P5847/output/.DS_Store
+  data-raw/P5847/output/plots/.DS_Store
+  data-raw/SNU601/.DS_Store
+  data-raw/SNU601/output/.DS_Store
+  data-raw/SNU601/output/plots/.DS_Store
+  data-raw/SNU601/output/rds/.DS_Store
+  inst/.DS_Store
+  inst/plots/.DS_Store
+  man/.DS_Store
+  ..Rcheck
+  .Rproj.user
+  .git
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
+* checking for portable file names ... ERROR
+Found the following files with non-portable file names:
+  data-raw/P5847/output/plots/EMresults/EMresult_chr11:0.pdf
+  data-raw/P5847/output/plots/EMresults/EMresult_chr15:17840000.pdf
+  data-raw/P5847/output/plots/EMresults/statistics_scDNAseq_chr11:0.pdf
+  data-raw/P5847/output/plots/EMresults/statistics_scDNAseq_chr15:17840000.pdf
+  data-raw/P5847/output/plots/gtype_scatter_ref_11:0.pdf
+  data-raw/P5847/output/plots/lineage_ref_11:0.pdf
+  data-raw/P5847/output/rds/chr11:0.rds
+  data-raw/P5847/output/rds/chr15:17840000.rds
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr10:0.pdf
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr3:0.pdf
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr3:163840000.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr10:0.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr10:82420000.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr3:0.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr3:163840000.pdf
+  data-raw/SNU601/output/plots/gtype_scatter_ref_10:0.pdf
+  data-raw/SNU601/output/plots/lineage_ref_10:0.pdf
+  data-raw/SNU601/output/rds/EMresults/chr10:0.rds
+  data-raw/SNU601/output/rds/EMresults/chr3:163840000.rds
+These are not valid file names on all R platforms.
+Please rename the files and try again.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+ WARNING
+Found the following files with non-portable file names:
+  data-raw/P5847/output/plots/EMresults/EMresult_chr11:0.pdf
+  data-raw/P5847/output/plots/EMresults/EMresult_chr15:17840000.pdf
+  data-raw/P5847/output/plots/EMresults/statistics_scDNAseq_chr11:0.pdf
+  data-raw/P5847/output/plots/EMresults/statistics_scDNAseq_chr15:17840000.pdf
+  data-raw/P5847/output/plots/gtype_scatter_ref_11:0.pdf
+  data-raw/P5847/output/plots/lineage_ref_11:0.pdf
+  data-raw/P5847/output/rds/chr11:0.rds
+  data-raw/P5847/output/rds/chr15:17840000.rds
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr10:0.pdf
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr3:0.pdf
+  data-raw/SNU601/output/plots/EMresults/EMresult_chr3:163840000.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr10:0.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr10:82420000.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr3:0.pdf
+  data-raw/SNU601/output/plots/EMresults/statistics_scDNAseq_chr3:163840000.pdf
+  data-raw/SNU601/output/plots/gtype_scatter_ref_10:0.pdf
+  data-raw/SNU601/output/plots/lineage_ref_10:0.pdf
+  data-raw/SNU601/output/rds/EMresults/chr10:0.rds
+  data-raw/SNU601/output/rds/EMresults/chr3:163840000.rds
+These are not fully portable file names.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘Alleloscope’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... NOTE
+Checking should be performed on sources prepared by ‘R CMD build’.
+Package listed in more than one of Depends, Imports, Suggests, Enhances:
+  ‘Matrix’
+A package should be listed in only one of these fields.
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... WARNING
+Found the following directory with the name of a check directory:
+  ./..Rcheck
+Most likely, these were included erroneously.
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... WARNING
+'::' or ':::' imports not declared from:
+  ‘GenomicRanges’ ‘IRanges’
+Namespace in Imports field not imported from: ‘rhdf5’
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+EM: no visible global function definition for ‘kmeans’
+Est_regions: no visible binding for global variable ‘size’
+Est_regions: no visible global function definition for ‘GRanges’
+Est_regions: no visible global function definition for ‘IRanges’
+Est_regions: no visible global function definition for ‘findOverlaps’
+Est_regions: no visible global function definition for ‘pdf’
+Est_regions: no visible global function definition for ‘par’
+Est_regions: no visible global function definition for ‘hist’
+Est_regions: no visible global function definition for ‘dev.off’
+Genotype: no visible binding for global variable ‘rho_hat’
+Genotype: no visible binding for global variable ‘theta_hat’
+Genotype: no visible binding for global variable ‘V1’
+Genotype: no visible binding for global variable ‘V2’
+Genotype: no visible global function definition for ‘pdf’
+Genotype: no visible global function definition for ‘dev.off’
+Genotype_value: no visible global function definition for
+  ‘findOverlaps’
+Genotype_value: no visible global function definition for ‘median’
+Genotype_value: no visible global function definition for ‘quantile’
+Lineage_plot: no visible global function definition for ‘hclust’
+Lineage_plot: no visible global function definition for ‘pdf’
+Lineage_plot: no visible global function definition for ‘dev.off’
+Matrix_filter: no visible global function definition for ‘pdf’
+Matrix_filter: no visible global function definition for ‘par’
+Matrix_filter: no visible global function definition for ‘hist’
+Matrix_filter: no visible global function definition for ‘dev.off’
+Matrix_filter: no visible global function definition for ‘axis’
+Matrix_filter: no visible global function definition for ‘abline’
+Matrix_filter: no visible binding for global variable ‘dir_path’
+Segmentation: no visible global function definition for ‘quantile’
+Segmentation: no visible global function definition for ‘median’
+Segmentation : <anonymous>: no visible global function definition for
+  ‘var’
+Segmentation: no visible global function definition for ‘pdf’
+Segmentation: no visible global function definition for ‘par’
+Segmentation: no visible global function definition for ‘points’
+Segmentation: no visible global function definition for ‘axis’
+Segmentation: no visible global function definition for ‘abline’
+Segmentation: no visible global function definition for ‘dev.off’
+Segments_filter: no visible global function definition for
+  ‘findOverlaps’
+Segments_filter: no visible global function definition for ‘quantile’
+Select_normal: no visible global function definition for ‘findOverlaps’
+Select_normal: no visible global function definition for ‘quantile’
+Select_normal: no visible global function definition for ‘pdf’
+Select_normal: no visible global function definition for ‘dev.off’
+Select_normal: no visible global function definition for ‘cutree’
+genotype_ref: no visible global function definition for ‘dnorm’
+Undefined global functions or variables:
+  GRanges IRanges V1 V2 abline axis cutree dev.off dir_path dnorm
+  findOverlaps hclust hist kmeans median par pdf points quantile
+  rho_hat size theta_hat var
+Consider adding
+  importFrom("grDevices", "dev.off", "pdf")
+  importFrom("graphics", "abline", "axis", "hist", "par", "points")
+  importFrom("stats", "cutree", "dnorm", "hclust", "kmeans", "median",
+             "quantile", "var")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘centromere.GRCh38’ ‘genotype_neighbor’ ‘telomere.GRCh38’
+Undocumented data sets:
+  ‘centromere.GRCh38’ ‘telomere.GRCh38’
+All user-level objects in a package should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'AssignClones_ref'
+  ‘rhohats’ ‘thetahats’ ‘snpCoverages’ ‘priorCloneProbs’
+  ‘clone.genotypes’ ‘sigma.rho’
+Documented arguments not in \usage in documentation object 'AssignClones_ref':
+  ‘rhohats:’ ‘thetahats:’ ‘snpCoverages:’ ‘priorCloneProbs:’
+  ‘clone.genotypes:’ ‘sigma.rho:’
+
+Undocumented arguments in documentation object 'Createobj'
+  ‘var_all’
+Documented arguments not in \usage in documentation object 'Createobj':
+  ‘vcf_all’
+
+Undocumented arguments in documentation object 'Matrix_filter'
+  ‘plot_stat’
+
+Undocumented arguments in documentation object 'Rundf_dna'
+  ‘var_all’
+Documented arguments not in \usage in documentation object 'Rundf_dna':
+  ‘vcf_all’
+
+Undocumented arguments in documentation object 'Select_normal'
+  ‘cell_nclust’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking examples ... NONE
+* checking PDF version of manual ... OK
+* DONE
+Status: 1 ERROR, 6 WARNINGs, 3 NOTEs

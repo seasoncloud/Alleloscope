@@ -1,0 +1,26 @@
+AssignClones_ref        Using marker regions to assign each cell into c
+                        reference subclones
+Createobj               Generate Alleloscope object for analysis
+EM                      Iterative phasing and theta_hat estimation
+Est_regions             Perform EM iterations on the filtered cells
+                        with barcodes, and plot the results for each
+                        region.
+Genotype                Genotype each cell for each region and plot the
+                        genotypes.
+Genotype_value          Normalize coverage using identified/ specified
+                        normal cells and one normal region and generate
+                        a table with (rho_hat, theta_hat) of each cell
+                        for all regions.
+Lineage_plot            Generate genotype plot (scatter plot) for each
+                        region and save in the plot directory.
+Matrix_filter           Filter object based on cell number for each
+                        SNP, SNP number for each cell, SNP variant
+                        allele frequency, and exclude the centromere
+                        and telomere regions.
+Rundf_dna               Run all steps for scDNA-seq data
+Segmentation            HMM segmentation based on coverage matrix for
+                        paired tumor and normal sample.
+Segments_filter         Select the segments in the "seg_table" with
+                        more than nSNP
+Select_normal           Identify candidate normal cells and normal
+                        regions for cell coverage normalization
