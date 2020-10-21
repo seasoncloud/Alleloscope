@@ -101,10 +101,8 @@ var_all=readRDS("data-raw/SNU601/var_all_sub.rds")
 
 * Read example files for bin coverage (bin by cell matrices for tumor and normal for segmentation.)
 ```
-path_hdf5_tumor='data-raw/SNU601/tumor_sub.rds'
-path_hdf5_normal='data-raw/SNU601/normal_sub.rds'
-raw_counts=readRDS(path_hdf5_tumor)
-ref_counts=readRDS(path_hdf5_normal)
+raw_counts=readRDS('data-raw/SNU601/tumor_sub.rds')
+ref_counts=readRDS('data-raw/SNU601/normal_sub.rds') # Normal sample from patient 6198 was used for the cell line.
 
 # Without paired normal sample, other normal samples aligned to the same reference genome (eg. GRCh38) also work if with matched bins.
 ```
