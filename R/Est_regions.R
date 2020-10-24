@@ -1,6 +1,6 @@
 #' Perform EM iterations on the filtered cells with barcodes, and plot the results for each region.
 #'
-#' @param Obj_filtered A Alleloscope object with allele and segment information for estimating cell major haplotype proportion (theta_hat) for each region.
+#' @param Obj_filtered An Alleloscope object with allele and segment information for estimating cell major haplotype proportion (theta_hat) for each region.
 #' @param max_nSNP Integer. Maximum SNP number used for estimating theta_hat for a region.
 #' @param plot_stat Logical (TRUE/ FALSE). Whether or not to plot the statistics and EM results for each region.
 #' @param min_ncell Integer. Filter out the cells with reads < min_ncells.

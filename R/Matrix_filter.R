@@ -1,6 +1,6 @@
 #' Filter object based on cell number for each SNP, SNP number for each cell, SNP variant allele frequency, and exclude the centromere and telomere regions.
 #'
-#' @param Obj A Alleloscope object.
+#' @param Obj An Alleloscope object.
 #' @param cell_filter An integer of minimum cell number for SNP selection.
 #' @param SNP_filter An integer of minimum SNP number for cell selection.
 #' @param min_vaf A numerical value in the range (0,1) of minimum SNP variant allele frequency in the pseudo bulk for SNP selection.

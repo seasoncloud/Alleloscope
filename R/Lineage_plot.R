@@ -1,9 +1,10 @@
 #' Generate genotype plot (scatter plot) for each region and save in the plot directory.
 #'
-#' @param Obj_filtered A Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
+#' @param Obj_filtered An Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
 #' Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each region.
 #' @param nSNP An integer for the minimum number of SNPs across segments. Segments with the number of SNPs < nSNP are excluded. 
 #' @param clust_method Method for clustering. Please refer to the "pheatmap" function. 
+#' @param plot_conf Logical (TRUE/FALSE). Whether or not to plot the confidence scores under the lineage tree.
 #' @param nclust An integer for the number of subclones gapped in the plot.
 #' @param plot_path The path for saving the plot.
 #'
@@ -14,7 +15,7 @@
 #' @import cluster
 #' @export
 
-Lineage_plot=function(Obj_filtered=NULL, nSNP=2000, clust_method='ward.D2', nclust=5, plot_path=NULL){
+Lineage_plot=function(Obj_filtered=NULL, nSNP=2000, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL){
 
 # assign values
 samplename=Obj_filtered$samplename
@@ -53,25 +54,41 @@ colnames(cluster_cbn2)=region_list
 rownames(cluster_cbn2)=rownames(theta_hat_cbn)
 cluster_cbn2=data.frame(cluster_cbn2, stringsAsFactors = F)
 
+if(plot_conf){
+cluster_cbn_conf=Obj_filtered$genotypeConfidence###
+colnames(cluster_cbn_conf)=region_list
+rownames(cluster_cbn_conf)=rownames(theta_hat_cbn)
+cluster_cbn_conf=data.frame(cluster_cbn_conf, stringsAsFactors = F)
+}
 
 # select segments for plotting
 ind=which(segmentation$Freq>nSNP)
 segmentation=segmentation[ind,]
 cluster_cbn=cluster_cbn[,ind]
 cluster_cbn2=cluster_cbn2[,ind]
+if(plot_conf){
+  cluster_cbn_conf=cluster_cbn_conf[,ind]
+}
 
 # plot the genotypes on the genome (5000000 bins)
 nrep=round(as.numeric(segmentation[,5])/5000000)
 
 cnrep=c(0,cumsum(nrep))
-cluster_cbn_all=matrix(ncol=sum(nrep), nrow=nrow(cluster_cbn))
+#cluster_cbn_all=matrix(ncol=sum(nrep), nrow=nrow(cluster_cbn))
 cluster_cbn2_all=matrix(ncol=sum(nrep), nrow=nrow(cluster_cbn))
+cluster_cbn_conf_all=matrix(ncol=sum(nrep), nrow=nrow(cluster_cbn))
+
 for(ii in 1:ncol(cluster_cbn)){
   if(nrep[ii]>0){
-    rr=(replicate(nrep[ii],cluster_cbn[,ii]))
-    cluster_cbn_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr
+    #rr=(replicate(nrep[ii],cluster_cbn[,ii]))
+    #cluster_cbn_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr
     rr=(replicate(nrep[ii],cluster_cbn2[,ii]))
-    cluster_cbn2_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr}
+    cluster_cbn2_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr
+    
+    if(plot_conf){
+    rr=(replicate(nrep[ii],cluster_cbn_conf_all[,ii]))
+    cluster_cbn_conf_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr}
+    }
 }
 chrgap=c()
 for(ii in 1:22){
@@ -84,7 +101,7 @@ col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
       "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
       "#7B241C", "#7B241C", "#7B241C","#7B241C","#7B241C","#7B241C","#7B241C")
 
-cluster_cbn_all=data.frame(cluster_cbn_all, stringsAsFactors = F)
+#cluster_cbn_all=data.frame(cluster_cbn_all, stringsAsFactors = F)
 
 test=gower.dissimilarity.mtrx <- cluster::daisy(cluster_cbn, metric = c("gower"))
 hh=hclust(test, method=clust_method)
@@ -108,5 +125,26 @@ pheatmap::pheatmap(plot_matrix,
 dev.off()
 
 message(paste0("Lineage plot is successfully saved in the path:",plot_path))
+
+if(plot_conf){
+  #conf_plot(Obj_filtered = Obj_filtered, nclust = nclust)
+  plot_matrix<- cluster_cbn_conf_all
+  
+  pdf(paste0(plot_path), width = 12,height = 6)
+  pheatmap::pheatmap(plot_matrix,
+                     cluster_cols = F, cluster_rows = hh,
+                     show_rownames = F,
+                     clustering_distance_rows = "euclidean",
+                     clustering_method = clust_method,
+                     gaps_col=cumsum(chrgap),
+                     cutree_rows = nclust,
+                     color =col,
+                     breaks = 0:26)
+  
+  dev.off()
+  
+  message(paste0("Confidence plot is successfully saved in the path:",plot_path))
+  
+}
 
 }

@@ -1,6 +1,6 @@
 #' Genotype each cell for each region and plot the genotypes.
 #'
-#' @param Obj_filtered A Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
+#' @param Obj_filtered An Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
 #' Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each region.
 #' @param xmax An integer for the x-axis maximum limit.
 #' @param plot_path The path for saving the plot.
@@ -29,7 +29,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
   
   pp_list=list()
   mu0=matrix(c(c(0.5,0), c(0.5,1),c(1,0),c(1,0.5),c(1,1),c(1.5,0),c(1.5,0.33),c(1.5, 0.66),c(1.5, 1),c(2, 0), c(2, 0.25), c(2,0.5),c(2,0.75),c(2,1),c(2.5, 0),c(2.5,0.2),c(2.5,0.4), c(2.5, 0.6), c(2.5, 0.8), c(2.5, 1), c(3,0),c(3,1/6),c(3,2/6),c(3,3/6),c(3,4/6),c(3,5/6),c(3,1))
-             , byrow=T, ncol=2)
+             , byrow=T, ncol=2)x
   rownames(mu0)=paste0("center",1:dim(mu0)[1])
   mu0=as.data.frame(mu0, stringsAsFactors = F)
 
@@ -48,6 +48,8 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
     
     if(is.null(ref_gt)){
     cluster=genotype_neighbor(df)
+    genotypeConfidence[,ii]=genotype_conf(X=df, gt=cluster)
+    
     
     }else{
       snpCoverage = as.numeric(theta_N_sub[,3])+ as.numeric(theta_N_sub[,4])

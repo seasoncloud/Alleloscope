@@ -1,6 +1,6 @@
 #' Identify candidate normal cells and normal regions for cell coverage normalization
 #'
-#' @param Obj_filtered A Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".
+#' @param Obj_filtered An Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".
 #' @param raw_counts A large binned coverage matrix (bin by cell) with values being read counts for all chromosomal regions of tumor sample.
 #'
 #' @return A Alleloscope object with a "select_normal" list added.

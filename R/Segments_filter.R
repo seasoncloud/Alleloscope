@@ -1,6 +1,6 @@
 #' Select the segments in the "seg_table" with more than nSNP
 #'
-#' @param Obj_filtered A Alleloscope object with SNP info and raw segmentation table "seg_table".
+#' @param Obj_filtered An Alleloscope object with SNP info and raw segmentation table "seg_table".
 #' @param nSNP An integer of minimum number of SNPs for region selecgtion.
 #'
 #' @return A Alleloscope object with "seg_table_filtered" added.

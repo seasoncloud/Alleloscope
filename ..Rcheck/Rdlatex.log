@@ -95,8 +95,8 @@ Overfull \hbox (5.98257pt too wide) in paragraph at lines 464--465
  ta-ble "seg[]table". 
 No file Rd2.ind.
 [10]
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.aux)
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -118,7 +118,7 @@ public/amsfonts/cm/cmr12.pfb></Users/chiyunwu/Library/TinyTeX/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsl10.pfb></Users/chiyunwu/Library/TinyTeX/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmss12.pfb></Users/chiyunwu/Library/TinyTeX/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Rd2.pdf (10 pages, 142745 bytes).
+Output written on Rd2.pdf (10 pages, 142883 bytes).
 Transcript written on Rd2.log.
 This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -216,16 +216,16 @@ Writing index file Rd2.idx
 
 (/Users/chiyunwu/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfte
 x.def)
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.aux)
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.aux)
 (/Users/chiyunwu/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 (/Users/chiyunwu/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty)
 (/Users/chiyunwu/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitle
 string.sty))
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.out)
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.out)
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.out)
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.out)
 (/Users/chiyunwu/Library/TinyTeX/texmf-dist/tex/latex/inconsolata/ot1zi4.fd)
 
 LaTeX Font Warning: Font shape `OML/zi4/m/n' undefined
@@ -233,8 +233,8 @@ LaTeX Font Warning: Font shape `OML/zi4/m/n' undefined
 (Font)              for symbol `textless' on input line 22.
 
 
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.toc) [1{/Users/chiyunwu/Library/TinyTeX/texmf-var/fonts/map/pdftex
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.toc) [1{/Users/chiyunwu/Library/TinyTeX/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}]
 Overfull \hbox (8.48575pt too wide) in paragraph at lines 39--42
 \OT1/cmr/m/n/10 15.(2.5,0); 16.(2.5,1/5); 17.(2.5,2/5); 18.(2.5,3/5); 19.(2.5,4
@@ -245,8 +245,8 @@ Overfull \hbox (5.98257pt too wide) in paragraph at lines 464--465
  ta-ble "seg[]table". 
 No file Rd2.ind.
 [10]
-(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/RtmpCoaoNx/Rd2pdf544d
-1cdd264b/Rd2.aux)
+(/private/var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T/Rtmpiz0aKM/Rd2pdf6495
+1b4184db/Rd2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -263,8 +263,8 @@ public/amsfonts/cm/cmr12.pfb></Users/chiyunwu/Library/TinyTeX/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsl10.pfb></Users/chiyunwu/Library/TinyTeX/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmss12.pfb></Users/chiyunwu/Library/TinyTeX/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Rd2.pdf (10 pages, 144514 bytes).
+Output written on Rd2.pdf (10 pages, 144638 bytes).
 Transcript written on Rd2.log.
 Saving output to ‘Alleloscope-manual.pdf’ ...
 Done
-You may want to clean up by 'rm -Rf /var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T//RtmpCoaoNx/Rd2pdf544d1cdd264b'
+You may want to clean up by 'rm -Rf /var/folders/7_/v8xh2wqn4td_wr0kyvmtfqcr0000gn/T//Rtmpiz0aKM/Rd2pdf64951b4184db'

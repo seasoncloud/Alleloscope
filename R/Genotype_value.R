@@ -3,7 +3,7 @@
 #' rho_hat: Relative coverage change for each cell in a region
 #' theta_hat: Major haplotype proportion fir each cell in a region
 #'
-#' @param Obj_filtered A Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region
+#' @param Obj_filtered An Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region
 #' @param type Specify whethere the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.
 #' @param raw_counts (required) A large binned coverage matrix (m1 bin by n1 cell) with values being read counts for all chromosomal regions of tumor sample.
 #' @param ref_counts (required only when type = "cellline") A binned coverage matrix (m2 bin by n2 cell) with values being read counts for all chromosomal regions of normal sample. n2 can be 1 for bulk sample.

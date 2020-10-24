@@ -15,4 +15,4 @@ Depends: R (>= 3.6.0), Matrix, rtracklayer
 biocViews: Software
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Built: R 4.0.2; ; 2020-10-21 02:43:24 UTC; unix
+Built: R 4.0.2; ; 2020-10-21 20:14:10 UTC; unix
