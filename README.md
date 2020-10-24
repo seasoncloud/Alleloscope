@@ -6,7 +6,7 @@ Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 Alleloscope is a method for allele-specific copy number estimation that can be applied to single cell DNA and ATAC sequencing data (separately or in combination), allowing for integrative multi-omic analysis of allele-specific copy number and chromatin accessibility for the same cell. 
 
 ## Overview of Alleloscope genotyping algorithm
-![Alt text](inst/plots/overview.png?raw=true "Overview of Alleloscope genotyping algorithm")
+![Alt text](inst/plots/overview2.png?raw=true "Overview of Alleloscope genotyping algorithm")
 
 
 ## Install
