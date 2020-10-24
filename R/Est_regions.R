@@ -22,13 +22,13 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE,min_ncell=
   plot_path=paste0(Obj_filtered$dir_path,'/plots/')
   samplename=Obj_filtered$samplename
   if(is.null(rds_path)){
-  rds_path=paste0(Obj_filtered$dir_path,"/rds")
+  rds_path=paste0(Obj_filtered$dir_path,"/rds/")
   }
   dir.create(rds_path)
   
   dir.create(paste0(plot_path, "EMresults"))
-  dir.create(paste0(rds_path, "/EMresults"))
-
+  dir.create(paste0(rds_path, "EMresults"))
+  rds_path=paste0(Obj_filtered$dir_path,"/rds/EMresults/")
 
   if(is.null(filtered_seg_table)){
     message("Estimation for each chromosome")
@@ -167,7 +167,7 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE,min_ncell=
     result=list("theta_hat"=theta, "I_hat"=ind, "barcodes"=rownames(alt_table), "SNPs"=atac_snp, "w1"=w1,"w2"=w2)
   }
     rds_list[[paste0("chr",as.character(chrr))]]=result
-    saveRDS(result,paste0(rds_path,"/EMresults/chr",as.character(chrr),".rds"))
+    saveRDS(result,paste0(rds_path,"/chr",as.character(chrr),".rds"))
 
     pdf(paste0(plot_path,"/EMresults/EMresult_chr", as.character(chrr),'.pdf' ))
     par(mfrow=c(2,1))

@@ -24,7 +24,8 @@ theta_hat_cbn=Obj_filtered$genotype_values
 segmentation=Obj_filtered$seg_table_filtered
 region_list=Obj_filtered$seg_table_filtered$chrr
 if(is.null(plot_path)){
-  plot_path=paste0(Obj_filtered$dir_path,'/plots/lineage_ref_',ref,'.pdf')}
+  plot_path=paste0(Obj_filtered$dir_path,'/plots/')}
+  #plot_path=paste0(Obj_filtered$dir_path,'/plots/lineage_ref_',ref,'.pdf')}
 #dir.create(plot_path)
 
 
@@ -86,7 +87,7 @@ for(ii in 1:ncol(cluster_cbn)){
     cluster_cbn2_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr
     
     if(plot_conf){
-    rr=(replicate(nrep[ii],cluster_cbn_conf_all[,ii]))
+    rr=(replicate(nrep[ii],cluster_cbn_conf[,ii]))
     cluster_cbn_conf_all[,(cnrep[ii]+1):(cnrep[ii+1])]=rr}
     }
 }
@@ -110,8 +111,7 @@ hh$height=log(hh$height+1) # linear transform thee tree length
 
 plot_matrix<- cluster_cbn2_all
 
-
-pdf(paste0(plot_path), width = 12,height = 6)
+pdf(paste0(plot_path,"lineage_ref_",ref,'.pdf' ), width = 12,height = 6)
 pheatmap::pheatmap(plot_matrix,
          cluster_cols = F, cluster_rows = hh,
          show_rownames = F,
@@ -124,26 +124,28 @@ pheatmap::pheatmap(plot_matrix,
 
 dev.off()
 
-message(paste0("Lineage plot is successfully saved in the path:",plot_path))
+message(paste0("Lineage plot is successfully saved in the path:",plot_path,"lineage_ref_",ref,'.pdf'))
 
 if(plot_conf){
   #conf_plot(Obj_filtered = Obj_filtered, nclust = nclust)
   plot_matrix<- cluster_cbn_conf_all
   
-  pdf(paste0(plot_path), width = 12,height = 6)
+  pdf(paste0(plot_path,"conf_ref_",ref,'.pdf'), width = 12,height = 6)
   pheatmap::pheatmap(plot_matrix,
                      cluster_cols = F, cluster_rows = hh,
                      show_rownames = F,
                      clustering_distance_rows = "euclidean",
                      clustering_method = clust_method,
                      gaps_col=cumsum(chrgap),
-                     cutree_rows = nclust,
-                     color =col,
-                     breaks = 0:26)
+                     cutree_rows = nclust)
+                     #color =col,
+                     #breaks = 0:26)
   
   dev.off()
   
-  message(paste0("Confidence plot is successfully saved in the path:",plot_path))
+  
+  
+  message(paste0("Confidence plot is successfully saved in the path:",plot_path,"conf_ref_",ref,'.pdf'))
   
 }
 

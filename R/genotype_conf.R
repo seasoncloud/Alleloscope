@@ -71,6 +71,6 @@ genotype_conf=function(X=NULL, gt=NULL){
     }
   #}
   
-  Obj_filtered$genotypeConfidence = posteriorConfidence
+   return(posteriorConfidence)
   
 }
