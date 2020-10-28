@@ -16,7 +16,7 @@ Est_regions(
 )
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with allele and segment information for estimating cell major haplotype proportion (theta_hat) for each region.}
+\item{Obj_filtered}{An Alleloscope object with allele and segment information for estimating cell major haplotype proportion (theta_hat) for each region.}
 
 \item{max_nSNP}{Integer. Maximum SNP number used for estimating theta_hat for a region.}
 

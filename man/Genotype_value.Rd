@@ -14,7 +14,7 @@ Genotype_value(
 )
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region}
+\item{Obj_filtered}{An Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region}
 
 \item{type}{Specify whethere the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.}
 

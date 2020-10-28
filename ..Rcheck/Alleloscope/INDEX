@@ -24,3 +24,5 @@ Segments_filter         Select the segments in the "seg_table" with
                         more than nSNP
 Select_normal           Identify candidate normal cells and normal
                         regions for cell coverage normalization
+genotype_conf           Compute confidence scores based on posterior
+                        probability for each cell in a region.

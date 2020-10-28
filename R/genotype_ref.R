@@ -7,7 +7,7 @@
 #' @param possibleGenotypes: A numeric vector indicating all possible genotypes in a region.
 #' @param priorProb: A numeric vector indicating prior prior probability of each possible genotype. The order should match the one for "possibleGenotypes".
 #' @param sigma.rho: Numeric. Standard deviation of the rho_i values under normal distribution. 
-#' 
+#' @noRd
 #' @keywords internal
 #' @export
 genotype_ref<-function(X, snpCoverage, possibleGenotypes, priorProb,sigma.rho=0.25){

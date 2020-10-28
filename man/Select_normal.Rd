@@ -7,7 +7,7 @@
 Select_normal(Obj_filtered = NULL, raw_counts = NULL, cell_nclust = 5)
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".}
+\item{Obj_filtered}{An Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".}
 
 \item{raw_counts}{A large binned coverage matrix (bin by cell) with values being read counts for all chromosomal regions of tumor sample.}
 }

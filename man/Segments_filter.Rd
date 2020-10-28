@@ -7,7 +7,7 @@
 Segments_filter(Obj_filtered = NULL, nSNP = 2000)
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with SNP info and raw segmentation table "seg_table".}
+\item{Obj_filtered}{An Alleloscope object with SNP info and raw segmentation table "seg_table".}
 
 \item{nSNP}{An integer of minimum number of SNPs for region selecgtion.}
 }

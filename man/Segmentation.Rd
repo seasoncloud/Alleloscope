@@ -12,7 +12,7 @@ Segmentation(
 )
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object.}
+\item{Obj_filtered}{An Alleloscope object.}
 
 \item{raw_counts}{A binned coverage matrix (m1 bin by n1 cell) with values being read counts in DNA sequencing data for all chromosomal regions of tumor sample. n1 can be 1 for bulk sample.}
 

@@ -9,11 +9,12 @@ Lineage_plot(
   nSNP = 2000,
   clust_method = "ward.D2",
   nclust = 5,
+  plot_conf = FALSE,
   plot_path = NULL
 )
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
+\item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
 Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each region.}
 
 \item{nSNP}{An integer for the minimum number of SNPs across segments. Segments with the number of SNPs < nSNP are excluded.}
@@ -21,6 +22,8 @@ Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each r
 \item{clust_method}{Method for clustering. Please refer to the "pheatmap" function.}
 
 \item{nclust}{An integer for the number of subclones gapped in the plot.}
+
+\item{plot_conf}{Logical (TRUE/FALSE). Whether or not to plot the confidence scores under the lineage tree.}
 
 \item{plot_path}{The path for saving the plot.}
 }

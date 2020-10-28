@@ -17,7 +17,7 @@ Matrix_filter(
 )
 }
 \arguments{
-\item{Obj}{A Alleloscope object.}
+\item{Obj}{An Alleloscope object.}
 
 \item{cell_filter}{An integer of minimum cell number for SNP selection.}
 

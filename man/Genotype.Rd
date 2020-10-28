@@ -7,7 +7,7 @@
 Genotype(Obj_filtered = NULL, xmax = NULL, plot_path = NULL, ref_gt = NULL)
 }
 \arguments{
-\item{Obj_filtered}{A Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
+\item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 2) genotype_values matrix and seg_table_filtered matrix.
 Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each region.}
 
 \item{xmax}{An integer for the x-axis maximum limit.}
