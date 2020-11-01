@@ -231,7 +231,7 @@ saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
 <br/>
 
 ## Reference
-For more information about the method, check out ##
+For more information about the method, please check out [paper](https://doi.org/10.1101/2020.10.23.349407)
 
 
 
