@@ -90,7 +90,7 @@ Obj_filtered=Segmentation(Obj_filtered=Obj_filtered,
 ```
 
 
-![Alt text](inst/plots/segmentation.png?raw=true "SNU601 segmentation")
+![Alt text](../../inst/plots/segmentation.png?raw=true "SNU601 segmentation")
 
 * Filter segments based on the numbers of SNPs.
 ```
@@ -152,7 +152,7 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
 ```
 The output genotying results for two regions are shown below.
 
-![Alt text](inst/plots/genotype.png?raw=true "SNU601 genotypes")
+![Alt text](../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
 <br/>
 
 #### Step6. Construct lineage structure using genotypes for each cell across all regions
@@ -163,7 +163,7 @@ linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 2)
 ```
 The output clustering result for two regions is shown below.
 
-![Alt text](inst/plots/lineage.png?raw=true "SNU601 lineage")
+![Alt text](../../inst/plots/lineage.png?raw=true "SNU601 lineage")
 
 * For scATAC-seq data, cells can be assigned to one of the identified subclones from matched scDNA-seq using the "AssignClones_ref" function.
 <br/>
