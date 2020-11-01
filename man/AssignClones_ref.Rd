@@ -5,20 +5,16 @@
 \title{Using marker regions to assign each cell into c reference subclones}
 \usage{
 AssignClones_ref(
-  rhohats,
-  thetahats,
-  snpCoverages,
+  Obj_filtered = NULL,
   priorCloneProbs = NULL,
   clone.genotypes,
-  sigma.rho
+  sigma.rho = 0.25
 )
 }
 \arguments{
-\item{rhohats:}{n by m matrix of rho_hat values for each cell across the regions.}
-
-\item{thetahats:}{n by m matrix of theta_hat values for each cell across the regions.}
-
-\item{snpCoverages:}{n by m matrix of total read counts covering SNPs for each cell across the regions.}
+\item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 4) genotype_values matrix.
+Every 4 columns in the genotype_table matrix are (rho_hat, theta_hat, h1, h2) of each region.
+h1, h2 are the coverage across all SNPs located on the major haplotype (h1) and the minor haplotype (h2) in a region for each cell}
 
 \item{priorCloneProbs:}{A numeric vector indicating prior prior probability of each subclone.}
 
