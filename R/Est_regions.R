@@ -137,18 +137,18 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE,min_ncell=
   }else{
     #message("Estimate theta_i using phasing info.")
     result=list()
-    #dna_snp=unlist(Obj_scDNA$rds_list[[paste0('chr',chrr)]][5])
+    dna_snp=unlist(phases[[paste0('chr',chrr)]][['SNPs']])
     dna_ind=unlist(phases[[paste0('chr',chrr)]][['I_hat']])
     #dna_ind=as.numeric(phases)
     atac_snp=paste0('chr',var_list_sub$V1,':', var_list_sub$V2,'_', var_list_sub$V4,'_', var_list_sub$V5)
-    #inter=intersect(dna_snp, atac_snp)
+    inter=intersect(dna_snp, atac_snp)
     
-  #  alt_all_sub=alt_all_sub[match(inter, atac_snp),]
-  #  total_all_sub=total_all_sub[match(inter, atac_snp),]
-  #  var_list_sub=var_list_sub[match(inter, atac_snp),]
+    alt_all_sub=alt_all_sub[match(inter, atac_snp),]
+    total_all_sub=total_all_sub[match(inter, atac_snp),]
+    var_list_sub=var_list_sub[match(inter, atac_snp),]
     
-  #  ind=as.numeric(dna_ind[match(inter, dna_snp)])
-    ind=dna_ind
+    ind=as.numeric(dna_ind[match(inter, dna_snp)])
+    #ind=dna_ind
     
     alt_table=t(as.matrix(alt_all_sub))
     tot_table=t(as.matrix(total_all_sub))
@@ -187,6 +187,6 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE,min_ncell=
 
   message("Finsh iterations.")
   cat("Results and plots for each region have been saved in the rds and the plot directory.\n")
-  cat("\"rds_list\" (EM result for each region) was added to the Obj_filtered object.")
+  cat("\"rds_list\" (EM result for each region) was added to the Obj_filtered object.\n")
   return(Obj_filtered)
 }

@@ -23,7 +23,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   refn=unlist(strsplit(ref,":"))[1]
   #cell_info=Obj_filtered$cell_info
   seg_table_filtered=Obj_filtered$seg_table_filtered
-  seg_table=Obj_filtered$seg_table
+  #seg_table=Obj_filtered$seg_table
   rds_list=Obj_filtered$rds_list
   cell_barcodes=Obj_filtered$barcodes
 
@@ -42,7 +42,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   raw_start=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',2))
   raw_end=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',3))
   
-  if(type=='cellline'){
+  if(is.null(ref_gtv) & type=='cellline'){
   ref_chr=sapply(strsplit(rownames(ref_counts),'-'),'[',1)
   ref_start=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',2))
   ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))
@@ -52,8 +52,8 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
 
   
   ####
-  
-  for(chrr in as.character(seg_table_filtered$chrr)){
+  regions=gsub('chr','',names(Obj_filtered$rds_list))
+  for(chrr in regions){
     chrrn=unlist(strsplit(chrr,':'))[1]
 
     result=rds_list[[paste0('chr',chrr)]]
@@ -196,8 +196,10 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     names(x)
   })
 
-
-  cell_intersect <- Reduce(intersect, cell_list)
+  if(!is.null(ref_gtv)){
+    cell_intersect <- Reduce(union, cell_list)
+  }else{
+  cell_intersect <- Reduce(intersect, cell_list)}
 
 
   theta_hat_cbn <- sapply(theta_N_nr_nc,function(x){
