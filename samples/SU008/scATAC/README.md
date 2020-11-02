@@ -130,6 +130,24 @@ The output clustering result for the example regions is shown below.
 ![Alt text](../../../inst/plots/theta_clust_SU008.png?raw=true)
 <br/><br/>
 
+#### Integrate allele-specific CNAs and chromatin accessibility at the single-cell level
+
+* Perform UMAP projection using genome-wide peak profile on the tumor cells.
+```
+umap_peak=readRDS("./data-raw/SU008/scATAC/peak_umap_tumor.rds")
+```
+
+* Integrate allele-specific CNAs and peak signals for each cell in the scATAC-seq data
+* Using the CNA on chromosome 4 as an example.
+```
+theta_hat_chr4=Obj_filtered$rds_list$`chr4:0`$theta_hat
+theta_hat_chr4=theta_hat_chr4[match(rownames(umap_peak), names(theta_hat_chr4))]
+```
+The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
+
+<img src="../../../inst/plots/peak_theta_SU008.png" alt="drawing" width="100%"/>
+<br/>
+
 #### Save the object
 ```
 saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
