@@ -40,7 +40,7 @@ raw_counts=readRDS('data-raw/SNU601/scATAC/chr200k_fragments_sub.rds')
 
 * Also, specify your output directory, for example:
 ```
-dir_path <- "./data-raw/SNU601/scATAC/output/"; dir.create(dir_path)
+dir_path <- "./samples/SNU601/scATAC/output/"; dir.create(dir_path)
 ```
 <br/>
 
@@ -115,7 +115,7 @@ The output genotying results for two regions are shown below.
 ![Alt text](inst/plots/genotype.png?raw=true "SNU601 genotypes")
 <br/>
 
-#### Step6. Infer clonal identity for each cell in the scATAC-seq data.
+#### Step6. Infer clonal identity for each cell in the scATAC-seq data
 
 * generate a clone by (marker) region matrix with values representing different haplotype profiles from matched scDNA-seq data.
 ```
@@ -128,6 +128,23 @@ Obj_filtered=AssignClones_ref(Obj_filtered=Obj_filtered, clone.genotypes=clone.g
 ```
 <br/>
 
+#### Integrate DNA-level subclones and chromatin accessibility at the single-cell level
+
+* Perform UMAP projection using genome-wide peak profile.
+```
+umap_peak=readRDS("./data-raw/SNU601/scATAC/peak_umap.rds")
+```
+
+* Integrate subclones and peak signals for each cell in the scATAC-seq data
+```
+Clone=Obj_filtered$cloneAssign$cloneAssign[match(rownames(umap_peak), names(Obj_filtered$cloneAssign$cloneAssign))]
+umap_peak=cbind(umap_peak, Clone)
+```
+The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
+
+![Alt text](../../../inst/plots/UMAP.png?raw=true "UMAP")
+<br/>
+
 #### Save the object
 ```
 saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
@@ -135,7 +152,7 @@ saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
 <br/>
 
 ## Reference
-For more information about the method, check out ##
+For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407)
 
 
 

@@ -36,24 +36,24 @@ size=read.table("data-raw/sizes.cellranger-GRCh38-1.0.0.txt", stringsAsFactors =
 
 * Read example files for SNPs (SNP by cell matrices for ref and alt alleles)
 ```
-barcodes=read.table("data-raw/SNU601/barcodes_sub.tsv", sep='\t', stringsAsFactors = F, header=F)
-alt_all=readRDS("data-raw/SNU601/alt_all_sub.rds")
-ref_all=readRDS("data-raw/SNU601/ref_all_sub.rds")
-var_all=readRDS("data-raw/SNU601/var_all_sub.rds") 
+barcodes=read.table("data-raw/SNU601/scDNA/barcodes_sub.tsv", sep='\t', stringsAsFactors = F, header=F)
+alt_all=readRDS("data-raw/SNU601/scDNA/alt_all_sub.rds")
+ref_all=readRDS("data-raw/SNU601/scDNA/ref_all_sub.rds")
+var_all=readRDS("data-raw/SNU601/scDNA/var_all_sub.rds") 
 # Info of the variants with the order the same as the order of the rows in both alt_all and ref_all
 ```
 
 * Read example files for bin coverage (bin by cell matrices for tumor and normal for segmentation.)
 ```
-raw_counts=readRDS('data-raw/SNU601/tumor_sub.rds')
-ref_counts=readRDS('data-raw/SNU601/normal_sub.rds') # Normal sample from patient 6198 was used for the cell line.
+raw_counts=readRDS('data-raw/SNU601/scDNA/tumor_sub.rds')
+ref_counts=readRDS('data-raw/SNU601/scDNA/normal_sub.rds') # Normal sample from patient 6198 was used for the cell line.
 
 # Without paired normal sample, other normal samples aligned to the same reference genome (eg. GRCh38) also work if with matched bins.
 ```
 
 * Also, specify your output directory, for example:
 ```
-dir_path <- "./data-raw/SNU601/output/"; dir.create(dir_path)
+dir_path <- "./samples/SNU601/scDNA/output/"; dir.create(dir_path)
 ```
 <br/>
 

@@ -71,6 +71,7 @@ AssignClones_ref<-function(Obj_filtered=NULL, priorCloneProbs=NULL, clone.genoty
       
     }
   }
+  names(probClone)=names(cloneAssign)=names(cloneConf)=rownames(Obj_filtered$genotype_values)
     cloneAssign=list(probClone=probClone, cloneAssign=cloneAssign, cloneConf=cloneConf)
     Obj_filtered$cloneAssign=cloneAssign
   return(Obj_filtered)
