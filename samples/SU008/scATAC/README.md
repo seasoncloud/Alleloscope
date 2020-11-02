@@ -90,47 +90,45 @@ Obj_filtered=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_sta
 ```
 <br/>
 
-#### Step4. Retrieve a diploid region from DNA-seq data
+#### Step4. Identify/ Assign normal cells and diploid regions
 
-* Assign the "normal region" from bulk DNA-seq to current scATAC-seq object
+* Assign a "normal region" from bulk DNA-seq to current scATAC-seq object.
 ```
 Obj_filtered$ref=Obj_filtered$seg_table_filtered$chrr[7] # choose one normal region
+```
+
+* Assign "normal cells" from scATAC-seq genome-wide peak signals.
+```
+Obj_filtered$select_normal$barcode_normal=cell_type[which(cell_type[,2]!='tumor'),1]
 ```
 <br/>
 
 #### Step5. Genotype each cell in each region
 
 * Estimate cell-specific (rho_hat, theta_hat) values for each region.
-
-* For single-cell seq data other than scDNA-seq on cell line samples, set ref_gv = "genotype_values" (from scDNA-seq) to help with rho_hat estimation.
 ```
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts, cov_adj=1)  # for tumor
-Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts, cov_adj =1 ) # for cell line without normal cells in the tumor sample.
 ```
 
-* Genotype all cells for each region and generate a genotype plot
-
-* For single-cell seq data other than scDNA-seq, set ref_gt = "genotypes" (from scDNA-seq) to help with genotyping.
+* Genotype all cells and generate a genotype plot for each region.
 ```
-Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
+Obj_filtered=Genotype(Obj_filtered = Obj_filtered, cell_type=cell_type, xmax=3)
 ```
-The output genotying results for two regions are shown below.
 
-![Alt text](../../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
-<br/>
+![Alt text](../../../inst/plots/genotype_SU008.png?raw=true)
+<br/><br/>
 
 #### Step6. Construct lineage structure using cell major haplotype proportions for each cell across all regions
 
 * Generate lineage tree based on cell-specific genotypes across the regions.
 ```
-linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 2)
+tmp=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts, plot_theta = TRUE, cell_type = cell_type)
+rm(tmp)
 ```
-The output clustering result for two regions is shown below.
+The output clustering result for the example regions is shown below.
 
-![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
-
-* For scATAC-seq data, cells can be assigned to one of the identified subclones from matched scDNA-seq using the "AssignClones_ref" function.
-<br/>
+![Alt text](../../../inst/plots/theta_clust_SU008.png?raw=true)
+<br/><br/>
 
 #### Save the object
 ```

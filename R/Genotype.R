@@ -5,13 +5,15 @@
 #' @param xmax An integer for the x-axis maximum limit.
 #' @param plot_path The path for saving the plot.
 #' @param ref_gt A reference "genotypes" (from scDNA-seq) to help with genotype estimation.
+#' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)
+#' @param legend Logical (TRUE/FALSE) Whether or not to show the figure legends.
 #'
 #' @return A list of ggplot objects of the genotyping results for all the regions.
 #'
 #' @import ggplot2
 #' @import cowplot
 #' @export
-Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
+Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cell_type=NULL, legend=FALSE){
   samplename=Obj_filtered$samplename
   assay=Obj_filtered$assay
   ref=Obj_filtered$ref
@@ -45,6 +47,8 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
     }else{
       xm=xmax
     }
+    
+    if(is.null(cell_type)){
     
     if(is.null(ref_gt)){
     cluster=genotype_neighbor(df)
@@ -85,8 +89,49 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
       ylab(NULL)+
       xlab(NULL)+
       xlim(0,xm)+ylim(0,1)+
-      guides(color=F)
+      guides(color=legend)
 
+    }else{
+      barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
+      barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
+      stype=rep("cell", nrow(df))
+      stype[which(rownames(df) %in% barcodes_tumor)]='tumor'
+      stype[which(rownames(df) %in% barcodes_normal)]='normal'
+      df$type = stype
+      
+      if(length(unique(df[,1]))!=1){
+      pp1=ggplot(df, aes(rho_hat, theta_hat)) + 
+        geom_point(alpha = 0.3, size=1,stroke=0, aes(color = type))+
+        geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
+        stat_density2d(data = df[df$type == "tumor",], fill = "#e41a1c", color = "#e41a1c", geom="polygon", alpha = .1, bins = 5) +
+        stat_density2d(data = df[df$type == "normal",], fill = "#1f78b4", color = "#1f78b4", geom="polygon", alpha = .1, bins = 5)+
+        scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4")) + 
+        geom_hline(yintercept = 0.5)+
+        geom_vline(xintercept = 1)+
+        ggtitle(paste0(" (chr", as.character(chrr),")")) +
+        ylab(NULL) +
+        xlab(NULL)+
+        xlim(0,xm)+ylim(0,1)+
+        guides(color=legend)+
+        theme_bw()
+      }else{
+        pp1=ggplot(df, aes(rho_hat, theta_hat)) + 
+          geom_point(alpha = 0.3, size=1,stroke=0, aes(color = type))+
+          geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
+          scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4")) + 
+          geom_hline(yintercept = 0.5)+
+          geom_vline(xintercept = 1)+
+          ggtitle(paste0(" (chr", as.character(chrr),")")) +
+          ylab(NULL) +
+          xlab(NULL)+
+          xlim(0,xm)+ylim(0,1)+
+          guides(color=legend)+
+          theme_bw()
+      }
+
+    }
+      
+      
     pp_list[[paste0("pp_",as.character(chrr))]]=pp1
 
     cat(paste0(chrr," "))

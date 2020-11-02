@@ -2,6 +2,10 @@
 #'
 #' @param Obj_filtered An Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".
 #' @param raw_counts A large binned coverage matrix (bin by cell) with values being read counts for all chromosomal regions of tumor sample.
+#' @param cell_nclust Integer. Number of clusters used in identifying normal cells in the sample.
+#' @param plot_theta Logical (TRUE/FALSE). Whether or not to plot the hierarchical clustering result using the theta_hat values across regions.
+#' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)
+#' @param cutree_rows Integer. Number of clusters the rows are divided into for visualization (inherited from the pheatmap function).
 #'
 #' @return A Alleloscope object with a "select_normal" list added.
 #' A "select_normal" list includes
@@ -11,7 +15,7 @@
 #' "k_normal": An integer indicates the kth clsuter that is idenfied as "normal cells"
 #'
 #' @export
-Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 ){
+Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE, cell_type=NULL, cutree_rows=3 ){
 
 EMresult=Obj_filtered$rds_list
 filtered_seg_table=Obj_filtered$seg_table_filtered
@@ -107,16 +111,32 @@ saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_N_seg.rds"))
 theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
 rho_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='r'), drop=F]
 
-
+if(plot_theta==TRUE){
 pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
 if(ncol(theta_hat_cbn2)<2){
   gaps_col=NULL
 }else{
   gaps_col=2*(1:(dim(theta_hat_cbn2)[2]/2))
 }
-tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col)#, annotation_row = cell_label, annotation_col =region_label)
+  region_name=paste0('chr',sapply(strsplit(colnames(theta_hat_cbn2),"_"),'[',2))
+if(is.null(cell_type)){
+tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col,  labels_col=region_name)#, annotation_row = cell_label, annotation_col =region_label)
+}else{
+  barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
+  barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
+  cell_label=rep('cell', dim(theta_hat_cbn2)[1])
+  cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
+  cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
+  cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
+  my_colour = list(
+    cell.type = c(tumor = "#d53e4f", normal="#1f78b4")
+  )
+  
+tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
+}
 dev.off()
 
+}
 
 ## select normal cells
 k=cell_nclust

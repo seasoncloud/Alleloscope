@@ -143,7 +143,7 @@ Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_count
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts, cov_adj =1 ) # for cell line without normal cells in the tumor sample.
 ```
 
-* Genotype all cells for each region and generate a genotype plot
+* Genotype all cells and generate a genotype plot for each region.
 ```
 Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
 ```
