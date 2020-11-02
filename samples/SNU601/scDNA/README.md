@@ -4,6 +4,8 @@ Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Tutorial for scDNA-seq data
 * Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. 
+
+* Tutorial for generating scDNA-seq object can be found [here](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
 <br/>
 
 ### Run all steps with a single command

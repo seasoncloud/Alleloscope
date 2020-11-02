@@ -419,7 +419,8 @@ summary {
 <div id="tutorial-for-scdna-seq-data" class="section level2">
 <h2>Tutorial for scDNA-seq data</h2>
 <ul>
-<li>Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. <br /></li>
+<li><p>Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020.</p></li>
+<li><p>Tutorial for generating scDNA-seq object can be found <a href="https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA">here</a> <br /></p></li>
 </ul>
 <div id="run-all-steps-with-a-single-command" class="section level3">
 <h3>Run all steps with a single command</h3>
@@ -543,7 +544,7 @@ Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] # choose one normal
 <pre><code>Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type=&#39;tumor&#39;, raw_counts=raw_counts, cov_adj=1)  # for tumor
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type=&#39;cellline&#39;, raw_counts=raw_counts, ref_counts = ref_counts, cov_adj =1 ) # for cell line without normal cells in the tumor sample.</code></pre>
 <ul>
-<li>Genotype all cells for each region and generate a genotype plot</li>
+<li>Genotype all cells and generate a genotype plot for each region.</li>
 </ul>
 <pre><code>Obj_filtered=Genotype(Obj_filtered = Obj_filtered)</code></pre>
 <p>The output genotying results for two regions are shown below.</p>
@@ -567,7 +568,7 @@ Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type=&#39;cellline&#39;
 </div>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
-<p>For more information about the method, please check out the <a href="https://github.com/seasoncloud/Alleloscope">github</a> and the <a href="https://doi.org/10.1101/2020.10.23.349407">paper</a></p>
+<p>For more information about the method, please check out the <a href="https://github.com/seasoncloud/Alleloscope">github</a> and the <a href="https://doi.org/10.1101/2020.10.23.349407">paper</a>.</p>
 </div>
 </div>
 
