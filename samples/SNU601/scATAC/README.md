@@ -142,7 +142,7 @@ umap_peak=cbind(umap_peak, Clone)
 ```
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
 
-![Alt text](../../../inst/plots/UMAP.png?raw=true "UMAP" | width=100)
+![Alt text](../../../inst/plots/UMAP.png?raw=true "UMAP" =200x200)
 <br/>
 
 #### Save the object
