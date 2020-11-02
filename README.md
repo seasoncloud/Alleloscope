@@ -57,7 +57,7 @@ The following are the input files for different steps.
 * For 10x scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by overlaying the signals. 
 <br/>
 
-## Tutorials
+## Tutorials with example datasets
 1. [scDNA-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA)
 2. [scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scATAC)
 3. [scDNA-seq and scATAC-seq integration](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scATAC)

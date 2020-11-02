@@ -113,7 +113,7 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered, ref_gt = Obj_scDNA$genotypes,
 The genotying results for the 10 marker regions are shown below.
 
 ![Alt text](../../../inst/plots/genotype_scATAC.png?raw=true)
-<br/>
+<br/><br/>
 
 #### Step6. Infer clonal identity for each cell in the scATAC-seq data
 
@@ -142,7 +142,7 @@ umap_peak=cbind(umap_peak, Clone)
 ```
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
 
-<img src="../../../inst/plots/UMAP.png" alt="drawing" width="70%"/>
+<img src="../../../inst/plots/UMAP.png" alt="drawing" width="50%"/>
 <br/>
 
 #### Save the object

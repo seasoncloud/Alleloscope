@@ -91,6 +91,7 @@ Obj_filtered=Segmentation(Obj_filtered=Obj_filtered,
 
 
 ![Alt text](../../../inst/plots/segmentation.png?raw=true "SNU601 segmentation")
+<br/>
 
 * Filter segments based on the numbers of SNPs.
 ```
@@ -137,23 +138,19 @@ Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] # choose one normal
 #### Step5. Genotype each cell in each region
 
 * Estimate cell-specific (rho_hat, theta_hat) values for each region.
-
-* For single-cell seq data other than scDNA-seq on cell line samples, set ref_gv = "genotype_values" (from scDNA-seq) to help with rho_hat estimation.
 ```
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts, cov_adj=1)  # for tumor
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts, cov_adj =1 ) # for cell line without normal cells in the tumor sample.
 ```
 
 * Genotype all cells for each region and generate a genotype plot
-
-* For single-cell seq data other than scDNA-seq, set ref_gt = "genotypes" (from scDNA-seq) to help with genotyping.
 ```
 Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
 ```
 The output genotying results for two regions are shown below.
 
 ![Alt text](../../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
-<br/>
+<br/><br/>
 
 #### Step6. Construct lineage structure using genotypes for each cell across all regions
 
@@ -164,9 +161,7 @@ linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 2)
 The output clustering result for two regions is shown below.
 
 ![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
-
-* For scATAC-seq data, cells can be assigned to one of the identified subclones from matched scDNA-seq using the "AssignClones_ref" function.
-<br/>
+<br/><br/>
 
 #### Save the object
 ```

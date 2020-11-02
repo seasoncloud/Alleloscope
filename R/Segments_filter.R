@@ -27,7 +27,11 @@ Segments_filter=function(Obj_filtered=NULL, nSNP=2000 ){
   seg_table=seg_table[!is.na(seg_table$Freq),]
   seg_table$chrr=as.character(seg_table$chrr)
 
+  if(nrow(seg_table)>22){
   ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP & as.numeric(seg_table$var)<quantile(as.numeric(seg_table$var), 0.9,na.rm = T))])
+  }else{
+    ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP )])
+  }
   seg_table=seg_table[ind,]
 
   Obj_filtered[['seg_table_filtered']]=seg_table
