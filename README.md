@@ -64,7 +64,7 @@ The following are the input files for different steps.
 <br/>
 
 ## Reference
-For more information about the method, please check out the [paper](https://doi.org/10.1101/2020.10.23.349407)
+For more information about the method, please check out the [paper](https://doi.org/10.1101/2020.10.23.349407).
 
 
 

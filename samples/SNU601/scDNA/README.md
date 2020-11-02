@@ -170,7 +170,7 @@ saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
 <br/>
 
 ## Reference
-For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407)
+For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 
 
 
