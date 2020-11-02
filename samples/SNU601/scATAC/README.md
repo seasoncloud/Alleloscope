@@ -32,10 +32,15 @@ var_all=readRDS("data-raw/SNU601/scATAC/var_all.rds")
 # Info of the variants with the order the same as the order of the rows in both alt_all and ref_all
 ```
 
-* Read example files for bin coverage (bin by cell matrices)
+* Read example file for bin coverage (bin by cell matrices)
 ```
 raw_counts=readRDS('data-raw/SNU601/scATAC/chr200k_fragments_sub.rds')
 # Without paired normal sample, use matched scDNA-seq result to help normalize coverge for scATAC-seq data.
+```
+
+* Load information from matched scDNA-seq to assist estimation.
+```
+Obj_scDNA=readRDS("data-raw/SNU601/scATAC/SNU601_dna.rds")
 ```
 
 * Also, specify your output directory, for example:
@@ -63,11 +68,6 @@ Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=5, SNP_filter=5, min_vaf = 0, ma
 <br/>
 
 #### Step2. Segmentation results from matched scDNA-seq or WGS/WES
-
-* Load information from matched scDNA-seq to assist estimation.
-```
-Obj_scDNA=readRDS("data-raw/SNU601/scATAC/SNU601_dna.rds")
-```
 
 * Assign segments from DNA into the current object
 ```
@@ -110,9 +110,9 @@ Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_co
 ```
 Obj_filtered=Genotype(Obj_filtered = Obj_filtered, ref_gt = Obj_scDNA$genotypes,xmax=4)
 ```
-The output genotying results for two regions are shown below.
+The genotying results for the 10 marker regions are shown below.
 
-![Alt text](inst/plots/genotype.png?raw=true "SNU601 genotypes")
+![Alt text](../../../inst/plots/genotype_scATAC.png?raw=true)
 <br/>
 
 #### Step6. Infer clonal identity for each cell in the scATAC-seq data
@@ -142,7 +142,7 @@ umap_peak=cbind(umap_peak, Clone)
 ```
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
 
-![Alt text](../../../inst/plots/UMAP.png =700x500)
+<img src="../../../inst/plots/UMAP.png" alt="drawing" width="70%"/>
 <br/>
 
 #### Save the object

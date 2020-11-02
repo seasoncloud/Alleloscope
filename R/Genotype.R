@@ -109,6 +109,9 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL){
   }
 
   dev.off()
+  
+
+  
 
   Obj_filtered$genotypes=genotype_table
   Obj_filtered$genotypeProb=genotypeProb
