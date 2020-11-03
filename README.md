@@ -56,7 +56,7 @@ The following are the input files for different steps.
 * Row name format:"chr1-1-20000"; The order of the columns (Each column is a cell.) should be the same as that in the barcodes.tsv.
 * Without paired normal sample, other normal samples aligned to the same reference genome (eg. GRCh38) also work if with matched bins.
 * CNA detection methods for scDNA-seq data such as SCOPE (https://github.com/rujinwang/SCOPE) or Cell Ranger Single Cell DNA software (https://support.10xgenomics.com/single-cell-dna/software/overview/welcome) can be used to generate the matrices for tumor and normal samples.
-* For scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by overlaying the signals. 
+* For scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by summing up the signals. 
 <br/>
 
 ## Detailed tutorials with example datasets

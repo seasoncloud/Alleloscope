@@ -144,6 +144,7 @@ Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-dive
 
 
 
-[Back to the main page.](https://github.com/seasoncloud/Alleloscope)
 
+
+<center>[Back to the main page](https://github.com/seasoncloud/Alleloscope)</center>
 
