@@ -5,6 +5,9 @@ Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 ## Description
 Alleloscope is a method for allele-specific copy number estimation that can be applied to single cell DNA and ATAC sequencing data (separately or in combination), allowing for integrative multi-omic analysis of allele-specific copy number and chromatin accessibility for the same cell. 
 
+For more information about the method, please check out the [paper](https://doi.org/10.1101/2020.10.23.349407).
+<br/>
+
 ## Overview of Alleloscope genotyping algorithm
 ![Alt text](inst/plots/overview2.png?raw=true "Overview of Alleloscope genotyping algorithm")
 
@@ -57,14 +60,17 @@ The following are the input files for different steps.
 * For 10x scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by overlaying the signals. 
 <br/>
 
-## Tutorials with example datasets
+## Detailed tutorials with example datasets
+
+* Click the links below to read detailed tutorials for different data types.
+
 1. [scDNA-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA)
 2. [scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SU008/scATAC)
 3. [scDNA-seq and scATAC-seq integration](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scATAC)
 <br/>
 
-## Reference
-For more information about the method, please check out the [paper](https://doi.org/10.1101/2020.10.23.349407).
+## Citation
+Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-divergent copy number alterations and chromatin accessibility changes reveals novel clonal architecture of cancers. bioRxiv (2020): [https://doi.org/10.1101/2020.10.23.349407](https://doi.org/10.1101/2020.10.23.349407)
 
 
 

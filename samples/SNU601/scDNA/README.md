@@ -2,6 +2,12 @@ Alleloscope
 ================
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
+## Description
+
+
+For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
+<br/>
+
 ## Tutorial for scDNA-seq data
 * Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. 
 
@@ -171,8 +177,5 @@ saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
 ```
 <br/>
 
-## Reference
-For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
-
-
-
+## Citation
+Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-divergent copy number alterations and chromatin accessibility changes reveals novel clonal architecture of cancers. bioRxiv (2020): [https://doi.org/10.1101/2020.10.23.349407](https://doi.org/10.1101/2020.10.23.349407)
