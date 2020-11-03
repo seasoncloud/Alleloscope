@@ -4,7 +4,14 @@
 \alias{Genotype}
 \title{Genotype each cell for each region and plot the genotypes.}
 \usage{
-Genotype(Obj_filtered = NULL, xmax = NULL, plot_path = NULL, ref_gt = NULL)
+Genotype(
+  Obj_filtered = NULL,
+  xmax = NULL,
+  plot_path = NULL,
+  ref_gt = NULL,
+  cell_type = NULL,
+  legend = FALSE
+)
 }
 \arguments{
 \item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 4) genotype_values matrix and seg_table_filtered matrix.
@@ -15,6 +22,10 @@ Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each re
 \item{plot_path}{The path for saving the plot.}
 
 \item{ref_gt}{A reference "genotypes" (from scDNA-seq) to help with genotype estimation.}
+
+\item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)}
+
+\item{legend}{Logical (TRUE/FALSE) Whether or not to show the figure legends.}
 }
 \value{
 A list of ggplot objects of the genotyping results for all the regions.

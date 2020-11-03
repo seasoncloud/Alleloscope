@@ -4,12 +4,27 @@
 \alias{Select_normal}
 \title{Identify candidate normal cells and normal regions for cell coverage normalization}
 \usage{
-Select_normal(Obj_filtered = NULL, raw_counts = NULL, cell_nclust = 5)
+Select_normal(
+  Obj_filtered = NULL,
+  raw_counts = NULL,
+  cell_nclust = 5,
+  plot_theta = FALSE,
+  cell_type = NULL,
+  cutree_rows = 3
+)
 }
 \arguments{
 \item{Obj_filtered}{An Alleloscope object with major haplotype proportion (theta_hat) for each cell of each region in the "rds_list".}
 
 \item{raw_counts}{A large binned coverage matrix (bin by cell) with values being read counts for all chromosomal regions of tumor sample.}
+
+\item{cell_nclust}{Integer. Number of clusters used in identifying normal cells in the sample.}
+
+\item{plot_theta}{Logical (TRUE/FALSE). Whether or not to plot the hierarchical clustering result using the theta_hat values across regions.}
+
+\item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)}
+
+\item{cutree_rows}{Integer. Number of clusters the rows are divided into for visualization (inherited from the pheatmap function).}
 }
 \value{
 A Alleloscope object with a "select_normal" list added.
