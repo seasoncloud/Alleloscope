@@ -111,6 +111,9 @@ saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_N_seg.rds"))
 theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
 rho_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='r'), drop=F]
 
+tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", silent = TRUE)#, gaps_col=gaps_col), annotation_row = cell_label, annotation_col =region_label)
+
+
 if(plot_theta==TRUE){
 pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
 if(ncol(theta_hat_cbn2)<2){
@@ -136,6 +139,7 @@ tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_
 }
 dev.off()
 
+cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
 }
 
 ## select normal cells
@@ -185,7 +189,6 @@ for(rr in 1:nrow(region_normal_rank5)){
 select_normal=list("barcode_normal"=barcode_normal, "region_normal"=region_normal, "region_normal_rank"=region_normal_rank5, "k_normal"=k_normal )
 Obj_filtered$select_normal=select_normal
 message("Candidate normal cell and normal region info is in \"Obj_filtered$select_normal\".")
-cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
 return(Obj_filtered)
 
 }

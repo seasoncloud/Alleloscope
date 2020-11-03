@@ -19,7 +19,7 @@ Obj_filtered=Rundf_dna(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,
                       samplename='Sample', genome_assembly="GRCh38", dir_path=dir_path, 
                       barcodes=barcodes, size=size, assay='scDNAseq',
                       raw_counts=raw_counts, ref_counts=ref_counts, type='cellline',
-                      cell_filter = 1000, SNP_filter = 20, min_vaf = 0.1, max_vaf = 0.9)
+                      cell_filter = 1000, SNP_filter = 20, min_vaf = 0.1, max_vaf = 0.9,)
 ```
 <br/>
 
@@ -104,7 +104,7 @@ Obj_filtered=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_sta
 
 * Choosing normal cells and normal regions based on the estimated theta_hat values and raw coverage across the regions.
 ```
-Obj_filtered=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts)
+Obj_filtered=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts, plot_theta = TRUE)
 
 # add "select_normal" list to the Obj_filtered object. 
 # The list includes barcodes for the normal cells and some candidate "normal regions"
