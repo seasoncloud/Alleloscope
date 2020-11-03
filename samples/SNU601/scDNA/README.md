@@ -1,17 +1,15 @@
-Alleloscope 
+Alleloscope (scDNA-seq)
 ================
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Description
-
+For scDNA-seq data, Alleloscope enables allele-specific copy number profiling at the single cell level to 1. detect complex multi-allelic copy number alterations (even with the same copies) and 2. reconstruct tumor lineage structure based on the multi-allelic copy number events.
 
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
 ## Tutorial for scDNA-seq data
 * Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. 
-
-* Tutorial for generating scDNA-seq object can be found [here](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
 <br/>
 
 ### Run all steps with a single command
@@ -27,41 +25,29 @@ Obj_filtered=Rundf_dna(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,
 
 #### Step0. Load the input files
 
-* In R, load the library
+* In R, set up the environment and read common files
 ```
-library(Alleloscope)
-```
+library(Alleloscope) # load the library
+setwd(~/Alleloscope/) # set path to the github folder
 
-* Set directory to the downloaded github folder.
+dir_path <- "./samples/SNU601/scDNA/output/"; dir.create(dir_path) # set up output directory
 
-
-* Read common files
-```
 data(centromere.GRCh38)
 data(telomere.GRCh38)
 size=read.table("data-raw/sizes.cellranger-GRCh38-1.0.0.txt", stringsAsFactors = F)
 ```
 
-* Read example files for SNPs (SNP by cell matrices for ref and alt alleles)
+* Read example files
 ```
+# SNP by cell matrices for ref and alt alleles
 barcodes=read.table("data-raw/SNU601/scDNA/barcodes_sub.tsv", sep='\t', stringsAsFactors = F, header=F)
-alt_all=readRDS("data-raw/SNU601/scDNA/alt_all_sub.rds")
-ref_all=readRDS("data-raw/SNU601/scDNA/ref_all_sub.rds")
-var_all=readRDS("data-raw/SNU601/scDNA/var_all_sub.rds") 
-# Info of the variants with the order the same as the order of the rows in both alt_all and ref_all
-```
+alt_all=readMM("data-raw/SNU601/scDNA/alt_all_sub.mtx")
+ref_all=readMM("data-raw/SNU601/scDNA/ref_all_sub.mtx")
+var_all=read.table("data-raw/SNU601/scDNA/var_all_sub.vcf", header = F, sep='\t', stringsAsFactors = F)
 
-* Read example files for bin coverage (bin by cell matrices for tumor and normal for segmentation.)
-```
-raw_counts=readRDS('data-raw/SNU601/scDNA/tumor_sub.rds')
-ref_counts=readRDS('data-raw/SNU601/scDNA/normal_sub.rds') # Normal sample from patient 6198 was used for the cell line.
-
-# Without paired normal sample, other normal samples aligned to the same reference genome (eg. GRCh38) also work if with matched bins.
-```
-
-* Also, specify your output directory, for example:
-```
-dir_path <- "./samples/SNU601/scDNA/output/"; dir.create(dir_path)
+# bin by cell matrices for tumor and normal for segmentation
+raw_counts=read.table("data-raw/SNU601/scDNA/tumor_sub.txt", sep='\t', header=T, row.names = 1,stringsAsFactors = F)
+ref_counts=read.table("data-raw/SNU601/scDNA/normal_sub.txt", sep='\t', header=T, row.names = 1,stringsAsFactors = F) # Normal sample from patient 6198 was used for the cell line.
 ```
 <br/>
 
@@ -79,10 +65,6 @@ Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=1000, SNP_filter=20, min_vaf = 0
 # suggest setting min_vaf=0.1 and max_vaf=0.9 when SNPs are called in the tumor sample for higher confident SNPs
 ```
 
-* Remove obj if it takes too much space once the obj is filtered
-```
-#rm(Obj)
-```
 <br/>
 
 #### Step2. Segmentation based on total coverage pooled across cells
@@ -104,14 +86,6 @@ Obj_filtered=Segmentation(Obj_filtered=Obj_filtered,
 * Filter segments based on the numbers of SNPs.
 ```
 Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered, nSNP=5000)
-```
-
-* If you want to look at specific regions, subset the seg_table_filtered
-```
-#(region_list=Obj_filtered$seg_table_filtered$chrr)   ## select region from this list
-#sel_region_list=region_list[c(1,2)] # select region for demonstration:  "15:17760000"
-#Obj_filtered$seg_table_filtered=Obj_filtered$seg_table_filtered[which(Obj_filtered$seg_table_filtered$chrr %in% sel_region_list),] # subset seg_table_filtered
-## if there is no normal region in the selected regions, use segmentation plot to pick a "normal" region for normalization
 ```
 <br/>
 
@@ -170,12 +144,6 @@ The output clustering result for two regions is shown below.
 
 ![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
 <br/><br/>
-
-#### Save the object
-```
-saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
-```
-<br/>
 
 ## Citation
 Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-divergent copy number alterations and chromatin accessibility changes reveals novel clonal architecture of cancers. bioRxiv (2020): [https://doi.org/10.1101/2020.10.23.349407](https://doi.org/10.1101/2020.10.23.349407)

@@ -1,57 +1,49 @@
-Alleloscope
+Alleloscope (joint scDNA-seq and scATAC-seq)
 ================
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Description
-
+With matched scDNA-seq and scATAC-seq data, Alleloscope is able to integrate allele-specific copy number alterations (CNAs) (genomics) and chromatin accessibility (epigenetics). Based on allele-specific CNAs profiled in scDNA-seq data, a tumor lineage structure can be reconstructed with several subclones identified. Then each cells in scATAC-seq data can be confidently assigned to the detected subclones by matching multiple allele-specific CNAs detected independently from either scDNA-seq data or scATAC-seq data. This will facilitate dissection of the contributions of chromosomal instability and chromatin remodeling in tumor evolution.
 
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
 ## Tutorial for matched scATAC-seq and scDNA-seq integration
 * Here is an example application with the newly generated SNU601 scATAC-seq data and the matched scDNA-seq dataset from Andor et al., 2020.
+
+* Tutorial for generating scDNA-seq object can be found [here](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
 <br/>
 
 #### Step0. Load the input files
 
-* In R, load the library
+* In R, set up the environment and read common files
 ```
-library(Alleloscope)
-```
+library(Alleloscope) # load the library
+setwd(~/Alleloscope/) # set path to the github folder
 
-* Set directory to the downloaded github folder.
+dir_path <- "./samples/SNU601/scATAC/output/"; dir.create(dir_path) # set up output directory
 
-
-* Read common files
-```
 data(centromere.GRCh38)
 data(telomere.GRCh38)
 size=read.table("data-raw/sizes.cellranger-GRCh38-1.0.0.txt", stringsAsFactors = F)
 ```
 
-* Read example files for SNPs (SNP by cell matrices for ref and alt alleles)
+* Read example files
 ```
+# SNP by cell matrices for ref and alt alleles
 barcodes=read.table("data-raw/SNU601/scATAC/barcodes.tsv", sep='\t', stringsAsFactors = F, header=F)
-alt_all=readRDS("data-raw/SNU601/scATAC/alt_all.rds")
-ref_all=readRDS("data-raw/SNU601/scATAC/ref_all.rds")
-var_all=readRDS("data-raw/SNU601/scATAC/var_all.rds") 
-# Info of the variants with the order the same as the order of the rows in both alt_all and ref_all
-```
+alt_all=readMM("data-raw/SNU601/scATAC/alt_all.mtx")
+ref_all=readMM("data-raw/SNU601/scATAC/ref_all.mtx")
+var_all=read.table("data-raw/SNU601/scATAC/var_all.vcf", header = F, sep='\t', stringsAsFactors = F)
 
-* Read example file for bin coverage (bin by cell matrices)
-```
-raw_counts=readRDS('data-raw/SNU601/scATAC/chr200k_fragments_sub.rds')
+# bin by cell matrices for tumor and normal for segmentation
+raw_counts=read.table('data-raw/SNU601/scATAC/chr200k_fragments_sub.txt', sep='\t', header=T, row.names = 1,stringsAsFactors = F)
 # Without paired normal sample, use matched scDNA-seq result to help normalize coverge for scATAC-seq data.
 ```
 
 * Load information from matched scDNA-seq to assist estimation.
 ```
 Obj_scDNA=readRDS("data-raw/SNU601/scATAC/SNU601_dna.rds")
-```
-
-* Also, specify your output directory, for example:
-```
-dir_path <- "./samples/SNU601/scATAC/output/"; dir.create(dir_path)
 ```
 <br/>
 
@@ -65,11 +57,6 @@ Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename
 * Filter out cells and SNPs with too few read counts
 ```
 Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=5, SNP_filter=5, min_vaf = 0, max_vaf = 1, centro=centromere.GRCh38, telo=telomere.GRCh38) 
-```
-
-* Remove obj if it takes too much space once the obj is filtered
-```
-#rm(Obj)
 ```
 <br/>
 
@@ -149,12 +136,6 @@ umap_peak=cbind(umap_peak, Clone)
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
 
 <img src="../../../inst/plots/UMAP.png" alt="drawing" width="50%"/>
-<br/>
-
-#### Save the object
-```
-saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
-```
 <br/>
 
 ## Citation

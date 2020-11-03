@@ -1,9 +1,9 @@
-Alleloscope 
+Alleloscope (scATAC-seq)
 ================
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Description
-
+Alleloscope is able to profile allele-specific copy number alterations (DNA-level information) for each cell in the scATAC-seq data (typically used to detect chromatin accessibility). This facilitates 1. integrate allele-specific copy number alterations and chromatin accessibility for individual cells and 2. more reliably detect copy number events with allelic imbalance.
 
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
@@ -14,41 +14,31 @@ For more information about the method, please check out the [github](https://git
 
 #### Step0. Load the input files
 
-* In R, load the library
+* In R, set up the environment and read common files
 ```
-library(Alleloscope)
+library(Alleloscope) # load the library
+setwd(~/Alleloscope/) # set path to the github folder
+
+dir_path <- "./samples/SU008/scATAC/output/"; dir.create(dir_path) # set up output directory
+
+size=read.table("data-raw/sizes.cellranger-atac-hg19-1.2.0.txt", stringsAsFactors = F) # read size file
 ```
 
-* Set directory to the downloaded github folder.
-
-
-* Read common files
+* Read example files
 ```
-size=read.table("data-raw/sizes.cellranger-atac-hg19-1.2.0.txt", stringsAsFactors = F)
-```
-
-* Read example files for SNPs (SNP by cell matrices for ref and alt alleles)
-```
+# SNP by cell matrices for ref and alt alleles
 barcodes=read.table("data-raw/SU008/scATAC/barcodes.tsv", sep='\t', stringsAsFactors = F, header=F)
-alt_all=readRDS("data-raw/SU008/scATAC/alt_all.rds")
-ref_all=readRDS("data-raw/SU008/scATAC/ref_all.rds")
-var_all=readRDS("data-raw/SU008/scATAC/var_all.rds") 
-# Info of the variants with the order the same as the order of the rows in both alt_all and ref_all
-```
+alt_all=readMM("data-raw/SU008/scATAC/alt_all.mtx")
+ref_all=readMM("data-raw/SU008/scATAC/ref_all.mtx")
+var_all=read.table("data-raw/SU008/scATAC/var_all.vcf", header = F, sep='\t', stringsAsFactors = F)
 
-* Read example files for bin coverage (bin by cell matrices for tumor and normal for segmentation.)
-```
-raw_counts=readRDS('data-raw/SU008/scATAC/chr200k_fragments_sub.rds')
+# bin by cell matrices for tumor and normal for segmentation
+raw_counts=read.table('data-raw/SU008/scATAC/chr200k_fragments_sub.txt', sep='\t', header=T, row.names = 1,stringsAsFactors = F)
 ```
 
 * Read known cell identity (from peaks) (optional)
 ```
 cell_type=readRDS('data-raw/SU008/scATAC/cell_type_from_peaks.rds')
-```
-
-* Also, specify your output directory, for example:
-```
-dir_path <- "./samples/SU008/scATAC/output/"; dir.create(dir_path)
 ```
 <br/>
 
@@ -64,11 +54,6 @@ Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename
 Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=5, SNP_filter=5, min_vaf = 0.1, max_vaf = 0.9) 
 
 # suggest setting min_vaf=0.1 and max_vaf=0.9 when SNPs are called in the tumor sample for higher confident SNPs
-```
-
-* Remove obj if it takes too much space once the obj is filtered
-```
-#rm(Obj)
 ```
 <br/>
 
@@ -143,7 +128,7 @@ The output clustering result for the example regions is shown below.
 umap_peak=readRDS("./data-raw/SU008/scATAC/peak_umap_tumor.rds")
 ```
 
-* Integrate allele-specific CNAs and peak signals for each cell in the scATAC-seq data
+* Integrate allele-specific CNAs and peak signals for each cell in the scATAC-seq data.
 * Using the CNA on chromosome 4 as an example.
 ```
 theta_hat_chr4=Obj_filtered$rds_list$`chr4:0`$theta_hat
@@ -152,12 +137,6 @@ theta_hat_chr4=theta_hat_chr4[match(rownames(umap_peak), names(theta_hat_chr4))]
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
 
 <img src="../../../inst/plots/peak_theta_SU008.png" alt="drawing" width="100%"/>
-<br/>
-
-#### Save the object
-```
-saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
-```
 <br/>
 
 ## Citation
