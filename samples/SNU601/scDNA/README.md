@@ -8,6 +8,32 @@ For scDNA-seq data, Alleloscope enables allele-specific copy number profiling at
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
+## Prepare for input files
+The following are the input files for different steps.
+
+1. A Standard vcf file with the SNP info. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf)
+* GATK HaplotypeCaller (https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) is recommended to use to call germline SNPs from the standard bam files. Other SNP calling tools such as BCFtools can also be used. 
+* SNPs are recommended to be called from the bam file of the matched normal samples. Without matched normal samples, our results show that calling SNPs from the tumor/cellline sample itself can also work. 
+<br/>
+ 
+2. A tsv file with all cell barcodes. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/barcodes_sub.tsv)
+* Each row is a barcode indicating cell identity.
+* The "barcodes.tsv" files are the standard outputs of the Cell Ranger software.
+<br/>
+ 
+3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
+* For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles.
+* For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
+* The information for each SNP is in the vcf file; The labeling for each cell is in the "barcodes.tsv" file (with the same order). 
+<br/>
+  
+4. Bin by cell (sparse) matrices for tumor and normal samples. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt) 
+* The values in the matrices represent total read counts for each cell in each bin.
+* Row name format:"chr1-1-20000"; The order of the columns (Each column is a cell.) should be the same as that in the barcodes.tsv.
+* Without paired normal sample, other normal samples aligned to the same reference genome (eg. GRCh38) also work if with matched bins.
+* CNA detection methods for scDNA-seq data such as SCOPE (https://github.com/rujinwang/SCOPE) or Cell Ranger Single Cell DNA software (https://support.10xgenomics.com/single-cell-dna/software/overview/welcome) can be used to generate the matrices for tumor and normal samples.
+<br/>
+
 ## Tutorial for scDNA-seq data
 * Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. 
 <br/>

@@ -421,11 +421,47 @@ summary {
 <p>With matched scDNA-seq and scATAC-seq data, Alleloscope is able to integrate allele-specific copy number alterations (CNAs) (genomics) and chromatin accessibility (epigenetics). Based on allele-specific CNAs profiled in scDNA-seq data, a tumor lineage structure can be reconstructed with several subclones identified. Then each cells in scATAC-seq data can be confidently assigned to the detected subclones by matching multiple allele-specific CNAs detected independently from either scDNA-seq data or scATAC-seq data. This will facilitate dissection of the contributions of chromosomal instability and chromatin remodeling in tumor evolution.</p>
 <p>For more information about the method, please check out the <a href="https://github.com/seasoncloud/Alleloscope">github</a> and the <a href="https://doi.org/10.1101/2020.10.23.349407">paper</a>. <br /></p>
 </div>
+<div id="prepare-for-input-files" class="section level2">
+<h2>Prepare for input files</h2>
+<p>The following are the input files for different steps.</p>
+<ol style="list-style-type: decimal">
+<li>A Standard vcf file with the SNP info. <a href="https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf">EXAMPLE</a></li>
+</ol>
+<ul>
+<li>GATK HaplotypeCaller (<a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller" class="uri">https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller</a>) is recommended to use to call germline SNPs from the standard bam files. Other SNP calling tools such as BCFtools can also be used.</li>
+<li>SNPs are recommended to be called from the bam file of the matched normal samples. Without matched normal samples, our results show that calling SNPs from the tumor/cellline sample itself can also work. <br /></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>A tsv file with all cell barcodes. <a href="https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/barcodes_sub.tsv">EXAMPLE</a></li>
+</ol>
+<ul>
+<li>Each row is a barcode indicating cell identity.</li>
+<li>The “barcodes.tsv” files are the standard outputs of the Cell Ranger software. <br /></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>SNP by cell (sparse) matrices for both reference allele and alternative alleles. <a href="https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx">EXAMPLE</a></li>
+</ol>
+<ul>
+<li>For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (<a href="https://github.com/10XGenomics/vartrix" class="uri">https://github.com/10XGenomics/vartrix</a>) tools can be used to generate SNP by cell matrices for both ref and alt alleles.</li>
+<li>For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.</li>
+<li>The information for each SNP is in the vcf file; The labeling for each cell is in the “barcodes.tsv” file (with the same order). <br /></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Bin by cell (sparse) matrices for tumor samples. <a href="https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt">EXAMPLE</a></li>
+</ol>
+<ul>
+<li>The values in the matrices represent total read counts for each cell in each bin.</li>
+<li>Row name format:“chr1-1-20000”; The order of the columns (Each column is a cell.) should be the same as that in the barcodes.tsv.</li>
+<li>For scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by summing up the signals. <br /></li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>An alleloscope object generated from matched scDNA-seq data. Tutorial for generating scDNA-seq object can be found <a href="https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA">here</a>. <br /></li>
+</ol>
+</div>
 <div id="tutorial-for-matched-scatac-seq-and-scdna-seq-integration" class="section level2">
 <h2>Tutorial for matched scATAC-seq and scDNA-seq integration</h2>
 <ul>
-<li><p>Here is an example application with the newly generated SNU601 scATAC-seq data and the matched scDNA-seq dataset from Andor et al., 2020.</p></li>
-<li><p>Tutorial for generating scDNA-seq object can be found <a href="https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA">here</a>. <br /></p></li>
+<li>Here is an example application with the newly generated SNU601 scATAC-seq data and the matched scDNA-seq dataset from Andor et al., 2020. <br /></li>
 </ul>
 <div id="step0.-load-the-input-files" class="section level4">
 <h4>Step0. Load the input files</h4>
@@ -543,9 +579,7 @@ umap_peak=cbind(umap_peak, Clone)</code></pre>
 <div id="citation" class="section level2">
 <h2>Citation</h2>
 <p>Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-divergent copy number alterations and chromatin accessibility changes reveals novel clonal architecture of cancers. bioRxiv (2020): <a href="https://doi.org/10.1101/2020.10.23.349407">https://doi.org/10.1101/2020.10.23.349407</a></p>
-<center>
-<a href="https://github.com/seasoncloud/Alleloscope">Back to the main page</a>
-</center>
+<p><a href="https://github.com/seasoncloud/Alleloscope">Back to the main page</a></p>
 </div>
 </div>
 

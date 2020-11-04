@@ -8,10 +8,36 @@ With matched scDNA-seq and scATAC-seq data, Alleloscope is able to integrate all
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
-## Tutorial for matched scATAC-seq and scDNA-seq integration
-* Here is an example application with the newly generated SNU601 scATAC-seq data and the matched scDNA-seq dataset from Andor et al., 2020.
+## Prepare for input files
+The following are the input files for different steps.
 
-* Tutorial for generating scDNA-seq object can be found [here](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
+1. A Standard vcf file with the SNP info. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf)
+* GATK HaplotypeCaller (https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) is recommended to use to call germline SNPs from the standard bam files. Other SNP calling tools such as BCFtools can also be used. 
+* SNPs are recommended to be called from the bam file of the matched normal samples. Without matched normal samples, our results show that calling SNPs from the tumor/cellline sample itself can also work. 
+<br/>
+ 
+2. A tsv file with all cell barcodes. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/barcodes_sub.tsv)
+* Each row is a barcode indicating cell identity.
+* The "barcodes.tsv" files are the standard outputs of the Cell Ranger software.
+<br/>
+ 
+3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
+* For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles.
+* For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
+* The information for each SNP is in the vcf file; The labeling for each cell is in the "barcodes.tsv" file (with the same order). 
+<br/>
+  
+4. Bin by cell (sparse) matrices for tumor samples. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt) 
+* The values in the matrices represent total read counts for each cell in each bin.
+* Row name format:"chr1-1-20000"; The order of the columns (Each column is a cell.) should be the same as that in the barcodes.tsv.
+* For scATAC-seq data, peak by cell matrix can be converted to bin by cell matrix by summing up the signals. 
+<br/>
+
+5. An alleloscope object generated from matched scDNA-seq data. Tutorial for generating scDNA-seq object can be found [here](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
+<br/>
+
+## Tutorial for matched scATAC-seq and scDNA-seq integration
+* Here is an example application to the newly generated SNU601 scATAC-seq data and the matched scDNA-seq dataset from Andor et al., 2020.
 <br/>
 
 #### Step0. Load the input files
