@@ -150,6 +150,8 @@ The output clustering result for the example regions is shown below.
 ![Alt text](../../../inst/plots/theta_clust_SU008.png?raw=true)
 <br/><br/>
 
+## Potential downstream analysis 
+
 #### Integrate allele-specific CNAs and chromatin accessibility at the single-cell level
 
 * Perform UMAP projection using genome-wide peak profile on the tumor cells.

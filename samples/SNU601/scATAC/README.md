@@ -147,6 +147,8 @@ Obj_filtered=AssignClones_ref(Obj_filtered=Obj_filtered, clone.genotypes=clone.g
 ```
 <br/>
 
+## Potential downstream analysis 
+
 #### Integrate DNA-level subclones and chromatin accessibility at the single-cell level
 
 * Perform UMAP projection using genome-wide peak profile.
