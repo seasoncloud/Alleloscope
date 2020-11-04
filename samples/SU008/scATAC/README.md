@@ -38,7 +38,7 @@ The following are the input files for different steps.
 <br/>
 
 ## Tutorial for scATAC-seq data
-* Here is an example application with the SU008 scATAC-seq dataset (pre-treatment) from Satpathy et al., 2019. 
+* Here is an example application to the SU008 scATAC-seq dataset (pre-treatment) from Satpathy et al., 2019. 
 <br/>
 
 #### Step0. Load the input files

@@ -35,7 +35,7 @@ The following are the input files for different steps.
 <br/>
 
 ## Tutorial for scDNA-seq data
-* Here is an example application with the SNU601 scDNA-seq dataset from Andor et al., 2020. 
+* Here is an example application to the SNU601 scDNA-seq dataset from Andor et al., 2020. 
 <br/>
 
 ### Run all steps with a single command
