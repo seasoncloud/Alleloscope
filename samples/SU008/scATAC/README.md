@@ -3,12 +3,12 @@ Alleloscope (scATAC-seq)
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Description
-Alleloscope is able to profile allele-specific copy number alterations (DNA-level information) for each cell in the scATAC-seq data (typically used to detect chromatin accessibility). This facilitates 1. integrate allele-specific copy number alterations and chromatin accessibility for individual cells and 2. more reliably detect copy number events with allelic imbalance.
+Alleloscope is able to profile allele-specific copy number alterations (DNA-level information) for each cell in the scATAC-seq data (typically used to detect chromatin accessibility). This facilitates 1. integration of allele-specific copy number alterations and chromatin accessibility for individual cells and 2. more reliably detection of copy number events with allelic imbalance.
 
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
-## Prepare for input files
+## Prepare input files
 The following are the input files for different steps.
 
 1. A Standard vcf file with the SNP info. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf)
@@ -24,7 +24,7 @@ The following are the input files for different steps.
 3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
 * For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles.
 * For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
-* The information for each SNP is in the vcf file; The labeling for each cell is in the "barcodes.tsv" file (with the same order). 
+* The information for each SNP should be in the vcf file, the labeling for each cell should be in the barcodes.tsv file (with the same order).
 <br/>
   
 4. Bin by cell (sparse) matrices for tumor samples. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt) 
@@ -164,8 +164,26 @@ umap_peak=readRDS("./data-raw/SU008/scATAC/peak_umap_tumor.rds")
 ```
 theta_hat_chr4=Obj_filtered$rds_list$`chr4:0`$theta_hat
 theta_hat_chr4=theta_hat_chr4[match(rownames(umap_peak), names(theta_hat_chr4))]
+umap_peak$theta_hat=theta_hat_chr4
 ```
 The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
+```
+library(ggplot2)
+library(RColorBrewer)
+# UMAP
+pp=ggplot(umap_peak,aes(x = UMAP1, y=UMAP2)) +
+  geom_point(size=1,alpha=0.5, aes(color=(theta_hat))) +
+  scale_color_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name ="RdYlBu")))(100))+
+  theme_bw()
+print(pp)
+
+# density plot
+pd <-ggplot(umap_peak, aes(x=theta_hat, color=peak_group)) +
+  geom_density()+
+  scale_color_manual(values = c("peak2" = "#F8766D","peak1" = "#00BFC4")) +
+  theme_bw()
+print(pd)
+```
 
 <img src="../../../inst/plots/peak_theta_SU008.png" alt="drawing" width="100%"/>
 <br/>

@@ -142,7 +142,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
 
   colnames(genotype_table)=region_list
 
-  pdf(paste0(plot_path), width = 6)
+  pdf(paste0(plot_path,"_2"), width = 9)
 
   pp_list=c(pp_list, vector(mode = "list", length = ceiling(length(pp_list)/6) * 6 - length(pp_list)))
 
@@ -150,6 +150,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
     pp_combine=plot_grid(pp_list[[ii]], pp_list[[ii+1]], pp_list[[ii+2]], pp_list[[ii+3]], pp_list[[ii+4]], pp_list[[ii+5]] ,
                          #labels = region_label[ii:(ii+5)],
                          ncol = 2, nrow = 3)
+                
     print(pp_combine)
   }
 

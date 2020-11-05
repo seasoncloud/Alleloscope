@@ -8,7 +8,7 @@ With matched scDNA-seq and scATAC-seq data, Alleloscope is able to integrate all
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
-## Prepare for input files
+## Prepare input files
 The following are the input files for different steps.
 
 1. A Standard vcf file with the SNP info. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf)
@@ -24,7 +24,7 @@ The following are the input files for different steps.
 3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
 * For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles.
 * For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
-* The information for each SNP is in the vcf file; The labeling for each cell is in the "barcodes.tsv" file (with the same order). 
+* The information for each SNP should be in the vcf file, the labeling for each cell should be in the barcodes.tsv file (with the same order).
 <br/>
   
 4. Bin by cell (sparse) matrices for tumor samples. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt) 
@@ -161,7 +161,7 @@ umap_peak=readRDS("./data-raw/SNU601/scATAC/peak_umap.rds")
 Clone=Obj_filtered$cloneAssign$cloneAssign[match(rownames(umap_peak), names(Obj_filtered$cloneAssign$cloneAssign))]
 umap_peak=cbind(umap_peak, Clone)
 ```
-The two signals can be visuzlized simultaneously for each cell in the scATAC-seq data. 
+The two signals can be visualized simultaneously for each cell in the scATAC-seq data. 
 
 <img src="../../../inst/plots/UMAP.png" alt="drawing" width="50%"/>
 <br/>

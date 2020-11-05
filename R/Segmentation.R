@@ -87,7 +87,7 @@ for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
   cov5=caTools::runmean(cov4, 100)
 
   ppa1=1.8
-  ppa2=1.2
+  ppa2=1.5
   ppn=1
   ppd=0.5
   delta <- c(0,0,1,0)

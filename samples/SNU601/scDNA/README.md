@@ -3,12 +3,12 @@ Alleloscope (scDNA-seq)
 Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 
 ## Description
-For scDNA-seq data, Alleloscope enables allele-specific copy number profiling at the single cell level to 1. detect complex multi-allelic copy number alterations (even with the same copies) and 2. reconstruct tumor lineage structure based on the multi-allelic copy number events.
+For scDNA-seq data, Alleloscope enables allele-specific copy number profiling at the single cell level to 1. detect complex multi-allelic copy number alterations (including copy neutral loss-of-heterozygosity and mirrored subclones that have the same total copy number) and 2. reconstruct tumor lineages based on the multi-allelic copy number profile.
 
 For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
 <br/>
 
-## Prepare for input files
+## Prepare input files
 The following are the input files for different steps.
 
 1. A Standard vcf file with the SNP info. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/var_all_sub.vcf)
@@ -24,7 +24,7 @@ The following are the input files for different steps.
 3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
 * For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles.
 * For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
-* The information for each SNP is in the vcf file; The labeling for each cell is in the "barcodes.tsv" file (with the same order). 
+* The information for each SNP should be in the vcf file, the labeling for each cell should be in the barcodes.tsv file (with the same order).
 <br/>
   
 4. Bin by cell (sparse) matrices for tumor and normal samples. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/tumor_sub.txt) 
@@ -35,7 +35,7 @@ The following are the input files for different steps.
 <br/>
 
 ## Tutorial for scDNA-seq data
-* Here is an example application to the SNU601 scDNA-seq dataset from Andor et al., 2020. 
+* Here is an example application to the SNU601 scDNA-seq dataset from Andor et al., 2020 with five example regions. 
 <br/>
 
 ### Run all steps with a single command
@@ -96,8 +96,6 @@ Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=1000, SNP_filter=20, min_vaf = 0
 #### Step2. Segmentation based on total coverage pooled across cells
 
 * Segmentation using HMM based on total coverage
-
-* For scATAC-seq, segmentation is suggested to be performed using matched DNA sequencing data (bulk/single).
 ```
 Obj_filtered=Segmentation(Obj_filtered=Obj_filtered, 
                            raw_counts=raw_counts, # from matched DNA sequencing (bulk/single)
@@ -106,12 +104,12 @@ Obj_filtered=Segmentation(Obj_filtered=Obj_filtered,
 ```
 
 
-![Alt text](../../../inst/plots/segmentation.png?raw=true "SNU601 segmentation")
+![Alt text](../../../inst/plots/segmentation.png?raw=true)
 <br/>
 
 * Filter segments based on the numbers of SNPs.
 ```
-Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered, nSNP=5000)
+Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered, nSNP=2000)
 ```
 <br/>
 
@@ -155,7 +153,7 @@ Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_co
 ```
 Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
 ```
-The output genotying results for two regions are shown below.
+The output genotying results for the five regions are shown below.
 
 ![Alt text](../../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
 <br/><br/>
@@ -164,9 +162,9 @@ The output genotying results for two regions are shown below.
 
 * Generate lineage tree based on cell-specific genotypes across the regions.
 ```
-linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 2)
+linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10)
 ```
-The output clustering result for two regions is shown below.
+The output clustering result for the five regions is shown below.
 
 ![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
 <br/><br/>
