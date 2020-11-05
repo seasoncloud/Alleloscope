@@ -142,7 +142,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
 
   colnames(genotype_table)=region_list
 
-  pdf(paste0(plot_path,"_2"), width = 9)
+  pdf(paste0(plot_path), width = 6)
 
   pp_list=c(pp_list, vector(mode = "list", length = ceiling(length(pp_list)/6) * 6 - length(pp_list)))
 
