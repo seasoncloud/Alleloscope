@@ -2,11 +2,12 @@
 #'
 #' @param Obj_filtered An Alleloscope object with SNP info and raw segmentation table "seg_table".
 #' @param nSNP An integer of minimum number of SNPs for region selecgtion.
+#' @param fvar Logical(TRUE/FALSE) Whether or not to filter out segments with variance >0.9 quantile. 
 #'
 #' @return A Alleloscope object with "seg_table_filtered" added.
 #'
 #' @export
-Segments_filter=function(Obj_filtered=NULL, nSNP=2000 ){
+Segments_filter=function(Obj_filtered=NULL, nSNP=2000 , fvar=TRUE){
   assay=Obj_filtered$assay
   seg_table=Obj_filtered$seg_table
   var_list=Obj_filtered$var_all
@@ -27,7 +28,7 @@ Segments_filter=function(Obj_filtered=NULL, nSNP=2000 ){
   seg_table=seg_table[!is.na(seg_table$Freq),]
   seg_table$chrr=as.character(seg_table$chrr)
 
-  if(nrow(seg_table)>22){
+  if(nrow(seg_table)>22 & fvar==TRUE){
   ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP & as.numeric(seg_table$var)<quantile(as.numeric(seg_table$var), 0.9,na.rm = T))])
   }else{
     ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP )])
