@@ -17,7 +17,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   samplename=Obj_filtered$samplename
   assay=Obj_filtered$assay
   ref=Obj_filtered$ref
-  seg_table_filtered=Obj_filtered$seg_table_filtered
+  #seg_table_filtered=Obj_filtered$seg_table_filtered
 
   theta_hat_cbn=Obj_filtered$genotype_values
   region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[(1:(ncol(theta_hat_cbn)/4))*4]

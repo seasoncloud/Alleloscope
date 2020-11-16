@@ -9,12 +9,13 @@
 #' @param ref_counts (required only when type = "cellline") A binned coverage matrix (m2 bin by n2 cell) with values being read counts for all chromosomal regions of normal sample. n2 can be 1 for bulk sample.
 #' @param cov_adj An integer for coverage adjustment for tumor cells. 
 #' @param ref_gtv A reference "genotype_values" (from scDNA-seq) to help with rho_i estimation.
+#' @param mincell An integer to filter out regions with minimum number of cells.
 #' 
 #' @return (rho_hat, theta_hat) of each cell for all region in the "genotype_values".
 #' Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
 #'
 #' @export
-Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL){
+Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100){
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -104,7 +105,12 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     N0=N0[match(barcodes_non_noisy, result$barcodes)]
     Ni=Nr/N0
     names(Ni)=barcodes_non_noisy
+    
     if(is.null(ref_gtv)){
+      if(length(result$barcodes)<mincell){
+        cat(paste0("Exclude ",chrr," region:<",mincell," cells\n"))
+        next
+      }
     if(type=='tumor'){
       ref_ncell=length(barcode_normal)
       Nrref=Nr[which(names(Nr) %in% barcode_normal)]

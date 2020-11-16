@@ -6,6 +6,7 @@
 #' @param plot_theta Logical (TRUE/FALSE). Whether or not to plot the hierarchical clustering result using the theta_hat values across regions.
 #' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)
 #' @param cutree_rows Integer. Number of clusters the rows are divided into for visualization (inherited from the pheatmap function).
+#' @param mincell An integer to filter out regions with minimum number of cells.
 #'
 #' @return A Alleloscope object with a "select_normal" list added.
 #' A "select_normal" list includes
@@ -15,7 +16,7 @@
 #' "k_normal": An integer indicates the kth clsuter that is idenfied as "normal cells"
 #'
 #' @export
-Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE, cell_type=NULL, cutree_rows=3 ){
+Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE, cell_type=NULL, cutree_rows=3 , mincell=100){
 
 EMresult=Obj_filtered$rds_list
 filtered_seg_table=Obj_filtered$seg_table_filtered
@@ -45,6 +46,11 @@ for(chrr in as.character(filtered_seg_table$chrr)){ # for cytoarm
   theta_hat=result$theta_hat
   names(theta_hat)=result$barcodes
   barcodes=result$barcodes#
+  
+  if(length(result$barcodes)<mincell){
+    cat(paste0("Exclude ",chrr," region:<",mincell," cells\n"))
+    next
+  }
 
   # subset the coverge info
   raw_counts_chr=raw_counts[which(raw_chr %in% paste0('chr', as.character(chrrn))),]
@@ -127,12 +133,12 @@ tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_
 }else{
   barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
   barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
-  cell_label=rep('cell', dim(theta_hat_cbn2)[1])
+  cell_label=rep('unknown', dim(theta_hat_cbn2)[1])
   cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
   cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
   cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
   my_colour = list(
-    cell.type = c(tumor = "#d53e4f", normal="#1f78b4")
+    cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
   )
   
 tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
