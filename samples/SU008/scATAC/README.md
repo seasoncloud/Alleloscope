@@ -103,7 +103,7 @@ Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered, nSNP=500)
 
 * Estimate theta_hat of each cell for each region in the filtered segment table (seg_table_filtered).
 ```
-Obj_filtered=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_stat = T,cont = TRUE)
+Obj_filtered=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_stat = T,cont = FALSE)
 
 # Recommend max_nSNP <50000
 # Regions without allelic imbalence do not coverge (Reach the max number of iterations.)

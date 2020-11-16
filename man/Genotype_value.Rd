@@ -10,7 +10,8 @@ Genotype_value(
   raw_counts = NULL,
   ref_counts = NULL,
   cov_adj = 1,
-  ref_gtv = NULL
+  ref_gtv = NULL,
+  mincell = 100
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ Genotype_value(
 \item{cov_adj}{An integer for coverage adjustment for tumor cells.}
 
 \item{ref_gtv}{A reference "genotype_values" (from scDNA-seq) to help with rho_i estimation.}
+
+\item{mincell}{An integer to filter out regions with minimum number of cells.}
 }
 \value{
 (rho_hat, theta_hat) of each cell for all region in the "genotype_values".

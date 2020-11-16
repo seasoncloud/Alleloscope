@@ -14,7 +14,7 @@ Genotype(
 )
 }
 \arguments{
-\item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 4) genotype_values matrix and seg_table_filtered matrix.
+\item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 4) genotype_values matrix.
 Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each region.}
 
 \item{xmax}{An integer for the x-axis maximum limit.}

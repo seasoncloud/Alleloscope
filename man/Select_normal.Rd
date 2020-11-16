@@ -10,7 +10,8 @@ Select_normal(
   cell_nclust = 5,
   plot_theta = FALSE,
   cell_type = NULL,
-  cutree_rows = 3
+  cutree_rows = 3,
+  mincell = 100
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ Select_normal(
 \item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)}
 
 \item{cutree_rows}{Integer. Number of clusters the rows are divided into for visualization (inherited from the pheatmap function).}
+
+\item{mincell}{An integer to filter out regions with minimum number of cells.}
 }
 \value{
 A Alleloscope object with a "select_normal" list added.
