@@ -1,6 +1,6 @@
 #' Genotype each cell for each region and plot the genotypes.
 #'
-#' @param Obj_filtered An Alleloscope object with a n cell by (m region * 4) genotype_values matrix and seg_table_filtered matrix.
+#' @param Obj_filtered An Alleloscope object with a n cell by (m region * 4) genotype_values matrix.
 #' Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each region.
 #' @param xmax An integer for the x-axis maximum limit.
 #' @param plot_path The path for saving the plot.
@@ -17,7 +17,6 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   samplename=Obj_filtered$samplename
   assay=Obj_filtered$assay
   ref=Obj_filtered$ref
-  #seg_table_filtered=Obj_filtered$seg_table_filtered
 
   theta_hat_cbn=Obj_filtered$genotype_values
   region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[(1:(ncol(theta_hat_cbn)/4))*4]
