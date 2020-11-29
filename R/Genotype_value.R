@@ -173,10 +173,10 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
       gt=as.numeric(dna_gt[,which(colnames(dna_gt)==paste0('rho_',chrr))])
       if(length(Ni)>(ncell/2)){
         md=median(gt)
-        Ni=md/median(Ni)*Ni
+        Ni=md/median(Ni, na.rm = TRUE)*Ni
       }else{
         md=quantile(gt,0.2)
-        Ni=md/quantile(Ni,0.2)*Ni}
+        Ni=md/quantile(Ni,0.2, na.rm=TRUE)*Ni}
       Niq=Ni
       barcodes_nn_q=names(Niq)
       
