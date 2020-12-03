@@ -7,12 +7,14 @@
 #' @param max_vaf A numerical value in the range (0,1) of mzsimum SNP variant allele frequency in the pseudo bulk for SNP selection.
 #' @param centro A Matrix/ data.frame of centromere information.
 #' @param telo A Matrix/ data.frame of telomere information.
+#' @snp_ind A numeric vector indexing the SNPs to be included.
+#' @param plot_stat Logical (TRUE/FALSE). Whether or not to plot the summary statistics.
 #' @param plot_vaf Logical (TRUE/FALSE). Whether or not to plot the variant allele frequency for the pseudo bulk for all the chromosomes.
 #'
 #' @return A Alleloscope object after the filtering.
 #'
 #' @export
-Matrix_filter=function(Obj=NULL, cell_filter=5, SNP_filter=10 ,min_vaf=0, max_vaf=1, centro=NULL, telo=NULL, plot_stat=TRUE, plot_vaf=TRUE){
+Matrix_filter=function(Obj=NULL, cell_filter=5, SNP_filter=10 ,min_vaf=0, max_vaf=1, centro=NULL, telo=NULL,snp_ind=NULL, plot_stat=TRUE, plot_vaf=TRUE){
 
   ## setting path and name
   alt_all=Obj$alt_all
@@ -37,6 +39,16 @@ Matrix_filter=function(Obj=NULL, cell_filter=5, SNP_filter=10 ,min_vaf=0, max_va
   }
   
   ##
+  if(!is.null(snp_ind)){
+    if(!is.numeric(snp_ind)){
+      message("Please provide numeric snp_ind for the set of SNPs you want to include.")
+    }else{
+    alt_all=alt_all[snp_ind,]
+    total_all=total_all[snp_ind,]
+    var_list=var_list[snp_ind,]}
+  }
+  
+  
   cc=Matrix::colSums(alt_all)
   cc_ind=which(cc>cell_filter)
 
