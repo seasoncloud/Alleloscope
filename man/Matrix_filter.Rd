@@ -12,6 +12,7 @@ Matrix_filter(
   max_vaf = 1,
   centro = NULL,
   telo = NULL,
+  snp_ind = NULL,
   plot_stat = TRUE,
   plot_vaf = TRUE
 )
@@ -30,6 +31,8 @@ Matrix_filter(
 \item{centro}{A Matrix/ data.frame of centromere information.}
 
 \item{telo}{A Matrix/ data.frame of telomere information.}
+
+\item{plot_stat}{Logical (TRUE/FALSE). Whether or not to plot the summary statistics.}
 
 \item{plot_vaf}{Logical (TRUE/FALSE). Whether or not to plot the variant allele frequency for the pseudo bulk for all the chromosomes.}
 }

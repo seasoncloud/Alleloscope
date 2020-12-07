@@ -45,7 +45,7 @@ Obj_filtered=Rundf_dna(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,
                       samplename='Sample', genome_assembly="GRCh38", dir_path=dir_path, 
                       barcodes=barcodes, size=size, assay='scDNAseq',
                       raw_counts=raw_counts, ref_counts=ref_counts, type='cellline',
-                      cell_filter = 1000, SNP_filter = 20, min_vaf = 0.1, max_vaf = 0.9,)
+                      cell_filter = 1000, SNP_filter = 20, min_vaf = 0.1, max_vaf = 0.9)
 ```
 <br/>
 
