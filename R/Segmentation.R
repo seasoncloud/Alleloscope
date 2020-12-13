@@ -79,7 +79,7 @@ maploc=1:length(cov2)
 
 cov3=cov2
 cov3=pmin(cov3, quantile(cov3, 0.99))
-cov3=cov3+adj
+cov3=cov3
 cov4=cov3/median(cov3)
 
 
@@ -87,7 +87,7 @@ cov4=cov3/median(cov3)
 nsnp=c()
 seg_table_all=NULL
 for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
-  cov4=(cov3/median(cov3))[which(chromnum==paste0(ii))]
+  cov4=(cov3/median(cov3))[which(chromnum==paste0(ii))]+adj
   cov5=caTools::runmean(cov4, 100)
 
   ppa1= hmm_states[3]
@@ -154,7 +154,7 @@ colnames(seg_table_all)=c("chr","start", "end", "states","length","mean","var")
 if(plot_seg==TRUE){
 pdf(paste0(dir_path,"/plots/",samplename,"_seg_hmm.pdf"))
 par(mfrow=c(3,1))
-plot(x=maploc, y=cov3/median(cov3), ylab="COV",
+plot(x=maploc, y=(cov3/median(cov3))+adj, ylab="COV",
      main=paste("HMM segmentation across all chroms"),
      xaxt="n", pch=20, cex=0.3, xlab = "chromosome" )
 points(x=maploc, y=rep(seg_table_all[,4],nsnp), type='l', col='red', lwd=1)
@@ -165,7 +165,7 @@ if(length(unique(chromnum))==1){
 abline(v=chrline, col='blue', lty=1, lwd=1)
 
 for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
-  plot(x=maploc[which(chromnum==ii)], y=(cov3/median(cov3))[which(chromnum==ii)], ylab="COV",main=paste("chr",ii), xaxt="n", pch=20, cex=0.3, xlab = "chromosome" ) # limit to only the "high coverage" SNPs.
+  plot(x=maploc[which(chromnum==ii)], y=((cov3/median(cov3))+adj)[which(chromnum==ii)], ylab="COV",main=paste("chr",ii), xaxt="n", pch=20, cex=0.3, xlab = "chromosome" ) # limit to only the "high coverage" SNPs.
   points(x=maploc[which(chromnum==ii)], y=rep(seg_table_all[,4],nsnp)[which(chromnum==ii)], type='l', col='red', lwd=3)
   if(length(unique(chromnum))==1){
     axis(side=1, at=table(chromnum)*0.5, labels = sapply(strsplit(chr_name,'hr'),'[',2), cex.axis=1)
