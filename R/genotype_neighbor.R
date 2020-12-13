@@ -26,7 +26,7 @@ genotype_neighbor=function(X, cluster_name=F){
     dd=apply(X,1,function(ss) sqrt(sum((ss-mu[ii,])^2)))
     d_matrix[,ii]=dd}
   cluster=apply(d_matrix,1, function(ss) which(ss==min(ss))[1])
-  names(cluster)=paste0("rho",mu[cluster,1],"_theta", mu[cluster,2])
+  names(cluster)=paste0("rho",mu[cluster,1],"_theta", round(mu[cluster,2],2))
   if(cluster_name==FALSE){
   cluster_ind=center_dict[names(cluster)]
   }else{
