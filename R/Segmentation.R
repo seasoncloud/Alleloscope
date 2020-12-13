@@ -7,11 +7,12 @@
 #' @param ref_counts A binned coverage matrix (m2 bin by n2 cell) with values being read counts in DNA sequencing data for all chromosomal regions of normal sample. n2 can be 1 for bulk sample.
 #' Numbers of bins (rows) should be the same in the paired chromosomal regions for the paired samples
 #' @param plot_seg Logical (TRUE/ FALSE). Whether or not to plot the segmentation result.
+#' @param states An ordered vector for the HMM states (deletion, 1-copy gain, 2-copy gains).
 #'
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL, plot_seg=TRUE){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,states=c(0.5, 1.5, 1.8), plot_seg=TRUE){
 
 assay=Obj_filtered$assay
 dir_path=Obj_filtered$dir_path
@@ -86,11 +87,11 @@ for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
   cov4=(cov3/median(cov3))[which(chromnum==paste0(ii))]
   cov5=caTools::runmean(cov4, 100)
 
-  ppa1=1.8
-  ppa2=1.5
+  ppa1= states[3]
+  ppa2= states[2]
   ppn=1
-  ppd=0.5
-  delta <- c(0,0,1,0)
+  ppd= states[1]
+  delta <- c(0.1,0.2,0.5,0.2)
   t=0.000001
   z  <- HiddenMarkov::dthmm(cov5, matrix(c(1-3*t, t, t,t,t, 1-3*t,t,t, t,t,1-3*t,t,t,t,t,1-3*t), byrow=TRUE, nrow=4), delta, "norm", list(mean=c(ppa1, ppa2,ppn, ppd),sd=c(0.2, 0.2, 0.2, 0.2)))
 

@@ -19,7 +19,8 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   ref=Obj_filtered$ref
 
   theta_hat_cbn=Obj_filtered$genotype_values
-  region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[(1:(ncol(theta_hat_cbn)/4))*4]
+  #region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[(1:(ncol(theta_hat_cbn)/4))*4]
+  region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[!duplicated(sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2))]
   if(is.null(plot_path)){
   plot_path=paste0(Obj_filtered$dir_path,'/plots/gtype_scatter_ref_',ref,'.pdf')}
 

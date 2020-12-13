@@ -7,6 +7,7 @@
 #' @param plot_conf Logical (TRUE/FALSE). Whether or not to plot the confidence scores under the lineage tree.
 #' @param nclust An integer for the number of subclones gapped in the plot.
 #' @param plot_path The path for saving the plot.
+#' @param all_chr Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level. 
 #'
 #' @return A lineage tree plot constructed using cell-level genotypes across all regions.
 #'
@@ -15,7 +16,7 @@
 #' @import cluster
 #' @export
 
-Lineage_plot=function(Obj_filtered=NULL, nSNP=2000, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL){
+Lineage_plot=function(Obj_filtered=NULL, nSNP=2000, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL, all_chr=TRUE){
 
 # assign values
 samplename=Obj_filtered$samplename
@@ -112,6 +113,22 @@ hh$height=log(hh$height+1) # linear transform thee tree length
 plot_matrix<- cluster_cbn2_all
 
 pdf(paste0(plot_path,"lineage_ref_",ref,'.pdf' ), width = 12,height = 6)
+
+if(all_chr==TRUE){
+  col_lab=rep(" ", ncol(cluster_cbn2_all))
+  col_lab[c(0, cumsum(chrgap)[1:(length(chrgap)-1)])+chrgap/2]=paste0("chr",as.character(1:22))
+  
+  pheatmap::pheatmap(plot_matrix,
+           cluster_cols = F, cluster_rows = hh,
+           show_rownames = F,
+           labels_col=col_lab,
+           clustering_distance_rows = "euclidean",
+           clustering_method = clust_method,
+           gaps_col=cumsum(chrgap),
+           cutree_rows = nclust,
+           color =col,
+           breaks = 0:26)
+}else{
 pheatmap::pheatmap(plot_matrix,
          cluster_cols = F, cluster_rows = hh,
          show_rownames = F,
@@ -120,7 +137,7 @@ pheatmap::pheatmap(plot_matrix,
          gaps_col=cumsum(chrgap),
          cutree_rows = nclust,
          color =col,
-         breaks = 0:26)
+         breaks = 0:26)}
 
 dev.off()
 
@@ -131,6 +148,22 @@ if(plot_conf){
   plot_matrix<- cluster_cbn_conf_all
   
   pdf(paste0(plot_path,"conf_ref_",ref,'.pdf'), width = 12,height = 6)
+  
+  if(all_chr==TRUE){
+    col_lab=rep(" ", ncol(cluster_cbn2_all))
+    col_lab[c(0, cumsum(chrgap)[1:(length(chrgap)-1)])+chrgap/2]=paste0("chr",as.character(1:22))
+    
+    pheatmap::pheatmap(plot_matrix,
+             cluster_cols = F, cluster_rows = hh,
+             show_rownames = F,
+             labels_col=col_lab,
+             clustering_distance_rows = "euclidean",
+             clustering_method = clust_method,
+             gaps_col=cumsum(chrgap),
+             cutree_rows = nclust,
+             color =col,
+             breaks = 0:26)
+  }else{
   pheatmap::pheatmap(plot_matrix,
                      cluster_cols = F, cluster_rows = hh,
                      show_rownames = F,
@@ -140,6 +173,9 @@ if(plot_conf){
                      cutree_rows = nclust)
                      #color =col,
                      #breaks = 0:26)
+  }
+
+  
   
   dev.off()
   
