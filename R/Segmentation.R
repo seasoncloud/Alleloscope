@@ -8,12 +8,13 @@
 #' Numbers of bins (rows) should be the same in the paired chromosomal regions for the paired samples
 #' @param plot_seg Logical (TRUE/ FALSE). Whether or not to plot the segmentation result.
 #' @param hmm_states An ordered vector for the HMM states (deletion, 1-copy gain, 2-copy gains).
-#' @param hmm_p Integer. Transition probability for the HMM algorithm.
+#' @param hmm_p Numeric. Transition probability for the HMM algorithm.
+#' @param adj Numeric. Value for tumor coverage adjustment.
 #' 
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), plot_seg=TRUE){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), plot_seg=TRUE, adj=0){
 
 assay=Obj_filtered$assay
 dir_path=Obj_filtered$dir_path
@@ -78,6 +79,7 @@ maploc=1:length(cov2)
 
 cov3=cov2
 cov3=pmin(cov3, quantile(cov3, 0.99))
+cov3=cov3+adj
 cov4=cov3/median(cov3)
 
 
