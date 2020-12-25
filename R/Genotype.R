@@ -141,6 +141,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   cat("\n")
 
   colnames(genotype_table)=region_list
+  rownames(genotype_table)=rownames(theta_hat_cbn)
 
   pdf(paste0(plot_path), width = 6)
 

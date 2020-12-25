@@ -10,11 +10,12 @@
 #' @param hmm_states An ordered vector for the HMM states (deletion, 1-copy gain, 2-copy gains).
 #' @param hmm_p Numeric. Transition probability for the HMM algorithm.
 #' @param adj Numeric. Value for tumor coverage adjustment.
+#' @param rds_path The path for saving the rds files for the estimated results for each region.
 #' 
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), plot_seg=TRUE, adj=0){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8),hmm_sd=0.2, plot_seg=TRUE,rds_path=NULL, adj=0){
 
 assay=Obj_filtered$assay
 dir_path=Obj_filtered$dir_path
@@ -24,6 +25,11 @@ genome_assembly=Obj_filtered$genome_assembly
 size_all=Obj_filtered$size
 size_all=size_all[order(as.numeric(as.character(names(size_all))))]
 
+
+if(is.null(rds_path)){
+  rds_path=paste0(dir_path,"/rds/")
+}
+dir.create(rds_path)
 
 ## check if tumor and normal are from the same genome assembly
 
@@ -55,8 +61,8 @@ ref_sum=c()
 chromnum=c()
 
 for(chrr in chr_name){
-  chr_mm=raw_counts[which(raw_chr %in% chrr),]
-  ref_mm=ref_counts[which(ref_chr %in% chrr),]
+  chr_mm=raw_counts[which(raw_chr %in% chrr),, drop=F]
+  ref_mm=ref_counts[which(ref_chr %in% chrr),, drop=F]
   chr_sub=apply(chr_mm,1, sum)
   ref_sub=apply(ref_mm,1, sum)
   chr_sum=c(chr_sum, chr_sub)
@@ -96,7 +102,7 @@ for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
   ppd= hmm_states[1]
   delta <- c(0.1,0.2,0.5,0.2)
   t=0.000001
-  z  <- HiddenMarkov::dthmm(cov5, matrix(c(1-3*t, t, t,t,t, 1-3*t,t,t, t,t,1-3*t,t,t,t,t,1-3*t), byrow=TRUE, nrow=4), delta, "norm", list(mean=c(ppa1, ppa2,ppn, ppd),sd=c(0.2, 0.2, 0.2, 0.2)))
+  z  <- HiddenMarkov::dthmm(cov5, matrix(c(1-3*t, t, t,t,t, 1-3*t,t,t, t,t,1-3*t,t,t,t,t,1-3*t), byrow=TRUE, nrow=4), delta, "norm", list(mean=c(ppa1, ppa2,ppn, ppd),sd=c(hmm_sd, hmm_sd, hmm_sd, hmm_sd)))
 
 
   results <- HiddenMarkov::Viterbi(z)
@@ -181,13 +187,20 @@ seg_table_all=data.frame(seg_table_all,stringsAsFactors = F)
 seg_table_all$chrr=as.character(paste0(seg_table_all$chr,":", seg_table_all$start))
 
 Obj_filtered[['seg_table']]=seg_table_all
+saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all.rds"))
 
 message("Segmentation done!")
 cat("\"seg_table\" was added to the Obj_filtered object.\n")
 cat(paste0("Segmentation plot was saved in the path:", dir_path,"plots/\n"))
 
+
 return(Obj_filtered)
 }
 
 
+saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all.rds"))
+
+message(paste0("Genotype plots succefully created and stored in the path:", plot_path))
+cat("\"genotypes\" is added to the Obj_filtered object.\n")
+cat(paste0("Segmentation result is stored as seg_table_all.rds in the path:", rds_path,"\n"))
 

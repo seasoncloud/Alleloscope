@@ -4,18 +4,19 @@
 #' theta_hat: Major haplotype proportion fir each cell in a region
 #'
 #' @param Obj_filtered An Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region
-#' @param type Specify whethere the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.
+#' @param type Specify whether the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.
 #' @param raw_counts (required) A large binned coverage matrix (m1 bin by n1 cell) with values being read counts for all chromosomal regions of tumor sample.
 #' @param ref_counts (required only when type = "cellline") A binned coverage matrix (m2 bin by n2 cell) with values being read counts for all chromosomal regions of normal sample. n2 can be 1 for bulk sample.
 #' @param cov_adj An integer for coverage adjustment for tumor cells. 
 #' @param ref_gtv A reference "genotype_values" (from scDNA-seq) to help with rho_i estimation.
 #' @param mincell An integer to filter out regions with minimum number of cells.
+#' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude low quality cells. 
 #' 
 #' @return (rho_hat, theta_hat) of each cell for all region in the "genotype_values".
 #' Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
 #'
 #' @export
-Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100){
+Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, cell_filter=TRUE){
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -205,7 +206,12 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   if(!is.null(ref_gtv)){
     cell_intersect <- Reduce(union, cell_list)
   }else{
-  cell_intersect <- Reduce(intersect, cell_list)}
+    if(cell_filter==TRUE){
+      cell_intersect <- Reduce(intersect, cell_list)
+    }else{
+      cell_intersect <- Reduce(union, cell_list) 
+    }
+  }
 
 
   theta_hat_cbn <- sapply(theta_N_nr_nc,function(x){
