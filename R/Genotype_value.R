@@ -171,6 +171,8 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     Niq=Ni[which(Ni<=quantile(Ni, 0.99) & Ni>=quantile(Ni, 0.01))] ##
   }else{
     Niq=Ni
+    Niq=pmin(Niq, quantile(Ni, 0.99))
+    Niq=pmax(Niq, quantile(Ni, 0.01))
   }
     barcodes_nn_q=names(Niq)
     

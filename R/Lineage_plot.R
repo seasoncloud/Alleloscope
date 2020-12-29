@@ -141,13 +141,14 @@ pheatmap::pheatmap(plot_matrix,
 
 dev.off()
 
-message(paste0("Lineage plot is successfully saved in the path:",plot_path,"lineage_ref_",ref,'.pdf'))
+message(paste0("Lineage plot is successfully saved in the path:",plot_path))
 
 if(plot_conf){
   #conf_plot(Obj_filtered = Obj_filtered, nclust = nclust)
   plot_matrix<- cluster_cbn_conf_all
+  conf_path=paste0(Obj_filtered$dir_path,'/plots/', "conf_ref_",ref,'.pdf')
   
-  pdf(paste0(plot_path,"conf_ref_",ref,'.pdf'), width = 12,height = 6)
+  pdf(conf_path, width = 12,height = 6)
   
   if(all_chr==TRUE){
     col_lab=rep(" ", ncol(cluster_cbn2_all))
@@ -160,9 +161,9 @@ if(plot_conf){
              clustering_distance_rows = "euclidean",
              clustering_method = clust_method,
              gaps_col=cumsum(chrgap),
-             cutree_rows = nclust,
-             color =col,
-             breaks = 0:26)
+             cutree_rows = nclust)
+             #color =col,
+             #breaks = 0:26)
   }else{
   pheatmap::pheatmap(plot_matrix,
                      cluster_cols = F, cluster_rows = hh,
@@ -181,7 +182,7 @@ if(plot_conf){
   
   
   
-  message(paste0("Confidence plot is successfully saved in the path:",plot_path,"conf_ref_",ref,'.pdf'))
+  message(paste0("Confidence plot is successfully saved in the path:",conf_path))
   
 }
 

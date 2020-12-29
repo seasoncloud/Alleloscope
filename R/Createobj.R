@@ -24,6 +24,11 @@ Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
   # }else if(genome_assembly=="GRCh37"){
   #   size_path=paste0(dir_path,"./sizes.genome.cellranger.GRCh37_1.1.0")}
 
+  
+  if(!grepl('chr',var_all[1,1])){
+    var_all[,1]=paste0('chr', var_all[,1])
+  }
+  
   ## read the size file
   #size=read.table(size_path, stringsAsFactors = F)
   #size=size[1:22,]
