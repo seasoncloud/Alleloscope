@@ -10,13 +10,14 @@
 #' @param cov_adj An integer for coverage adjustment for tumor cells. 
 #' @param ref_gtv A reference "genotype_values" (from scDNA-seq) to help with rho_i estimation.
 #' @param mincell An integer to filter out regions with minimum number of cells.
-#' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude low quality cells. 
+#' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude cells with rho_hat>0.99 or <0.01 for each region. 
+#' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude low quality cells in the output matrix. 
 #' 
 #' @return (rho_hat, theta_hat) of each cell for all region in the "genotype_values".
 #' Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
 #'
 #' @export
-Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, cell_filter=TRUE){
+Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, qt_filter=TRUE,  cell_filter=TRUE){
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -166,8 +167,11 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     }
     
     Ni=Ni/Ni_ref
-
+  if(qt_filter==TRUE){
     Niq=Ni[which(Ni<=quantile(Ni, 0.99) & Ni>=quantile(Ni, 0.01))] ##
+  }else{
+    Niq=Ni
+  }
     barcodes_nn_q=names(Niq)
     
     }else{
