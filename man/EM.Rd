@@ -4,7 +4,7 @@
 \alias{EM}
 \title{Iterative phasing and theta_hat estimation}
 \usage{
-EM(ref_table, alt_table, max_iter = max_iter, seed = 2020)
+EM(ref_table, alt_table, max_iter = max_iter, sub_cells = NULL, seed = 2020)
 }
 \arguments{
 \item{ref_table}{A SNP by cell read count matrix/ spare matrix for the reference alleles.}
@@ -12,6 +12,8 @@ EM(ref_table, alt_table, max_iter = max_iter, seed = 2020)
 \item{alt_table}{A SNP by cell read count matrix/ spare matrix for the alternative alleles.}
 
 \item{max_iter}{An integer of maximum iteration number.}
+
+\item{sub_cells}{A vector of cell names for the cells used to estimate the phases.}
 
 \item{seed}{An integer of random seed number for EM initialization.}
 }

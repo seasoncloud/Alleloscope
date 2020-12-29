@@ -11,13 +11,14 @@ Genotype_value(
   ref_counts = NULL,
   cov_adj = 1,
   ref_gtv = NULL,
-  mincell = 100
+  mincell = 100,
+  cell_filter = TRUE
 )
 }
 \arguments{
 \item{Obj_filtered}{An Alleloscope object with theta_hat info in the rds_list and identified/ specified normal cells and a normal region}
 
-\item{type}{Specify whethere the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.}
+\item{type}{Specify whether the sample is a "tumor" or "cellline". If "type" is a "cellline", param "ref_counts" needs to be specified for normal sample.}
 
 \item{raw_counts}{(required) A large binned coverage matrix (m1 bin by n1 cell) with values being read counts for all chromosomal regions of tumor sample.}
 
@@ -28,6 +29,8 @@ Genotype_value(
 \item{ref_gtv}{A reference "genotype_values" (from scDNA-seq) to help with rho_i estimation.}
 
 \item{mincell}{An integer to filter out regions with minimum number of cells.}
+
+\item{cell_filter}{Logical (TRUE/ FALSE). Whether or not to exclude low quality cells.}
 }
 \value{
 (rho_hat, theta_hat) of each cell for all region in the "genotype_values".

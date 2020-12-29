@@ -61,8 +61,10 @@ Matrix_filter=function(Obj=NULL, cell_filter=5, SNP_filter=10 ,min_vaf=0, max_va
 
 
   rr=Matrix::rowSums(total_all)
-  #rr_ind=which(rr>SNP_filter & rr<= ((median(rr[which(rr!=0)])+3*mad(rr[which(rr!=0)]))) & af<=max_vaf & af>min_vaf) ###
-  rr_ind=which(rr>SNP_filter & af<=max_vaf & af>min_vaf) 
+  if(assay=="scDNAseq"){
+  rr_ind=which(rr>SNP_filter & rr<= ((median(rr[which(rr!=0)])+3*mad(rr[which(rr!=0)]))) & af<=max_vaf & af>min_vaf) ###
+  }else{
+  rr_ind=which(rr>SNP_filter & af<=max_vaf & af>min_vaf) }
   
   
   message(paste0(length(rr_ind), " SNPs after filtering."))

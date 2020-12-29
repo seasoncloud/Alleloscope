@@ -10,7 +10,8 @@ Lineage_plot(
   clust_method = "ward.D2",
   nclust = 5,
   plot_conf = FALSE,
-  plot_path = NULL
+  plot_path = NULL,
+  all_chr = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each r
 \item{plot_conf}{Logical (TRUE/FALSE). Whether or not to plot the confidence scores under the lineage tree.}
 
 \item{plot_path}{The path for saving the plot.}
+
+\item{all_chr}{Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level.}
 }
 \value{
 A lineage tree plot constructed using cell-level genotypes across all regions.

@@ -101,7 +101,7 @@ for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
   ppn=1
   ppd= hmm_states[1]
   delta <- c(0.1,0.2,0.5,0.2)
-  t=0.000001
+  t=0.000000001
   z  <- HiddenMarkov::dthmm(cov5, matrix(c(1-3*t, t, t,t,t, 1-3*t,t,t, t,t,1-3*t,t,t,t,t,1-3*t), byrow=TRUE, nrow=4), delta, "norm", list(mean=c(ppa1, ppa2,ppn, ppd),sd=c(hmm_sd, hmm_sd, hmm_sd, hmm_sd)))
 
 
@@ -192,15 +192,8 @@ saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all.rds"))
 message("Segmentation done!")
 cat("\"seg_table\" was added to the Obj_filtered object.\n")
 cat(paste0("Segmentation plot was saved in the path:", dir_path,"plots/\n"))
+cat(paste0("Segmentation result is stored as seg_table_all.rds in the path:", rds_path,"\n"))
 
 
 return(Obj_filtered)
 }
-
-
-saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all.rds"))
-
-message(paste0("Genotype plots succefully created and stored in the path:", plot_path))
-cat("\"genotypes\" is added to the Obj_filtered object.\n")
-cat(paste0("Segmentation result is stored as seg_table_all.rds in the path:", rds_path,"\n"))
-

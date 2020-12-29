@@ -4,6 +4,7 @@
 #' Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each region.
 #' @param xmax An integer for the x-axis maximum limit.
 #' @param plot_path The path for saving the plot.
+#' @param rds_path The path for saving the rds object. 
 #' @param ref_gt A reference "genotypes" (from scDNA-seq) to help with genotype estimation.
 #' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)
 #' @param legend Logical (TRUE/FALSE) Whether or not to show the figure legends.
@@ -13,7 +14,7 @@
 #' @import ggplot2
 #' @import cowplot
 #' @export
-Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cell_type=NULL, legend=FALSE){
+Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, ref_gt=NULL, cell_type=NULL, legend=FALSE){
   samplename=Obj_filtered$samplename
   assay=Obj_filtered$assay
   ref=Obj_filtered$ref
@@ -21,8 +22,13 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   theta_hat_cbn=Obj_filtered$genotype_values
   #region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[(1:(ncol(theta_hat_cbn)/4))*4]
   region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[!duplicated(sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2))]
+  
   if(is.null(plot_path)){
   plot_path=paste0(Obj_filtered$dir_path,'/plots/gtype_scatter_ref_',ref,'.pdf')}
+  
+  if(is.null(rds_path)){
+    rds_path=paste0(Obj_filtered$dir_path,'/rds/genotypes.rds')}
+  
 
 
   genotype_table=matrix(nrow=nrow(theta_hat_cbn), ncol=length(region_list))
@@ -167,7 +173,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL, ref_gt=NULL, cel
   
   #Obj_filtered$region_plot=pp_list
 
-  saveRDS(genotype_table, paste0(Obj_filtered$dir_path, "/rds/genotypes.rds"))
+  saveRDS(genotype_table, rds_path)
 
   message(paste0("Genotype plots succefully created and stored in the path:", plot_path))
   cat("\"genotypes\" is added to the Obj_filtered object.\n")

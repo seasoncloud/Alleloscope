@@ -8,6 +8,7 @@ Genotype(
   Obj_filtered = NULL,
   xmax = NULL,
   plot_path = NULL,
+  rds_path = NULL,
   ref_gt = NULL,
   cell_type = NULL,
   legend = FALSE
@@ -20,6 +21,8 @@ Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each re
 \item{xmax}{An integer for the x-axis maximum limit.}
 
 \item{plot_path}{The path for saving the plot.}
+
+\item{rds_path}{The path for saving the rds object.}
 
 \item{ref_gt}{A reference "genotypes" (from scDNA-seq) to help with genotype estimation.}
 

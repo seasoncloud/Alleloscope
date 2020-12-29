@@ -25,7 +25,7 @@ theta_hat_cbn=Obj_filtered$genotype_values
 segmentation=Obj_filtered$seg_table_filtered
 region_list=Obj_filtered$seg_table_filtered$chrr
 if(is.null(plot_path)){
-  plot_path=paste0(Obj_filtered$dir_path,'/plots/')}
+  plot_path=paste0(Obj_filtered$dir_path,'/plots/', "lineage_ref_",ref,'.pdf')}
   #plot_path=paste0(Obj_filtered$dir_path,'/plots/lineage_ref_',ref,'.pdf')}
 #dir.create(plot_path)
 
@@ -112,7 +112,7 @@ hh$height=log(hh$height+1) # linear transform thee tree length
 
 plot_matrix<- cluster_cbn2_all
 
-pdf(paste0(plot_path,"lineage_ref_",ref,'.pdf' ), width = 12,height = 6)
+pdf(paste0(plot_path ), width = 12,height = 6)
 
 if(all_chr==TRUE){
   col_lab=rep(" ", ncol(cluster_cbn2_all))

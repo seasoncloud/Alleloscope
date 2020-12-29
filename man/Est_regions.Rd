@@ -8,11 +8,14 @@ Est_regions(
   Obj_filtered = NULL,
   max_nSNP = 30000,
   plot_stat = TRUE,
-  min_ncell = 20,
+  min_cell = 20,
+  min_snp = 0,
   rds_path = NULL,
   cont = FALSE,
   max_iter = 50,
-  phases = NULL
+  phases = NULL,
+  sub_cells = NULL,
+  sub_region = NULL
 )
 }
 \arguments{
@@ -22,7 +25,9 @@ Est_regions(
 
 \item{plot_stat}{Logical (TRUE/ FALSE). Whether or not to plot the statistics and EM results for each region.}
 
-\item{min_ncell}{Integer. Filter out the cells with reads < min_ncells.}
+\item{min_cell}{Integer. Filter out the cells with reads < min_cells.}
+
+\item{min_snp}{Integer. Filter out the SNPs with reads < min_snp.}
 
 \item{rds_path}{The path for saving the rds files for the estimated results for each region.}
 
@@ -31,6 +36,10 @@ Est_regions(
 \item{max_iter}{Integer. Maximum numbers of EM iterations.}
 
 \item{phases}{List. The estimated phase indicators (I_j) of each SNP across all regions.}
+
+\item{sub_cells}{A vector of cell names for the cells used to update the phases.}
+
+\item{sub_region}{A region name (in the "chrr" column of the seg_table) for a region where the SNP phases and cell major haplotype proportion are updated.}
 }
 \value{
 A "rds_list" of the estimated SNP phases (I_hat), estimated cell major haplotype proportion (theta_hat) for all regions.
