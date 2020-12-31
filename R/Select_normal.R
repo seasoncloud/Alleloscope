@@ -17,7 +17,7 @@
 #' "k_normal": An integer indicates the kth clsuter that is idenfied as "normal cells"
 #'
 #' @export
-Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE,pre_sel=FALSE, cell_type=NULL, cutree_rows=3 , mincell=100, ){
+Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE,pre_sel=FALSE, cell_type=NULL, cutree_rows=3 , mincell=100 ){
 
 EMresult=Obj_filtered$rds_list
 filtered_seg_table=Obj_filtered$seg_table_filtered
