@@ -12,12 +12,13 @@
 #' @param mincell An integer to filter out regions with minimum number of cells.
 #' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude cells with rho_hat>0.99 or <0.01 for each region. 
 #' @param cell_filter Logical (TRUE/ FALSE). Whether or not to exclude low quality cells in the output matrix. 
+#' @param refr Logical (TRUE/ FALSE). Whether or not to use diplid region for normalization (otherwise, cell size is used).
 #' 
 #' @return (rho_hat, theta_hat) of each cell for all region in the "genotype_values".
 #' Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
 #'
 #' @export
-Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, qt_filter=TRUE,  cell_filter=TRUE){
+Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, qt_filter=TRUE,  cell_filter=TRUE, refr=TRUE){
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -46,9 +47,10 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   raw_end=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',3))
   
   if(is.null(ref_gtv) & type=='cellline'){
+    if(refr==TRUE){
   ref_chr=sapply(strsplit(rownames(ref_counts),'-'),'[',1)
   ref_start=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',2))
-  ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))
+  ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))}
 }
   message("Start estimating cell specific (rho_hat, theta_hat) for each region.")
 
@@ -64,14 +66,11 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     names(theta_hat)=result$barcodes
 
     raw_counts_chr=raw_counts[which(raw_chr %in% paste0('chr', as.character(chrrn))),]
-    raw_counts_ref=raw_counts[which(raw_chr %in% paste0('chr', as.character(refn))),]
     raw_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
     raw_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
     raw_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
     
-    raw_ref_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(refn)))]
-    raw_ref_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(refn)))]
-    raw_ref_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(refn)))]
+    
     
     
     ## subsetting region
@@ -88,6 +87,12 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     
 
     # subsetting normal
+    if(refr==TRUE){
+      raw_counts_ref=raw_counts[which(raw_chr %in% paste0('chr', as.character(refn))),]
+      raw_ref_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(refn)))]
+      raw_ref_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(refn)))]
+      raw_ref_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(refn)))]
+    
     query=GenomicRanges::GRanges(paste0('chr',refn),IRanges::IRanges(as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),2]), as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),3])))
     subject=GenomicRanges::GRanges(raw_ref_chr_sub, IRanges::IRanges(as.numeric(raw_ref_start_sub),as.numeric(raw_ref_end_sub))) ## cytoband 1-based start and 1-based end
     ov=findOverlaps(query, subject)
@@ -97,6 +102,10 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     bin_end=max(ov[,2])
     raw_counts_ref=raw_counts_ref[bin_start:bin_end,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
     N0=colSums(raw_counts_ref)
+    }else{
+      raw_counts_ref=raw_counts[,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
+      N0=colSums(raw_counts_ref)
+    }
 
     ## non_noisy
     barcodes_non_noisy=cell_barcodes#cell_info$barcode[which(cell_info$is_noisy==0)]

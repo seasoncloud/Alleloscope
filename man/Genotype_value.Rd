@@ -12,6 +12,7 @@ Genotype_value(
   cov_adj = 1,
   ref_gtv = NULL,
   mincell = 100,
+  qt_filter = TRUE,
   cell_filter = TRUE
 )
 }
@@ -30,7 +31,7 @@ Genotype_value(
 
 \item{mincell}{An integer to filter out regions with minimum number of cells.}
 
-\item{cell_filter}{Logical (TRUE/ FALSE). Whether or not to exclude low quality cells.}
+\item{cell_filter}{Logical (TRUE/ FALSE). Whether or not to exclude low quality cells in the output matrix.}
 }
 \value{
 (rho_hat, theta_hat) of each cell for all region in the "genotype_values".

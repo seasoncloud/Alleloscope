@@ -8,6 +8,7 @@
 #' Numbers of bins (rows) should be the same in the paired chromosomal regions for the paired samples
 #' @param plot_seg Logical (TRUE/ FALSE). Whether or not to plot the segmentation result.
 #' @param hmm_states An ordered vector for the HMM states (deletion, 1-copy gain, 2-copy gains).
+#' @param hmm_sd Numeric. Fixed standard deviation for the HMM states. 
 #' @param hmm_p Numeric. Transition probability for the HMM algorithm.
 #' @param adj Numeric. Value for tumor coverage adjustment.
 #' @param rds_path The path for saving the rds files for the estimated results for each region.
@@ -15,7 +16,7 @@
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8),hmm_sd=0.2, plot_seg=TRUE,rds_path=NULL, adj=0){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), hmm_sd=0.2, hmm_p=0.000000001, plot_seg=TRUE,rds_path=NULL, adj=0){
 
 assay=Obj_filtered$assay
 dir_path=Obj_filtered$dir_path
@@ -101,7 +102,7 @@ for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
   ppn=1
   ppd= hmm_states[1]
   delta <- c(0.1,0.2,0.5,0.2)
-  t=0.000000001
+  t=hmm_p
   z  <- HiddenMarkov::dthmm(cov5, matrix(c(1-3*t, t, t,t,t, 1-3*t,t,t, t,t,1-3*t,t,t,t,t,1-3*t), byrow=TRUE, nrow=4), delta, "norm", list(mean=c(ppa1, ppa2,ppn, ppd),sd=c(hmm_sd, hmm_sd, hmm_sd, hmm_sd)))
 
 
