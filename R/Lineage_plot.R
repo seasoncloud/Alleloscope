@@ -23,7 +23,8 @@ samplename=Obj_filtered$samplename
 ref=Obj_filtered$ref
 theta_hat_cbn=Obj_filtered$genotype_values
 segmentation=Obj_filtered$seg_table_filtered
-region_list=Obj_filtered$seg_table_filtered$chrr
+#region_list=Obj_filtered$seg_table_filtered$chrr
+region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[!duplicated(sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2))]
 if(is.null(plot_path)){
   plot_path=paste0(Obj_filtered$dir_path,'/plots/', "lineage_ref_",ref,'.pdf')[1]}
   #plot_path=paste0(Obj_filtered$dir_path,'/plots/lineage_ref_',ref,'.pdf')}
@@ -64,8 +65,8 @@ cluster_cbn_conf=data.frame(cluster_cbn_conf, stringsAsFactors = F)
 }
 
 # select segments for plotting
-ind=which(segmentation$Freq>nSNP)
-segmentation=segmentation[ind,]
+ind=which(region_list %in% segmentation$chrr[which(segmentation$Freq>nSNP)])
+segmentation=segmentation[match(region_list[ind],segmentation$chrr),]
 cluster_cbn=cluster_cbn[,ind]
 cluster_cbn2=cluster_cbn2[,ind]
 if(plot_conf){

@@ -172,6 +172,6 @@ Matrix_filter=function(Obj=NULL, cell_filter=5, SNP_filter=10 ,min_vaf=0, max_va
 
 
   message("Object successfully filterd!")
-  cat(paste0("Plots for statistics have been saved in the path:", dir_path,"plots/"))
+  cat(paste0("Plots for statistics have been saved in the path:", dir_path,"plots/",'\n'))
   return(filter)
 }

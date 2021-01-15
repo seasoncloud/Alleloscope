@@ -18,7 +18,7 @@
 #' Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
 #'
 #' @export
-Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=100, qt_filter=TRUE,  cell_filter=TRUE, refr=TRUE){
+Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=NULL, qt_filter=TRUE,  cell_filter=TRUE, refr=TRUE){
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -39,6 +39,10 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   if(!is.null(ref_gtv)){
   dna_gt=ref_gtv
   dna_gt=dna_gt[,which(sapply(strsplit(colnames(dna_gt),"_"),'[',1)=='rho')]
+  }
+  
+  if(is.null(mincell)){
+    mincell=ncol(Obj_filtered$total_all)*0.9
   }
   
   ## raw/ref count matrix info
