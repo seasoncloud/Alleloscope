@@ -7,7 +7,7 @@
 #' @return A Alleloscope object with "seg_table_filtered" added.
 #'
 #' @export
-Segments_filter=function(Obj_filtered=NULL, nSNP=2000 , fvar=TRUE){
+Segments_filter=function(Obj_filtered=NULL, nSNP=0 ,len=500000, fvar=FALSE){
   assay=Obj_filtered$assay
   seg_table=Obj_filtered$seg_table
   var_list=Obj_filtered$var_all
@@ -29,9 +29,9 @@ Segments_filter=function(Obj_filtered=NULL, nSNP=2000 , fvar=TRUE){
   seg_table$chrr=as.character(seg_table$chrr)
 
   if(nrow(seg_table)>22 & fvar==TRUE){
-  ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP & as.numeric(seg_table$var)<quantile(as.numeric(seg_table$var), 0.9,na.rm = T))])
+  ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP & as.numeric(seg_table$length)>len & as.numeric(seg_table$var)<quantile(as.numeric(seg_table$var), 0.99,na.rm = T))])
   }else{
-    ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP )])
+    ind=as.numeric(seg_table$Var1[which(as.numeric(seg_table$Freq)>nSNP &  as.numeric(seg_table$length)>len)])
   }
   seg_table=seg_table[ind,]
 

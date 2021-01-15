@@ -24,7 +24,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   assay=Obj_filtered$assay
   barcode_normal=Obj_filtered$select_normal$barcode_normal
   ref=Obj_filtered$ref
-  refn=unlist(strsplit(ref,":"))[1]
+  refn=sapply((strsplit(ref,":")),'[',1)
   #cell_info=Obj_filtered$cell_info
   seg_table_filtered=Obj_filtered$seg_table_filtered
   #seg_table=Obj_filtered$seg_table

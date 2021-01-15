@@ -24,7 +24,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
   region_list=sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)[!duplicated(sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2))]
   
   if(is.null(plot_path)){
-  plot_path=paste0(Obj_filtered$dir_path,'/plots/gtype_scatter_ref_',ref,'.pdf')}
+  plot_path=paste0(Obj_filtered$dir_path,'/plots/gtype_scatter_ref_',ref,'.pdf')[1]}
   
   if(is.null(rds_path)){
     rds_path=paste0(Obj_filtered$dir_path,'/rds/genotypes.rds')}
@@ -88,7 +88,8 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
       geom_hline(yintercept = 0.5)+
       geom_vline(xintercept = 1)+
       geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
-      geom_point(aes(color = cluster),alpha = 0.5,stroke=0.5, size=0.5)+
+      #geom_point(aes(color = cluster),alpha = 0.5,stroke=0.5, size=0.5)+
+      geom_point(aes(color = cluster, shape=cluster),alpha = 1,stroke=0.5, size=0.8, show.legend = FALSE)+
       ggtitle(paste0(" (chr", as.character(chrr),")")) +
       scale_color_manual(values = col)+
       theme(plot.title = element_text(hjust = 0.5, size = 14))+

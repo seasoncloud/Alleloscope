@@ -9,7 +9,7 @@
 #' @param plot_path The path for saving the plot.
 #' @param all_chr Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level. 
 #'
-#' @return A lineage tree plot constructed using cell-level genotypes across all regions.
+#' @return Plot the lineage tree constructed using cell-level genotypes across all regions and return a vector indicating the cluster identity (of the nclust clusters) of each cell.
 #'
 #' @import ggplot2
 #' @import pheatmap
@@ -25,7 +25,7 @@ theta_hat_cbn=Obj_filtered$genotype_values
 segmentation=Obj_filtered$seg_table_filtered
 region_list=Obj_filtered$seg_table_filtered$chrr
 if(is.null(plot_path)){
-  plot_path=paste0(Obj_filtered$dir_path,'/plots/', "lineage_ref_",ref,'.pdf')}
+  plot_path=paste0(Obj_filtered$dir_path,'/plots/', "lineage_ref_",ref,'.pdf')[1]}
   #plot_path=paste0(Obj_filtered$dir_path,'/plots/lineage_ref_',ref,'.pdf')}
 #dir.create(plot_path)
 
@@ -118,7 +118,7 @@ if(all_chr==TRUE){
   col_lab=rep(" ", ncol(cluster_cbn2_all))
   col_lab[c(0, cumsum(chrgap)[1:(length(chrgap)-1)])+chrgap/2]=paste0("chr",as.character(1:22))
   
-  pheatmap::pheatmap(plot_matrix,
+  tmp=pheatmap::pheatmap(plot_matrix,
            cluster_cols = F, cluster_rows = hh,
            show_rownames = F,
            labels_col=col_lab,
@@ -129,7 +129,7 @@ if(all_chr==TRUE){
            color =col,
            breaks = 0:26)
 }else{
-pheatmap::pheatmap(plot_matrix,
+ tmp=pheatmap::pheatmap(plot_matrix,
          cluster_cols = F, cluster_rows = hh,
          show_rownames = F,
          clustering_distance_rows = "euclidean",
@@ -180,10 +180,13 @@ if(plot_conf){
   
   dev.off()
   
-  
-  
   message(paste0("Confidence plot is successfully saved in the path:",conf_path))
   
 }
+
+clust=cutree(tmp$tree_row, k=nclust)
+clust=clust[hh$order]
+
+return(clust)
 
 }

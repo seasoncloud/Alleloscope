@@ -38,7 +38,7 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE, min_cell=
 
   if(is.null(filtered_seg_table)){
     message("Estimation for each chromosome")
-    filtered_seg_table=data.frame("chr"=1:length(size), 'start'=rep(0,length(size)), 'end'=Obj_filtered$size, 'chrr'=as.character(1:length(size)), stringsAsFactors = F)
+    filtered_seg_table=data.frame("chr"=paste0('chr',1:length(size)), 'start'=rep(0,length(size)), 'end'=Obj_filtered$size, 'chrr'=as.character(1:length(size)), stringsAsFactors = F)
   }
 
   ## look at segments
