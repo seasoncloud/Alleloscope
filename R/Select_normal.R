@@ -185,11 +185,11 @@ region_normal_rank5=matrix(nrow = 10, ncol=k)
 for(ii in 1:k){
   theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
   rho_sub=rho_hat_cbn2[which(clust==ii),, drop=F]
-  theta_ss_region=apply(theta_sub, 2, function(x) sum((x-0.5)^2))
+  theta_ss_region=apply(theta_sub, 2, function(x) sum((x-0.55)^2))
   names(theta_ss_region)=colnames(theta_hat_cbn2)
   #rho_cv_region=apply(rho_hat_cbn2, 2, function(x) sd(x)/mean(x))
-  rho_med_region=apply(rho_sub,2, mean)
-  normal_rank=sort(1/3*rank(theta_ss_region)+2/3*rank(rho_med_region))
+  rho_med_region=apply(rho_sub,2, median)
+  normal_rank=sort(rank(theta_ss_region)+rank(rho_med_region))
   normal_regions=sapply(strsplit(names(normal_rank),"_"),'[',2)
   region_normal_rank5[,ii]=normal_regions[1:10]
 }

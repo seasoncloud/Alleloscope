@@ -88,8 +88,8 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
       geom_hline(yintercept = 0.5)+
       geom_vline(xintercept = 1)+
       geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
-      #geom_point(aes(color = cluster),alpha = 0.5,stroke=0.5, size=0.5)+
-      geom_point(aes(color = cluster, shape=cluster),alpha = 1,stroke=0.5, size=0.8, show.legend = FALSE)+
+      geom_point(aes(color = cluster),alpha = 0.5,stroke=0.5, size=0.5)+
+      #geom_point(aes(color = cluster, shape=cluster),alpha = 1,stroke=0.5, size=0.8, show.legend = FALSE)+
       ggtitle(paste0(" (chr", as.character(chrr),")")) +
       scale_color_manual(values = col)+
       theme(plot.title = element_text(hjust = 0.5, size = 14))+
