@@ -57,7 +57,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))}
   }
   
-  N0_all=colSums(raw_counts[,match(result$barcodes, cell_barcodes)]) ## for p and q #for cytoarm
+  N0_all=colSums(raw_counts) ## for p and q #for cytoarm
   
   message("Start estimating cell specific (rho_hat, theta_hat) for each region.")
 
@@ -111,7 +111,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     N0=colSums(raw_counts_ref)
     }else{
       #raw_counts_ref=raw_counts[,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
-      N0=N0_all
+      N0=N0_all[match(result$barcodes, cell_barcodes)]
       ref="cell_size"
       Obj_filtered$ref=ref
     }
