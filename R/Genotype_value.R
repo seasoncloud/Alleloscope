@@ -55,8 +55,6 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   ref_chr=sapply(strsplit(rownames(ref_counts),'-'),'[',1)
   ref_start=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',2))
   ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))}
-    ref="cell_size"
-    Obj_filtered$ref=ref
   }
   
   N0_all=colSums(raw_counts[,match(result$barcodes, cell_barcodes)]) ## for p and q #for cytoarm
@@ -114,6 +112,8 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     }else{
       #raw_counts_ref=raw_counts[,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
       N0=N0_all
+      ref="cell_size"
+      Obj_filtered$ref=ref
     }
 
     ## non_noisy
