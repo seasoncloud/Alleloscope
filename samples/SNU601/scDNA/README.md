@@ -88,7 +88,7 @@ Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename
 ```
 Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=1000, SNP_filter=20, min_vaf = 0.1, max_vaf = 0.9, centro=centromere.GRCh38, telo=telomere.GRCh38) 
 
-# suggest setting min_vaf=0.1 and max_vaf=0.9 when SNPs are called in the tumor sample for higher confident SNPs
+# suggest setting min_vaf=0.1 and max_vaf=0.9 when SNPs are called in the tumor sample for higher confident SNPs.
 ```
 
 <br/>
@@ -167,6 +167,13 @@ linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10)
 The output clustering result for the five regions is shown below.
 
 ![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
+<br/>
+
+### (Optional) Imrpoved estimation based on the abnormal cells
+* With the input files loaded in Step0, you can run the command for step1-6. 
+```
+Obj_filtered_=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_stat = T,cont = TRUE)
+```
 <br/><br/>
 
 ## Citation

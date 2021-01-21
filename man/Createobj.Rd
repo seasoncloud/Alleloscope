@@ -29,7 +29,7 @@ Createobj(
 
 \item{barcodes}{A matrix/ data.frame with barcodes for each cell in the first column.}
 
-\item{size}{A numeric vector for the size (bp) of different chromosomes (with the names indicating which chromosome from 1 to 22)}
+\item{size}{A matrix with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes.}
 
 \item{assay}{A character indicating the type of sequencing data. (ex: "scDNAseq" or "scATACseq")}
 

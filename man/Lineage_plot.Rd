@@ -6,7 +6,7 @@
 \usage{
 Lineage_plot(
   Obj_filtered = NULL,
-  nSNP = 2000,
+  nSNP = 0,
   clust_method = "ward.D2",
   nclust = 5,
   plot_conf = FALSE,
@@ -31,7 +31,7 @@ Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each r
 \item{all_chr}{Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level.}
 }
 \value{
-A lineage tree plot constructed using cell-level genotypes across all regions.
+Plot the lineage tree constructed using cell-level genotypes across all regions and return a vector indicating the cluster identity (of the nclust clusters) of each cell.
 }
 \description{
 Generate genotype plot (scatter plot) for each region and save in the plot directory.

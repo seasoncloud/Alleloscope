@@ -7,7 +7,7 @@
 #' @param genome_assembly The genome assembly used for sequencing alignment. (ex: "GRCh38" or "GRCh37")
 #' @param dir_path Path of the output directory.
 #' @param barcodes A matrix/ data.frame with barcodes for each cell in the first column.
-#' @param size A numeric vector for the size (bp) of different chromosomes (with the names indicating which chromosome from 1 to 22)
+#' @param size A matrix with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes. 
 #' @param assay A character indicating the type of sequencing data. (ex: "scDNAseq" or "scATACseq")
 #' 
 #' @import Matrix
@@ -15,23 +15,23 @@
 #'
 #' @export
 Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample',genome_assembly="GRCh38", dir_path='./', barcodes=NULL, size=NULL, assay='scDNAseq'){
-
+  
+  # check parameters
+  if(!(nrow(barcodes)>0 & ncol(barcodes)==1)){
+    stop("Please provide a matrix/ data.frame with barcodes for each cell in the first column.")
+  }else if(!(nrow(barcodes)>0 & ncol(barcodes)==2)){
+    stop("Please provide a matrix/ data.frame with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes.")
+  }
+  
   dir.create(paste0(dir_path,"/plots"))
-
-  ## setting path and name
-  # if(genome_assembly=="GRCh38"){
-  #   size_path=paste0(dir_path,"./sizes.genome.cellranger-GRCh38-1.0.0")
-  # }else if(genome_assembly=="GRCh37"){
-  #   size_path=paste0(dir_path,"./sizes.genome.cellranger.GRCh37_1.1.0")}
-
+  
   
   if(!grepl('chr',var_all[1,1])){
     var_all[,1]=paste0('chr', var_all[,1])
   }
   
   ## read the size file
-  #size=read.table(size_path, stringsAsFactors = F)
-  #size=size[1:22,]
+  
   if(grepl('chr', as.character(size[2,1]))){
     size[,1]=sapply(strsplit(size[,1],'hr'),'[',2)##if chr
   }
@@ -41,29 +41,29 @@ Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
   size=as.numeric(as.character(size[,2]))
   names(size)=size_name
   size=size[which(paste0('chr',size_name) %in% unique(var_all$V1))]
-
+  
   ## read the meta data
   #cell_info=read.table(path_cell_summary, sep=',', header = T, stringsAsFactors = F)
-
+  
   ##
   colnames(alt_all)=barcodes[,1]
   colnames(ref_all)=barcodes[,1]
-
+  
   total_all=alt_all+ref_all
   #dim(total_all)
-
-
+  
+  
   output=list("alt_all"=alt_all, "ref_all"=ref_all, "total_all"=total_all,"var_all"=var_all, "barcodes"=barcodes[,1], "size"=size,"samplename"=samplename,
               "dir_path"=dir_path,"genome_assembly"=genome_assembly,
               #"cell_info" = cell_info,
               "cell_filter"=NULL, "SNP_filter"=NULL, "min_vaf"=NULL, "max_vaf"=NULL,
               "seg_table"=NULL, "seg_table_filtered"=NULL, "nSNP"=NULL, "rds_list"=NULL, "select_normal"=NULL,
               "ref"=NULL, "genotype_table"=NULL, "assay"=assay)
-
-
-
-
+  
+  
+  
+  
   message("Object successfully created!")
   return(output)
-
+  
 }

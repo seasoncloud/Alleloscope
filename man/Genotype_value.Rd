@@ -11,9 +11,10 @@ Genotype_value(
   ref_counts = NULL,
   cov_adj = 1,
   ref_gtv = NULL,
-  mincell = 100,
+  mincell = NULL,
   qt_filter = TRUE,
-  cell_filter = TRUE
+  cell_filter = TRUE,
+  refr = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ Genotype_value(
 \item{mincell}{An integer to filter out regions with minimum number of cells.}
 
 \item{cell_filter}{Logical (TRUE/ FALSE). Whether or not to exclude low quality cells in the output matrix.}
+
+\item{refr}{Logical (TRUE/ FALSE). Whether or not to use diplid region for normalization (otherwise, cell size is used).}
 }
 \value{
 (rho_hat, theta_hat) of each cell for all region in the "genotype_values".

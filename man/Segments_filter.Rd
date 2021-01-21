@@ -4,12 +4,14 @@
 \alias{Segments_filter}
 \title{Select the segments in the "seg_table" with more than nSNP}
 \usage{
-Segments_filter(Obj_filtered = NULL, nSNP = 2000, fvar = TRUE)
+Segments_filter(Obj_filtered = NULL, nSNP = 0, len = 5e+05, fvar = FALSE)
 }
 \arguments{
 \item{Obj_filtered}{An Alleloscope object with SNP info and raw segmentation table "seg_table".}
 
-\item{nSNP}{An integer of minimum number of SNPs for region selecgtion.}
+\item{nSNP}{An integer of minimum number of SNPs for region selection.}
+
+\item{len}{Integer. Filter out segments with length < len.}
 
 \item{fvar}{Logical(TRUE/FALSE) Whether or not to filter out segments with variance >0.9 quantile.}
 }

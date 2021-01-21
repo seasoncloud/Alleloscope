@@ -8,8 +8,9 @@ Segmentation(
   Obj_filtered = NULL,
   raw_counts = NULL,
   ref_counts = NULL,
-  hmm_states = c(0.5, 1.5, 1.8),
+  hmm_states = c(0.5, 1.2, 1.8),
   hmm_sd = 0.2,
+  hmm_p = 1e-06,
   plot_seg = TRUE,
   rds_path = NULL,
   adj = 0
@@ -23,15 +24,17 @@ Segmentation(
 \item{ref_counts}{A binned coverage matrix (m2 bin by n2 cell) with values being read counts in DNA sequencing data for all chromosomal regions of normal sample. n2 can be 1 for bulk sample.
 Numbers of bins (rows) should be the same in the paired chromosomal regions for the paired samples}
 
-\item{hmm_states}{An ordered vector for the HMM states (deletion, 1-copy gain, 2-copy gains).}
+\item{hmm_states}{An ordered vector for the HMM numeric states (deletion, 1-copy gain, 2-copy gains).}
+
+\item{hmm_sd}{Numeric. Fixed standard deviation for the HMM states.}
+
+\item{hmm_p}{Numeric. Transition probability for the HMM algorithm.}
 
 \item{plot_seg}{Logical (TRUE/ FALSE). Whether or not to plot the segmentation result.}
 
 \item{rds_path}{The path for saving the rds files for the estimated results for each region.}
 
 \item{adj}{Numeric. Value for tumor coverage adjustment.}
-
-\item{hmm_p}{Numeric. Transition probability for the HMM algorithm.}
 }
 \value{
 A Alleloscope object with "seg_table" added.

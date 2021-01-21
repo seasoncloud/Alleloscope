@@ -18,253 +18,280 @@
 #'
 #' @export
 Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_theta=FALSE,pre_sel=FALSE, cell_type=NULL, cutree_rows=3 , mincell=NULL ){
-
-EMresult=Obj_filtered$rds_list
-filtered_seg_table=Obj_filtered$seg_table_filtered
-#cell_info=Obj_filtered$cell_info
-
-plot_path=paste0(Obj_filtered$dir_path,'/plots/')
-
-samplename=Obj_filtered$samplename
-cell_barcodes=Obj_filtered$barcodes
-assay=Obj_filtered$assay
-ncell=length(Obj_filtered$barcodes)
-distance_seg=as.numeric(filtered_seg_table$end)-as.numeric(filtered_seg_table$start) ## for cytoarm
-size=Obj_filtered$size
-cell_total=Matrix::colSums(Obj_filtered$total_all)
-if(is.null(mincell)){
-  mincell=ncol(Obj_filtered$total_all)*0.9
-}
-
-if(pre_sel==FALSE){
-## raw/ref count matrix info
-raw_chr=sapply(strsplit(rownames(raw_counts),'-'),'[',1)
-raw_start=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',2))
-raw_end=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',3))
-}
-theta_N=list()
-
-for(chrr in as.character(filtered_seg_table$chrr)){ # for cytoarm
-
-  chrrn=unlist(strsplit(chrr,':'))[1]
-  result=EMresult[[paste0('chr', chrr)]]
-  theta_hat=result$theta_hat
-  names(theta_hat)=result$barcodes
-  barcodes=result$barcodes#
+  
+  
+  # check parameters
+  if(is.null(Obj_filtered)){
+    stop("Please provide a valid Alleloscope object for Obj_filtered.")
+  }else if(length(unlist(strsplit(rownames(raw_counts)[2],'-')))!=3){
+    stop("The rownames for the raw_counts matrix should be formatted as: chr1-1-20000.")
+  }else if(!(nrow(raw_counts)>0 & ncol(raw_counts)>0)){
+    stop("raw_counts matrix is not valid.")
+  }else if(cell_nclust<0 | cell_nclust > length(Obj_filtered$barcodes)){
+    stop("cell_nclust should be in the range [0, ncell].")
+  }else if(cutree_rows<0 | cutree_rows > length(Obj_filtered$barcodes)){
+    stop("cutree_rows should be in the range [0, ncell].")
+  }
+  
+  # set values
+  EMresult=Obj_filtered$rds_list
+  filtered_seg_table=Obj_filtered$seg_table_filtered
+  #cell_info=Obj_filtered$cell_info
+  
+  plot_path=paste0(Obj_filtered$dir_path,'/plots/')
+  
+  if(!dir.exists(plot_path)){
+    dir.create(plot_path)
+  }
+  
+  if(!dir.exists(paste0(Obj_filtered$dir_path,"/rds"))){
+    dir.create(paste0(Obj_filtered$dir_path,"/rds"))
+  }
+  
+  samplename=Obj_filtered$samplename
+  cell_barcodes=Obj_filtered$barcodes
+  assay=Obj_filtered$assay
+  ncell=length(Obj_filtered$barcodes)
+  distance_seg=as.numeric(filtered_seg_table$end)-as.numeric(filtered_seg_table$start) ## for cytoarm
+  size=Obj_filtered$size
+  cell_total=Matrix::colSums(Obj_filtered$total_all)
+  if(is.null(mincell)){
+    mincell=ncol(Obj_filtered$total_all)*0.9
+  }
+  if(mincell<0 | mincell> length(Obj_filtered$barcodes)){
+    stop("mincell should be in the range [0, ncell].")
+  }
+  
   
   if(pre_sel==FALSE){
-  
-  if(length(result$barcodes)<mincell){
-    cat(paste0("Exclude ",chrr," region:<",mincell," cells\n"))
-    next
+    ## raw/ref count matrix info
+    raw_chr=sapply(strsplit(rownames(raw_counts),'-'),'[',1)
+    raw_start=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',2))
+    raw_end=as.numeric(sapply(strsplit(rownames(raw_counts),'-'),'[',3))
   }
-
-  # subset the coverge info
-  raw_counts_chr=raw_counts[which(raw_chr %in% paste0('chr', as.character(chrrn))),]
-  raw_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
-  raw_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
-  raw_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
+  theta_N=list()
   
-  query=GenomicRanges::GRanges(paste0('chr',chrrn),IRanges::IRanges(as.numeric(filtered_seg_table[which(filtered_seg_table$chrr == chrr),2]), as.numeric(filtered_seg_table[which(filtered_seg_table$chrr == chrr),3])))
-  subject=GenomicRanges::GRanges(raw_chr_sub, IRanges::IRanges(as.numeric(raw_start_sub),as.numeric(raw_end_sub))) ## cytoband 1-based start and 1-based end
-  ov=findOverlaps(query, subject)
-  ov=as.matrix(ov)
-  
-  
-  bin_start=min(ov[,2])
-  bin_end=max(ov[,2])
-  raw_counts_chr=raw_counts_chr[bin_start:bin_end,] ## for p and q #for cytoarm
-
-  raw_counts_chr=raw_counts_chr[, 1:length(Obj_filtered$barcodes)][,match(barcodes, cell_barcodes)]
-  Nr=colSums(raw_counts_chr)
-
- # N0=cell_info$num_mapped_dedup_reads
-  N0=cell_total
-
-  barcodes_non_noisy=cell_barcodes#cell_info$barcode[which(cell_info$is_noisy==0)]
-  barcodes_non_noisy=intersect(barcodes_non_noisy, barcodes)
-
-  names(Nr)=barcodes
-  Nr=Nr[match(barcodes_non_noisy, barcodes)]
-  N0=N0[match(barcodes_non_noisy, barcodes)]
-  Ni=Nr/N0*sum(size)/distance_seg[which(filtered_seg_table$chrr==chrr)]
-  names(Ni)=barcodes_non_noisy
-  Ni[Ni>quantile(Ni, 0.99)]=quantile(Ni, 0.99)
-
-
-  theta_hat=theta_hat[match(barcodes_non_noisy, names(theta_hat))]
-
-
-  df=data.frame(Nir_Ni0=Ni, theta_hat=theta_hat)
-
-  theta_N[[paste0("rho_",as.character(chrr))]]=Ni
-  theta_N[[paste0("theta_",as.character(chrr))]]=theta_hat
-}else{
-  df=data.frame(theta_hat=theta_hat)
-  theta_N[[paste0("theta_",as.character(chrr))]]=theta_hat
-}
-  
-  
-  cat(paste0(chrr," "))
-}
-
-cat("\n")
-#####3 remove the region that have too few cells!
-
-cell_list<-lapply(theta_N, function(x) {
-  names(x)
-})
-
-cell_intersect <- Reduce(intersect, cell_list)
-
-
-theta_hat_cbn <- sapply(theta_N,function(x){
-  x[match(cell_intersect, names(x))]
-})
-
-rownames(theta_hat_cbn) <- cell_intersect
-
-if(pre_sel==FALSE){
-saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_N_seg.rds"))
-
-theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
-rho_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='r'), drop=F]
-
-tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", silent = TRUE)#, gaps_col=gaps_col), annotation_row = cell_label, annotation_col =region_label)
-
-
-if(plot_theta==TRUE){
-pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
-if(ncol(theta_hat_cbn2)<2){
-  gaps_col=NULL
-}else{
-  gaps_col=2*(1:(dim(theta_hat_cbn2)[2]/2))
-}
-  region_name=paste0('chr',sapply(strsplit(colnames(theta_hat_cbn2),"_"),'[',2))
-if(is.null(cell_type)){
-tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col,  labels_col=region_name)#, annotation_row = cell_label, annotation_col =region_label)
-}else{
-  barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
-  barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
-  cell_label=rep('unknown', dim(theta_hat_cbn2)[1])
-  cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
-  cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
-  cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
-  my_colour = list(
-    cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
-  )
-  
-tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
-}
-dev.off()
-
-cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
-}
-
-
-## select normal cells
-k=cell_nclust
-clust=cutree(tmp$tree_row, k=k)
-theta_ss_k=c()
-for(ii in 1:k){
-  theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
-  theta_mean=apply(theta_sub, 2, mean)
-  theta_ss=sum((theta_mean-0.5)^2)
-  theta_ss_k=c(theta_ss_k, theta_ss)
-}
-
-(k_normal=which(theta_ss_k==min(theta_ss_k)))
-
-barcode_normal=names(clust)[which(clust==k_normal)]
-
-
-
-## select normal regions
-#k=5)
-region_normal_rank5=matrix(nrow = 10, ncol=k)
-for(ii in 1:k){
-  theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
-  rho_sub=rho_hat_cbn2[which(clust==ii),, drop=F]
-  theta_ss_region=apply(theta_sub, 2, function(x) sum((x-0.55)^2))
-  names(theta_ss_region)=colnames(theta_hat_cbn2)
-  #rho_cv_region=apply(rho_hat_cbn2, 2, function(x) sd(x)/mean(x))
-  rho_med_region=apply(rho_sub,2, median)
-  normal_rank=sort(rank(theta_ss_region)+rank(rho_med_region))
-  normal_regions=sapply(strsplit(names(normal_rank),"_"),'[',2)
-  region_normal_rank5[,ii]=normal_regions[1:10]
-}
-
-
-colnames(region_normal_rank5)=paste0('k',1:k)
-rownames(region_normal_rank5)=paste0('rank',1:10)
-
-tmp=c()
-for(rr in 1:nrow(region_normal_rank5)){
-  tmp=c(tmp, names(table(region_normal_rank5[rr,-k_normal])))
-}
-
-(region_normal=names(sort(table(tmp), decreasing = T))[1:10])
-
-select_normal=list("barcode_normal"=barcode_normal, "region_normal"=region_normal, "region_normal_rank"=region_normal_rank5, "k_normal"=k_normal )
-
-}else{
-  saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_seg.rds"))
-  
-  theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
-  
-  tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", silent = TRUE)#, gaps_col=gaps_col), annotation_row = cell_label, annotation_col =region_label)
-  
-  
-  if(plot_theta==TRUE){
-    pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
-    if(ncol(theta_hat_cbn2)<2){
-      gaps_col=NULL
-    }else{
-      gaps_col=2*(1:(dim(theta_hat_cbn2)[2]/2))
-    }
-    region_name=paste0('chr',sapply(strsplit(colnames(theta_hat_cbn2),"_"),'[',2))
-    if(is.null(cell_type)){
-      tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col,  labels_col=region_name)#, annotation_row = cell_label, annotation_col =region_label)
-    }else{
-      barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
-      barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
-      cell_label=rep('unknown', dim(theta_hat_cbn2)[1])
-      cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
-      cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
-      cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
-      my_colour = list(
-        cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
-      )
-      
-      tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
-    }
-    dev.off()
+  for(chrr in as.character(filtered_seg_table$chrr)){ # for cytoarm
     
-    cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
+    chrrn=unlist(strsplit(chrr,':'))[1]
+    result=EMresult[[paste0('chr', chrr)]]
+    theta_hat=result$theta_hat
+    names(theta_hat)=result$barcodes
+    barcodes=result$barcodes#
+    
+    if(pre_sel==FALSE){
+      
+      if(length(result$barcodes)<mincell){
+        cat(paste0("Exclude ",chrr," region:<",mincell," cells\n"))
+        next
+      }
+      
+      # subset the coverge info
+      raw_counts_chr=raw_counts[which(raw_chr %in% paste0('chr', as.character(chrrn))),]
+      raw_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
+      raw_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
+      raw_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
+      
+      query=GenomicRanges::GRanges(paste0('chr',chrrn),IRanges::IRanges(as.numeric(filtered_seg_table[which(filtered_seg_table$chrr == chrr),2]), as.numeric(filtered_seg_table[which(filtered_seg_table$chrr == chrr),3])))
+      subject=GenomicRanges::GRanges(raw_chr_sub, IRanges::IRanges(as.numeric(raw_start_sub),as.numeric(raw_end_sub))) ## cytoband 1-based start and 1-based end
+      ov=findOverlaps(query, subject)
+      ov=as.matrix(ov)
+      
+      
+      bin_start=min(ov[,2])
+      bin_end=max(ov[,2])
+      raw_counts_chr=raw_counts_chr[bin_start:bin_end,] ## for p and q #for cytoarm
+      
+      raw_counts_chr=raw_counts_chr[, 1:length(Obj_filtered$barcodes)][,match(barcodes, cell_barcodes)]
+      Nr=colSums(raw_counts_chr)
+      
+      # N0=cell_info$num_mapped_dedup_reads
+      N0=cell_total
+      
+      barcodes_non_noisy=cell_barcodes#cell_info$barcode[which(cell_info$is_noisy==0)]
+      barcodes_non_noisy=intersect(barcodes_non_noisy, barcodes)
+      
+      names(Nr)=barcodes
+      Nr=Nr[match(barcodes_non_noisy, barcodes)]
+      N0=N0[match(barcodes_non_noisy, barcodes)]
+      Ni=Nr/N0*sum(size)/distance_seg[which(filtered_seg_table$chrr==chrr)]
+      names(Ni)=barcodes_non_noisy
+      Ni[Ni>quantile(Ni, 0.99)]=quantile(Ni, 0.99)
+      
+      
+      theta_hat=theta_hat[match(barcodes_non_noisy, names(theta_hat))]
+      
+      
+      df=data.frame(Nir_Ni0=Ni, theta_hat=theta_hat)
+      
+      theta_N[[paste0("rho_",as.character(chrr))]]=Ni
+      theta_N[[paste0("theta_",as.character(chrr))]]=theta_hat
+    }else{
+      df=data.frame(theta_hat=theta_hat)
+      theta_N[[paste0("theta_",as.character(chrr))]]=theta_hat
+    }
+    
+    
+    cat(paste0(chrr," "))
+  }
+  
+  cat("\n")
+  #####3 remove the region that have too few cells!
+  
+  cell_list<-lapply(theta_N, function(x) {
+    names(x)
+  })
+  
+  cell_intersect <- Reduce(intersect, cell_list)
+  
+  
+  theta_hat_cbn <- sapply(theta_N,function(x){
+    x[match(cell_intersect, names(x))]
+  })
+  
+  rownames(theta_hat_cbn) <- cell_intersect
+  
+  if(pre_sel==FALSE){
+    saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_N_seg.rds"))
+    
+    theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
+    rho_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='r'), drop=F]
+    
+    tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", silent = TRUE)#, gaps_col=gaps_col), annotation_row = cell_label, annotation_col =region_label)
+    
+    
+    if(plot_theta==TRUE){
+      pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
+      if(ncol(theta_hat_cbn2)<2){
+        gaps_col=NULL
+      }else{
+        gaps_col=2*(1:(dim(theta_hat_cbn2)[2]/2))
+      }
+      region_name=paste0('chr',sapply(strsplit(colnames(theta_hat_cbn2),"_"),'[',2))
+      if(is.null(cell_type)){
+        tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col,  labels_col=region_name)#, annotation_row = cell_label, annotation_col =region_label)
+      }else{
+        barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
+        barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
+        cell_label=rep('unknown', dim(theta_hat_cbn2)[1])
+        cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
+        cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
+        cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
+        my_colour = list(
+          cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
+        )
+        
+        tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
+      }
+      dev.off()
+      
+      cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
+    }
+    
+    
+    ## select normal cells
+    k=cell_nclust
+    clust=cutree(tmp$tree_row, k=k)
+    theta_ss_k=c()
+    for(ii in 1:k){
+      theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
+      theta_mean=apply(theta_sub, 2, mean)
+      theta_ss=sum((theta_mean-0.5)^2)
+      theta_ss_k=c(theta_ss_k, theta_ss)
+    }
+    
+    (k_normal=which(theta_ss_k==min(theta_ss_k)))
+    
+    barcode_normal=names(clust)[which(clust==k_normal)]
+    
+    
+    
+    ## select normal regions
+    #k=5)
+    region_normal_rank5=matrix(nrow = 10, ncol=k)
+    for(ii in 1:k){
+      theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
+      rho_sub=rho_hat_cbn2[which(clust==ii),, drop=F]
+      theta_ss_region=apply(theta_sub, 2, function(x) sum((x-0.55)^2))
+      names(theta_ss_region)=colnames(theta_hat_cbn2)
+      #rho_cv_region=apply(rho_hat_cbn2, 2, function(x) sd(x)/mean(x))
+      rho_med_region=apply(rho_sub,2, median)
+      normal_rank=sort(rank(theta_ss_region)+rank(rho_med_region))
+      normal_regions=sapply(strsplit(names(normal_rank),"_"),'[',2)
+      region_normal_rank5[,ii]=normal_regions[1:10]
+    }
+    
+    
+    colnames(region_normal_rank5)=paste0('k',1:k)
+    rownames(region_normal_rank5)=paste0('rank',1:10)
+    
+    tmp=c()
+    for(rr in 1:nrow(region_normal_rank5)){
+      tmp=c(tmp, names(table(region_normal_rank5[rr,-k_normal])))
+    }
+    
+    (region_normal=names(sort(table(tmp), decreasing = T))[1:10])
+    
+    select_normal=list("barcode_normal"=barcode_normal, "region_normal"=region_normal, "region_normal_rank"=region_normal_rank5, "k_normal"=k_normal )
+    
+  }else{
+    saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_seg.rds"))
+    
+    theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
+    
+    tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", silent = TRUE)#, gaps_col=gaps_col), annotation_row = cell_label, annotation_col =region_label)
+    
+    
+    if(plot_theta==TRUE){
+      pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
+      if(ncol(theta_hat_cbn2)<2){
+        gaps_col=NULL
+      }else{
+        gaps_col=2*(1:(dim(theta_hat_cbn2)[2]/2))
+      }
+      region_name=paste0('chr',sapply(strsplit(colnames(theta_hat_cbn2),"_"),'[',2))
+      if(is.null(cell_type)){
+        tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=gaps_col,  labels_col=region_name)#, annotation_row = cell_label, annotation_col =region_label)
+      }else{
+        barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
+        barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
+        cell_label=rep('unknown', dim(theta_hat_cbn2)[1])
+        cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
+        cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
+        cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
+        my_colour = list(
+          cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
+        )
+        
+        tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
+      }
+      dev.off()
+      
+      cat(paste0("Plot for theta_hat clustering across all regions is saved in the path:", plot_path,"\n"))
+    }
+    
+    
+    ## select normal cells
+    k=cell_nclust
+    clust=cutree(tmp$tree_row, k=k)
+    theta_ss_k=c()
+    for(ii in 1:k){
+      theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
+      theta_mean=apply(theta_sub, 2, mean)
+      theta_ss=sum((theta_mean-0.5)^2)
+      theta_ss_k=c(theta_ss_k, theta_ss)
+    }
+    
+    (k_normal=which(theta_ss_k==min(theta_ss_k)))
+    
+    barcode_normal=names(clust)[which(clust==k_normal)]
+    
+    select_normal=list("barcode_normal"=barcode_normal ) 
   }
   
   
-  ## select normal cells
-  k=cell_nclust
-  clust=cutree(tmp$tree_row, k=k)
-  theta_ss_k=c()
-  for(ii in 1:k){
-    theta_sub=theta_hat_cbn2[which(clust==ii),, drop=F]
-    theta_mean=apply(theta_sub, 2, mean)
-    theta_ss=sum((theta_mean-0.5)^2)
-    theta_ss_k=c(theta_ss_k, theta_ss)
-  }
+  Obj_filtered$select_normal=select_normal
+  message("Candidate normal cell and normal region info is in \"Obj_filtered$select_normal\".")
+  return(Obj_filtered)
   
-  (k_normal=which(theta_ss_k==min(theta_ss_k)))
-  
-  barcode_normal=names(clust)[which(clust==k_normal)]
-  
-  select_normal=list("barcode_normal"=barcode_normal ) 
-}
-
-
-Obj_filtered$select_normal=select_normal
-message("Candidate normal cell and normal region info is in \"Obj_filtered$select_normal\".")
-return(Obj_filtered)
-
 }

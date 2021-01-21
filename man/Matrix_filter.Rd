@@ -26,7 +26,7 @@ Matrix_filter(
 
 \item{min_vaf}{A numerical value in the range (0,1) of minimum SNP variant allele frequency in the pseudo bulk for SNP selection.}
 
-\item{max_vaf}{A numerical value in the range (0,1) of mzsimum SNP variant allele frequency in the pseudo bulk for SNP selection.}
+\item{max_vaf}{A numerical value in the range (0,1) of minimum SNP variant allele frequency in the pseudo bulk for SNP selection.}
 
 \item{centro}{A Matrix/ data.frame of centromere information.}
 

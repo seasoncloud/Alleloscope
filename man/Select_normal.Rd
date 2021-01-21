@@ -9,9 +9,10 @@ Select_normal(
   raw_counts = NULL,
   cell_nclust = 5,
   plot_theta = FALSE,
+  pre_sel = FALSE,
   cell_type = NULL,
   cutree_rows = 3,
-  mincell = 100
+  mincell = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ Select_normal(
 \item{cell_nclust}{Integer. Number of clusters used in identifying normal cells in the sample.}
 
 \item{plot_theta}{Logical (TRUE/FALSE). Whether or not to plot the hierarchical clustering result using the theta_hat values across regions.}
+
+\item{pre_sel}{Logical (TRUE/FALSE). Whether or not to use theta_hat from regions without segmentation (each chromosome) to identify normal cells for segmentation.}
 
 \item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)}
 

@@ -19,6 +19,28 @@
 #'
 #' @export
 Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=NULL, cov_adj=1, ref_gtv=NULL, mincell=NULL, qt_filter=TRUE,  cell_filter=TRUE, refr=TRUE){
+  
+  ## check parameters
+  if(is.null(Obj_filtered)){
+    stop("Please provide a valid Alleloscope object for Obj_filttered.")
+  }else if(!(type=="tumor" | tytpe=="cellline")){
+    stop("type should be either tumor or cellline.")
+  }else if(length(unlist(strsplit(rownames(raw_counts)[2],'-')))!=3){
+    stop("The rownames for the raw_counts matrix should be formatted as: chr1-1-20000.")
+  }else if(length(unlist(strsplit(rownames(ref_counts)[2],'-')))!=3){
+    stop("The rownames for the ref_counts matrix should be formatted as: chr1-1-20000.")
+  }else if(!(nrow(raw_counts)>0 & ncol(raw_counts)>0)){
+    stop("raw_counts matrix is not valid.")
+  }else if(!(nrow(ref_counts)>0 & ncol(ref_counts)>0)){
+    stop("ref_counts matrix is not valid.")
+  }
+  
+  
+  if(!dir.exists(paste0(Obj_filtered$dir_path,"/rds"))){
+    dir.create(paste0(Obj_filtered$dir_path,"/rds"))
+  }
+  
+  # set values
   samplename=Obj_filtered$samplename
   dir_path=Obj_filtered$dir_path
   assay=Obj_filtered$assay
@@ -30,20 +52,25 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   #seg_table=Obj_filtered$seg_table
   rds_list=Obj_filtered$rds_list
   cell_barcodes=Obj_filtered$barcodes
-
+  
   ncell=length(Obj_filtered$barcodes)
   theta_N_nr_nc=list()
-
+  
   
   ##ref
   if(!is.null(ref_gtv)){
-  dna_gt=ref_gtv
-  dna_gt=dna_gt[,which(sapply(strsplit(colnames(dna_gt),"_"),'[',1)=='rho')]
+    dna_gt=ref_gtv
+    dna_gt=dna_gt[,which(sapply(strsplit(colnames(dna_gt),"_"),'[',1)=='rho')]
   }
   
   if(is.null(mincell)){
     mincell=ncol(Obj_filtered$total_all)*0.9
   }
+  
+  if(mincell<0 | mincell> length(Obj_filtered$barcodes)){
+    stop("mincell should be in the range [0, ncell].")
+  }
+  
   
   ## raw/ref count matrix info
   raw_chr=sapply(strsplit(rownames(raw_counts),'-'),'[',1)
@@ -52,26 +79,26 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   
   if(is.null(ref_gtv) & type=='cellline'){
     if(refr==TRUE){
-  ref_chr=sapply(strsplit(rownames(ref_counts),'-'),'[',1)
-  ref_start=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',2))
-  ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))}
+      ref_chr=sapply(strsplit(rownames(ref_counts),'-'),'[',1)
+      ref_start=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',2))
+      ref_end=as.numeric(sapply(strsplit(rownames(ref_counts),'-'),'[',3))}
   }
   
   N0_all=colSums(raw_counts) ## for p and q #for cytoarm
   
   message("Start estimating cell specific (rho_hat, theta_hat) for each region.")
-
-
+  
+  
   
   ####
   regions=gsub('chr','',names(Obj_filtered$rds_list))
   for(chrr in regions){
     chrrn=unlist(strsplit(chrr,':'))[1]
-
+    
     result=rds_list[[paste0('chr',chrr)]]
     theta_hat=result$theta_hat
     names(theta_hat)=result$barcodes
-
+    
     raw_counts_chr=raw_counts[which(raw_chr %in% paste0('chr', as.character(chrrn))),]
     raw_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
     raw_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(chrrn)))]
@@ -92,35 +119,35 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     Nr=colSums(raw_counts_chr)
     names(Nr)=result$barcodes
     
-
+    
     # subsetting normal
     if(refr==TRUE){
       raw_counts_ref=raw_counts[which(raw_chr %in% paste0('chr', as.character(refn))),]
       raw_ref_chr_sub=raw_chr[which(raw_chr %in% paste0('chr', as.character(refn)))]
       raw_ref_start_sub=raw_start[which(raw_chr %in% paste0('chr', as.character(refn)))]
       raw_ref_end_sub=raw_end[which(raw_chr %in% paste0('chr', as.character(refn)))]
-    
-    query=GenomicRanges::GRanges(paste0('chr',refn),IRanges::IRanges(as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),2]), as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),3])))
-    subject=GenomicRanges::GRanges(raw_ref_chr_sub, IRanges::IRanges(as.numeric(raw_ref_start_sub),as.numeric(raw_ref_end_sub))) ## cytoband 1-based start and 1-based end
-    ov=findOverlaps(query, subject)
-    ov=as.matrix(ov)
-    
-    bin_start=min(ov[,2])
-    bin_end=max(ov[,2])
-    raw_counts_ref=raw_counts_ref[bin_start:bin_end,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
-    N0=colSums(raw_counts_ref)
+      
+      query=GenomicRanges::GRanges(paste0('chr',refn),IRanges::IRanges(as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),2]), as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),3])))
+      subject=GenomicRanges::GRanges(raw_ref_chr_sub, IRanges::IRanges(as.numeric(raw_ref_start_sub),as.numeric(raw_ref_end_sub))) ## cytoband 1-based start and 1-based end
+      ov=findOverlaps(query, subject)
+      ov=as.matrix(ov)
+      
+      bin_start=min(ov[,2])
+      bin_end=max(ov[,2])
+      raw_counts_ref=raw_counts_ref[bin_start:bin_end,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
+      N0=colSums(raw_counts_ref)
     }else{
       #raw_counts_ref=raw_counts[,match(result$barcodes, cell_barcodes)] ## for p and q #for cytoarm
       N0=N0_all[match(result$barcodes, cell_barcodes)]
       ref="cell_size"
       Obj_filtered$ref=ref
     }
-
+    
     ## non_noisy
     barcodes_non_noisy=cell_barcodes#cell_info$barcode[which(cell_info$is_noisy==0)]
     barcodes_non_noisy=intersect(barcodes_non_noisy, result$barcodes)
-
-
+    
+    
     Nr=Nr[match(barcodes_non_noisy, result$barcodes)]
     N0=N0[match(barcodes_non_noisy, result$barcodes)]
     Ni=Nr/N0
@@ -131,14 +158,14 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
         cat(paste0("Exclude ",chrr," region:<",mincell," cells\n"))
         next
       }
-    if(type=='tumor'){
-      ref_ncell=length(barcode_normal)
-      Nrref=Nr[which(names(Nr) %in% barcode_normal)]
-      N0ref=N0[which(names(Nr) %in% barcode_normal)]
-      Ni_ref=median(Nrref/N0ref)
-
-    }else if(type=='cellline'){
-      #normal sample from other normal dataset
+      if(type=='tumor'){
+        ref_ncell=length(barcode_normal)
+        Nrref=Nr[which(names(Nr) %in% barcode_normal)]
+        N0ref=N0[which(names(Nr) %in% barcode_normal)]
+        Ni_ref=median(Nrref/N0ref)
+        
+      }else if(type=='cellline'){
+        #normal sample from other normal dataset
         ref_counts_chr=ref_counts[which(ref_chr %in% paste0('chr', as.character(chrrn))),]
         ref_counts_ref=ref_counts[which(ref_chr %in% paste0('chr', as.character(refn))),]
         
@@ -170,30 +197,30 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
         bin_end=max(ov[,2])
         ref_counts_ref=ref_counts_ref[bin_start:bin_end,] ## for p and q #for cytoarm
         
-      Nrref=colSums(ref_counts_chr)
-      N0ref=colSums(ref_counts_ref)
-      #
-      Ni_ref=Nrref/N0ref
-      Ni_ref[is.na(Ni_ref)]=0
-      Ni_ref=median(Ni_ref)
-    }
-    
-  if(type=='cellline'){
-    Ni=Ni*cov_adj
-  }else{
-    Ni[which(! names(Nr) %in% barcode_normal)]=Ni[which(! names(Nr) %in% barcode_normal)]*cov_adj
-    }
-    
-    Ni=Ni/Ni_ref
-  if(qt_filter==TRUE){
-    Niq=Ni[which(Ni<=quantile(Ni, 0.99) & Ni>=quantile(Ni, 0.01))] ##
-  }else{
-    Niq=Ni
-    Niq=pmin(Niq, quantile(Ni, 0.99))
-    Niq=pmax(Niq, quantile(Ni, 0.01))
-  }
-    barcodes_nn_q=names(Niq)
-    
+        Nrref=colSums(ref_counts_chr)
+        N0ref=colSums(ref_counts_ref)
+        #
+        Ni_ref=Nrref/N0ref
+        Ni_ref[is.na(Ni_ref)]=0
+        Ni_ref=median(Ni_ref)
+      }
+      
+      if(type=='cellline'){
+        Ni=Ni*cov_adj
+      }else{
+        Ni[which(! names(Nr) %in% barcode_normal)]=Ni[which(! names(Nr) %in% barcode_normal)]*cov_adj
+      }
+      
+      Ni=Ni/Ni_ref
+      if(qt_filter==TRUE){
+        Niq=Ni[which(Ni<=quantile(Ni, 0.99) & Ni>=quantile(Ni, 0.01))] ##
+      }else{
+        Niq=Ni
+        Niq=pmin(Niq, quantile(Ni, 0.99))
+        Niq=pmax(Niq, quantile(Ni, 0.01))
+      }
+      barcodes_nn_q=names(Niq)
+      
     }else{
       gt=as.numeric(dna_gt[,which(colnames(dna_gt)==paste0('rho_',chrr))])
       if(length(Ni)>(ncell/2)){
@@ -207,9 +234,9 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
       
       
     }
-
+    
     theta_hat=theta_hat[match(barcodes_nn_q, names(theta_hat))]
-
+    
     w1=result$w1[match(names(Ni), names(result$w1))]
     w2=result$w2[match(names(Ni), names(result$w2))]
     
@@ -218,15 +245,15 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
     theta_N_nr_nc[[paste0("h1_",as.character(chrr))]]=w1
     theta_N_nr_nc[[paste0("h2_",as.character(chrr))]]=w2
     
-
+    
     cat(paste0(chrr," "))
   }
   cat('\n')
-
+  
   cell_list<-lapply(theta_N_nr_nc, function(x) {
     names(x)
   })
-
+  
   if(!is.null(ref_gtv)){
     cell_intersect <- Reduce(union, cell_list)
   }else{
@@ -236,22 +263,22 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
       cell_intersect <- Reduce(union, cell_list) 
     }
   }
-
-
+  
+  
   theta_hat_cbn <- sapply(theta_N_nr_nc,function(x){
     x[match(cell_intersect, names(x))]
   })
-
+  
   rownames(theta_hat_cbn) <- cell_intersect
-
+  
   saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path, "/rds/genotype_values.rds"))
-
+  
   Obj_filtered$genotype_values=theta_hat_cbn
   message("\"genotypes_values\" is added to the Obj_filtered object.")
   cat(paste0("Matrix for cell specific (theta, rho) for each region is stored as genotype_values.rds in the path:",dir_path,"\n"))
-
-
-
-
+  
+  
+  
+  
   return(Obj_filtered)
 }

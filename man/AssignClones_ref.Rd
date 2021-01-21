@@ -14,7 +14,7 @@ AssignClones_ref(
 \arguments{
 \item{Obj_filtered}{An Alleloscope object with a n cell by (m region * 4) genotype_values matrix.
 Every 4 columns in the genotype_table matrix are (rho_hat, theta_hat, h1, h2) of each region.
-h1, h2 are the coverage across all SNPs located on the major haplotype (h1) and the minor haplotype (h2) in a region for each cell}
+h1, h2 are the coverage across all SNPs located on the major haplotype (h1) and the minor haplotype (h2) in a region for each cell.}
 
 \item{priorCloneProbs:}{A numeric vector indicating prior prior probability of each subclone.}
 
@@ -23,7 +23,6 @@ h1, h2 are the coverage across all SNPs located on the major haplotype (h1) and 
 \item{sigma.rho:}{Numeric. Standard deviation of the rho_i values under normal distribution.}
 }
 \description{
-rhohats, thetahats, snpCoverages are n by m matrices for n cell and m marker regions.
 The genotypes (rho, theta) are: 1.(0.5,0); 2.(0.5,1); 3.(1,0); 4.(1,0.5); 5.(1,1); 6.(1.5,0); 7.(1.5,1/3); 8.(1.5,2/3); 9.(1.5,1); 10.(2,0); 11.(2,1/4); 12.(2,2/4); 13.(2,3/4); 14.(2,4/4)
 15.(2.5,0); 16.(2.5,1/5); 17.(2.5,2/5); 18.(2.5,3/5); 19.(2.5,4/5); 20.(2.5,1); 21.(3,0); 22.(3,1/6); 23.(3,2/6); 24.(3,3/6); 25.(3,4/6); 26.(3,5/6); 27.(3,6/6)
 }

@@ -8,7 +8,7 @@ Est_regions(
   Obj_filtered = NULL,
   max_nSNP = 30000,
   plot_stat = TRUE,
-  min_cell = 20,
+  min_cell = 5,
   min_snp = 0,
   rds_path = NULL,
   cont = FALSE,

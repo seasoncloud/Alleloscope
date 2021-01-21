@@ -82,7 +82,11 @@ Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename
 
 * Filter out cells and SNPs with too few read counts
 ```
-Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=5, SNP_filter=5, min_vaf = 0, max_vaf = 1, centro=centromere.GRCh38, telo=telomere.GRCh38) 
+Obj_filtered=Matrix_filter(Obj=Obj, cell_filter=5, SNP_filter=5, centro=centromere.GRCh38, telo=telomere.GRCh38) 
+
+# Since phasing information is estimated in the matched scDNA-seq dataset, 
+# loose filter: cell_filter=5 and SNP_filter=5 can be used.  
+# No further filter for extreme VAF values is needed.
 ```
 <br/>
 
