@@ -114,7 +114,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
     }else{
       barcodes_tumor=cell_type[which(cell_type[,2]=='tumor'),1]
       barcodes_normal=cell_type[which(cell_type[,2]!='tumor'),1]
-      stype=rep("cell", nrow(df))
+      stype=rep("unknown", nrow(df))
       stype[which(rownames(df) %in% barcodes_tumor)]='tumor'
       stype[which(rownames(df) %in% barcodes_normal)]='normal'
       df$type = stype
@@ -125,7 +125,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
           geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
           stat_density2d(data = df[df$type == "tumor",], fill = "#e41a1c", color = "#e41a1c", geom="polygon", alpha = .1, bins = 5) +
           stat_density2d(data = df[df$type == "normal",], fill = "#1f78b4", color = "#1f78b4", geom="polygon", alpha = .1, bins = 5)+
-          scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4")) + 
+          scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4", "unknown"='#9F9998')) + 
           geom_hline(yintercept = 0.5)+
           geom_vline(xintercept = 1)+
           ggtitle(paste0(" (chr", as.character(chrr),")")) +
@@ -138,7 +138,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
         pp1=ggplot(df, aes(rho_hat, theta_hat)) + 
           geom_point(alpha = 0.3, size=1,stroke=0, aes(color = type))+
           geom_point(aes(x=V1, y=V2), data=mu0 ,stroke=0.5, size=1, colour="black")+
-          scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4")) + 
+          scale_color_manual(values = c("tumor" = "#e41a1c","normal" = "#1f78b4", "unknown"='#9F9998')) + 
           geom_hline(yintercept = 0.5)+
           geom_vline(xintercept = 1)+
           ggtitle(paste0(" (chr", as.character(chrr),")")) +

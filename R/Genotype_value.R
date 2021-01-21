@@ -23,16 +23,12 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   ## check parameters
   if(is.null(Obj_filtered)){
     stop("Please provide a valid Alleloscope object for Obj_filttered.")
-  }else if(!(type=="tumor" | tytpe=="cellline")){
+  }else if(!(type=="tumor" | type=="cellline")){
     stop("type should be either tumor or cellline.")
   }else if(length(unlist(strsplit(rownames(raw_counts)[2],'-')))!=3){
     stop("The rownames for the raw_counts matrix should be formatted as: chr1-1-20000.")
-  }else if(length(unlist(strsplit(rownames(ref_counts)[2],'-')))!=3){
-    stop("The rownames for the ref_counts matrix should be formatted as: chr1-1-20000.")
   }else if(!(nrow(raw_counts)>0 & ncol(raw_counts)>0)){
     stop("raw_counts matrix is not valid.")
-  }else if(!(nrow(ref_counts)>0 & ncol(ref_counts)>0)){
-    stop("ref_counts matrix is not valid.")
   }
   
   
@@ -64,7 +60,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
   }
   
   if(is.null(mincell)){
-    mincell=ncol(Obj_filtered$total_all)*0.9
+    mincell=round(ncol(Obj_filtered$total_all)*0.9)
   }
   
   if(mincell<0 | mincell> length(Obj_filtered$barcodes)){
