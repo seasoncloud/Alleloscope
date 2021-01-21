@@ -19,7 +19,7 @@ Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
   # check parameters
   if(!(nrow(barcodes)>0 & ncol(barcodes)==1)){
     stop("Please provide a matrix/ data.frame with barcodes for each cell in the first column.")
-  }else if(!(nrow(barcodes)>0 & ncol(barcodes)==2)){
+  }else if(!(nrow(size)>0 & ncol(size)==2)){
     stop("Please provide a matrix/ data.frame with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes.")
   }
   
