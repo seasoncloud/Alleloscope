@@ -37,8 +37,9 @@ git clone https://github.com/seasoncloud/Alleloscope.git
 * Click the links below to read detailed tutorials for different data types.
 
 1. [scDNA-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA)
-2. [scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SU008/scATAC)
-3. [Matched scDNA-seq and scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scATAC)
+2. [scDNA-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/P5931/scDNA) (an example with 2nd-stage estimation)
+3. [scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SU008/scATAC)
+4. [Matched scDNA-seq and scATAC-seq](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scATAC)
 <br/>
 
 ## Citation
