@@ -45,7 +45,7 @@ The following are the input files for different steps.
 * In R, set up the environment and read common files
 ```
 library(Alleloscope) # load the library
-setwd("~/Alleloscope/"") # set path to the github folder
+setwd("~/Alleloscope/") # set path to the github folder
 
 dir_path <- "./samples/SNU601/scATAC/output/"; dir.create(dir_path) # set up output directory
 

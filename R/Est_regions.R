@@ -33,6 +33,7 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE, min_cell=
   
   # set values
   assay=Obj_filtered$assay
+  size=Obj_filtered$size
   filtered_seg_table=Obj_filtered$seg_table_filtered
   if(min_snp==0){
     min_snp=Obj_filtered$SNP_filter
@@ -52,8 +53,12 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE, min_cell=
   
   if(is.null(filtered_seg_table)){
     message("Estimation for each chromosome")
-    filtered_seg_table=data.frame("chr"=paste0('chr',1:length(size)), 'start'=rep(0,length(size)), 'end'=Obj_filtered$size, 'chrr'=as.character(1:length(size)), stringsAsFactors = F)
-  }
+    filtered_seg_table=data.frame("chr"=names(size), 'start'=rep(0,length(size)), 'end'=size,
+                                  'states'=0, 'length'=size,'mean'=0, 'var'=0, 'Var1'=1:length(size),'Freq'=50000,'chrr'=names(size), stringsAsFactors = F)
+    Obj_filtered$seg_table_filtered=filtered_seg_table
+
+    
+    }
   
   ## look at segments
   var_list = Obj_filtered$var_all

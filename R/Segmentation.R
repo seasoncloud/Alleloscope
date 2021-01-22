@@ -16,7 +16,7 @@
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.2, 1.8), hmm_sd=0.2, hmm_p=0.000001, plot_seg=TRUE,rds_path=NULL, adj=0){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.3, 1.8), hmm_sd=0.2, hmm_p=0.000001, plot_seg=TRUE,rds_path=NULL, adj=0){
   
   # check parameters
   if(is.null(Obj_filtered)){

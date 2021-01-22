@@ -54,7 +54,7 @@ Obj_filtered=Rundf_dna(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,
 * In R, set up the environment and read common files
 ```
 library(Alleloscope) # load the library
-setwd("~/Alleloscope/"") # set path to the github folder
+setwd("~/Alleloscope/") # set path to the github folder
 
 dir_path <- "./samples/SNU601/scDNA/output/"; dir.create(dir_path) # set up output directory
 
@@ -145,8 +145,8 @@ Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] # choose one normal
 
 * Estimate cell-specific (rho_hat, theta_hat) values for each region.
 ```
-Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts, cov_adj=1)  # for tumor
-Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts, cov_adj =1 ) # for cell line without normal cells in the tumor sample.
+Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts)  # for tumor
+Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts ) # for cell line without normal cells in the tumor sample.
 ```
 
 * Genotype all cells and generate a genotype plot for each region.
@@ -167,13 +167,6 @@ linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10)
 The output clustering result for the five regions is shown below.
 
 ![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
-<br/>
-
-### (Optional) Imrpoved estimation based on the abnormal cells
-* With the input files loaded in Step0, you can run the command for step1-6. 
-```
-Obj_filtered_=Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, plot_stat = T,cont = TRUE)
-```
 <br/><br/>
 
 ## Citation
