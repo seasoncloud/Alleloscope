@@ -121,7 +121,7 @@ Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_count
 
 * Genotype all cells and generate a genotype plot for each region.
 ```
-Obj_filtered=Genotype(Obj_filtered = Obj_filtered,  )
+Obj_filtered=Genotype(Obj_filtered = Obj_filtered  )
 ```
 The output genotying results for the five regions are shown below.
 
