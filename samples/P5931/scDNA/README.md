@@ -125,7 +125,7 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered  )
 ```
 The output genotying results for the five regions are shown below.
 
-![Alt text](../../../inst/plots/gtype_pre.png?raw=true "P5931 genotypes")
+![Alt text](../../../inst/plots/gtype_pre2.png?raw=true "P5931 genotypes")
 <br/><br/>
 
 #### Step6. Construct lineage structure using genotypes for each cell across all regions
