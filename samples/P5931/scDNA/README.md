@@ -23,7 +23,7 @@ The following are the input files for different steps.
  
 3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 
 * For single-cell platforms using barcode technology with all reads in a single bam file, the VarTrix (https://github.com/10XGenomics/vartrix) tools can be used to generate SNP by cell matrices for both ref and alt alleles ([Example script](https://github.com/seasoncloud/Basic_CNV_SNV/blob/main/scripts/vartrix.sh)).
-* For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.
+* For single-cell platforms with separate bam files, the two matrices can be directly generated from multi-sample vcf files.([Example script](https://github.com/seasoncloud/Basic_CNV_SNV/blob/main/scripts/hmsns_preprocessing.sh)).
 * The information for each SNP should be in the vcf file, the labeling for each cell should be in the barcodes.tsv file (with the same order).
 <br/>
   
