@@ -102,7 +102,7 @@ Obj_filtered$seg_table_filtered=Obj_scDNA$seg_table_filtered
 
 * Estimate theta_hat of each cell for each region in the filtered segment table (seg_table_filtered).
 ```
-Obj_filtered = Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, min_ncell = 20, phases = Obj_scDNA$rds_list, plot_stat = T, cont = TRUE)
+Obj_filtered = Est_regions(Obj_filtered = Obj_filtered, max_nSNP = 30000, min_cell = 20, phases = Obj_scDNA$rds_list, plot_stat = T, cont = TRUE)
 
 # The phases for each SNP estimated from DNA sequencing data can help estimate the major haplotype proportion for each cell in scATAC-seq data. 
 # Recommend max_nSNP <50000

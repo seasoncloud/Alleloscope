@@ -142,7 +142,7 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered, cell_type=cell_type, xmax=3)
 
 * Generate lineage tree based on cell-specific genotypes across the regions.
 ```
-tmp=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts, plot_theta = TRUE, cell_type = cell_type)
+tmp=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts, plot_theta = TRUE, cell_type = cell_type, mincell = 0)
 rm(tmp)
 ```
 The output clustering result for the example regions is shown below.

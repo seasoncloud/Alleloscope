@@ -11,7 +11,7 @@ Lineage_plot(
   nclust = 5,
   plot_conf = FALSE,
   plot_path = NULL,
-  all_chr = TRUE
+  all_chr = FALSE
 )
 }
 \arguments{

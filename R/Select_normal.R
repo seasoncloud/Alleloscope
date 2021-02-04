@@ -215,7 +215,7 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
       theta_ss_region=apply(theta_sub, 2, function(x) sum((x-0.55)^2))
       names(theta_ss_region)=colnames(theta_hat_cbn2)
       #rho_cv_region=apply(rho_hat_cbn2, 2, function(x) sd(x)/mean(x))
-      rho_med_region=apply(rho_sub,2, median)
+      rho_med_region=apply(rho_sub,2, mean)
       normal_rank=sort(rank(theta_ss_region)+rank(rho_med_region))
       normal_regions=sapply(strsplit(names(normal_rank),"_"),'[',2)
       region_normal_rank5[,ii]=normal_regions[1:10]
@@ -225,12 +225,22 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
     colnames(region_normal_rank5)=paste0('k',1:k)
     rownames(region_normal_rank5)=paste0('rank',1:10)
     
-    tmp=c()
-    for(rr in 1:nrow(region_normal_rank5)){
-      tmp=c(tmp, names(table(region_normal_rank5[rr,-k_normal])))
-    }
+    #tmp=c()
+    #for(rr in 1:3){
+    #  tmp=c(tmp, names(table(region_normal_rank5[rr,-k_normal])))
+    #}
+    nrname=unique(as.character(region_normal_rank5))[!is.na(unique(as.character(region_normal_rank5)))]
+    rorder=rep(0, length(nrname))
     
-    (region_normal=names(sort(table(tmp), decreasing = T))[1:10])
+    for(rr in 1:ncol(region_normal_rank5)){
+      if(rr!= k_normal){
+        korder=match(nrname, region_normal_rank5[,rr])
+        rorder=rorder+korder
+      }
+    }
+    names(rorder)=nrname
+    
+    (region_normal=names(sort(rorder))[1:10])
     
     select_normal=list("barcode_normal"=barcode_normal, "region_normal"=region_normal, "region_normal_rank"=region_normal_rank5, "k_normal"=k_normal )
     

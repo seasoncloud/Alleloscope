@@ -16,7 +16,7 @@
 #' @import cluster
 #' @export
 
-Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL, all_chr=TRUE){
+Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL, all_chr=FALSE){
   
   # check parameters
   if(is.null(Obj_filtered)){

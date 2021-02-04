@@ -8,7 +8,7 @@ Segmentation(
   Obj_filtered = NULL,
   raw_counts = NULL,
   ref_counts = NULL,
-  hmm_states = c(0.5, 1.3, 1.8),
+  hmm_states = c(0.5, 1.5, 1.8),
   hmm_sd = 0.2,
   hmm_p = 1e-06,
   plot_seg = TRUE,
