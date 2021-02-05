@@ -235,6 +235,7 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
     for(rr in 1:ncol(region_normal_rank5)){
       if(rr!= k_normal){
         korder=match(nrname, region_normal_rank5[,rr])
+        korder[is.na(korder)]=11
         rorder=rorder+korder
       }
     }
