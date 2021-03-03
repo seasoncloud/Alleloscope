@@ -246,7 +246,7 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
     select_normal=list("barcode_normal"=barcode_normal, "region_normal"=region_normal, "region_normal_rank"=region_normal_rank5, "k_normal"=k_normal )
     
   }else{
-    saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_seg.rds"))
+    saveRDS(theta_hat_cbn, paste0(Obj_filtered$dir_path,"/rds/theta_seg_pre_sel.rds"))
     
     theta_hat_cbn2=theta_hat_cbn[,which(stringr::str_sub(colnames(theta_hat_cbn), end=1)=='t'), drop=F]
     
@@ -254,7 +254,7 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
     
     
     if(plot_theta==TRUE){
-      pdf(paste0(plot_path,"/hierarchcial_clustering_theta.pdf"), width = 12,height = 6)
+      pdf(paste0(plot_path,"/hierarchcial_clustering_theta_pre_sel.pdf"), width = 12,height = 6)
       if(ncol(theta_hat_cbn2)<2){
         gaps_col=NULL
       }else{
