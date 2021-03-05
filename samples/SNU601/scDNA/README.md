@@ -162,7 +162,7 @@ The output genotying results for the five regions are shown below.
 
 * Generate lineage tree based on cell-specific genotypes across the regions.
 ```
-linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10, pl )
+linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10 )
 ```
 The output clustering result for the five regions is shown below.
 
