@@ -302,6 +302,8 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
   
   
   Obj_filtered$select_normal=select_normal
+  Obj_filtered$theta_hats=theta_hat_cbn2
+  
   message("Candidate normal cell and normal region info is in \"Obj_filtered$select_normal\".")
   return(Obj_filtered)
   
