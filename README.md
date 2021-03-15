@@ -17,6 +17,7 @@ For more information about the method, please check out the [paper](https://doi.
 * You can install Alleloscope with the code below:
 
 ``` R
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
 install.packages("devtools")
 devtools::install_github("seasoncloud/Alleloscope") # install
 library(Alleloscope) # load
