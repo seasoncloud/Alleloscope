@@ -18,7 +18,8 @@ Imports:
     cowplot,
     rhdf5,
     HiddenMarkov,
-    cluster
+    cluster,
+    matrixStats
 Depends: 
     R (>= 3.6.0),
     Matrix,

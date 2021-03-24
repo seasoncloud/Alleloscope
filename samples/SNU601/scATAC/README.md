@@ -75,7 +75,7 @@ Obj_scDNA=readRDS("data-raw/SNU601/scATAC/SNU601_dna.rds")
 
 #### Step1. Creating a Alleloscope object for the analysis
 
-* First, create a Alleloscope obj
+* First, create an Alleloscope obj
 ```
 Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename='Sample', genome_assembly="GRCh38", dir_path=dir_path, barcodes=barcodes, size=size, assay='scATACseq')
 ```

@@ -51,6 +51,7 @@ setwd("~/Alleloscope/") # set path to the github folder
 dir_path <- "./samples/SU008/scATAC/output/"; dir.create(dir_path) # set up output directory
 
 size=read.table("data-raw/sizes.cellranger-atac-hg19-1.2.0.txt", stringsAsFactors = F) # read size file
+size=size[1:22,]
 ```
 
 * Read example files
@@ -63,17 +64,26 @@ var_all=read.table("data-raw/SU008/scATAC/var_all.vcf", header = F, sep='\t', st
 
 # bin by cell matrices for tumor and normal for segmentation
 raw_counts=read.table('data-raw/SU008/scATAC/chr200k_fragments_sub.txt', sep='\t', header=T, row.names = 1,stringsAsFactors = F)
+colnames(raw_counts)=gsub("[.]","-", colnames(raw_counts))
 ```
 
 * Read known cell identity (from peaks) (optional)
 ```
 cell_type=readRDS('data-raw/SU008/scATAC/cell_type_from_peaks.rds')
 ```
-<br/>
+
+* Visualize coverage of large genomic bins (optional)
+```
+clust_order=plot_scATAC_cnv(raw_mat = raw_counts , cell_type = cell_type, size = size, plot_path = paste0(dir_path,"/cov_cna_plot2.pdf"))
+```
+Heatmap across chromosomes with example regions shown.
+
+![Alt text](../../../inst/plots/scATAC_cov_example.png?raw=true)
+<br/><br/>
 
 #### Step1. Creating a Alleloscope object for the analysis
 
-* First, create a Alleloscope obj
+* First, create an Alleloscope obj
 ```
 Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename='Sample', genome_assembly="GRCh37", dir_path=dir_path, barcodes=barcodes, size=size, assay='scATACseq')
 ```

@@ -79,7 +79,7 @@ ref_counts=read.table("data-raw/SNU601/scDNA/normal_sub.txt", sep='\t', header=T
 
 #### Step1. Creating a Alleloscope object for the analysis
 
-* First, create a Alleloscope obj
+* First, create an Alleloscope obj
 ```
 Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename='Sample', genome_assembly="GRCh38", dir_path=dir_path, barcodes=barcodes, size=size, assay='scDNAseq')
 ```
