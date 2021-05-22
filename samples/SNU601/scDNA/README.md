@@ -170,7 +170,7 @@ The output clustering result for the five regions is shown below.
 <br/><br/>
 
 ## Citation
-Wu, C.-Y. et al. Alleloscope: Integrative analysis of single cell haplotype-divergent copy number alterations and chromatin accessibility changes reveals novel clonal architecture of cancers. bioRxiv (2020): [https://doi.org/10.1101/2020.10.23.349407](https://doi.org/10.1101/2020.10.23.349407)
+Wu, C.-Y. et al. Integrative single-cell analysis of allele-specific copy number alterations and chromatin accessibility in cancer. Nature Biotechnology (2021): [https://doi.org/10.1038/s41587-021-00911-w](https://doi.org/10.1038/s41587-021-00911-w)
 
 
 
