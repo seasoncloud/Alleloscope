@@ -22,6 +22,12 @@ plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL, size=NULL, window_w=100000
   cellsize=colSums(raw_mat)
   cellsize=matrix(rep(cellsize, nrow(raw_mat)), byrow =T, ncol=ncol(raw_mat))
   raw_mat=raw_mat/cellsize
+  if(grepl("chr",size[1,1])){
+    size=size
+  }else{
+    size[,1]=paste0("chr",size[,1])
+  }
+  size=size[ (size[,1] %in% paste0('chr',1:22)),]
   cnv_bin0=GRanges(size[,1], IRanges(1,as.numeric(size[,2])))
   sw=slidingWindows(x = cnv_bin0, width = window_w, step = window_step)
   #width(sw)
