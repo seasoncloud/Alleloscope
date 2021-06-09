@@ -5,7 +5,7 @@ Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 ## Description
 Alleloscope is a method for allele-specific copy number estimation that can be applied to single cell DNA and ATAC sequencing data (separately or in combination). Allele-specific estimation allows for the more accurate delineation of copy number states and the detection of subclonal copy-neutral loss-of-heterozygosity and mirrored CNA events. On scATAC-seq data, Alleloscope allows integrative multi-omic analysis of allele-specific copy number and chromatin accessibility for the same cell. 
 
-For more information about the method, please check out the [paper](https://doi.org/10.1101/2020.10.23.349407).
+For more information about the method, please check out the [paper](https://doi.org/10.1038/s41587-021-00911-w).
 <br/>
 
 ## Overview of Alleloscope genotyping algorithm
@@ -44,7 +44,7 @@ git clone https://github.com/seasoncloud/Alleloscope.git
 <br/>
 
 ## Citation
-Wu, C.-Y. et al. Integrative single-cell analysis of allele-specific copy number alterations and chromatin accessibility in cancer. Nature Biotechnology (2021): [https://doi.org/10.1038/s41587-021-00911-w](https://doi.org/10.1038/s41587-021-00911-w)
+Wu, C.-Y. et al. Integrative single-cell analysis of allele-specific copy number alterations and chromatin accessibility in cancer. *Nature Biotechnology* (2021): [https://doi.org/10.1038/s41587-021-00911-w](https://doi.org/10.1038/s41587-021-00911-w)
 
 
 
