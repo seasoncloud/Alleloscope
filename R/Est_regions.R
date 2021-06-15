@@ -179,9 +179,9 @@ Est_regions=function(Obj_filtered=NULL,max_nSNP=30000, plot_stat=TRUE, min_cell=
           atac_snp=paste0('chr',var_list_sub$V1,':', var_list_sub$V2,'_', var_list_sub$V4,'_', var_list_sub$V5)
           inter=intersect(dna_snp, atac_snp)
           
-          alt_all_sub=alt_all_sub[match(inter, atac_snp),]
-          total_all_sub=total_all_sub[match(inter, atac_snp),]
-          var_list_sub=var_list_sub[match(inter, atac_snp),]
+          alt_all_sub=alt_all_sub[match(inter, atac_snp),, drop=F]
+          total_all_sub=total_all_sub[match(inter, atac_snp),, drop=F]
+          var_list_sub=var_list_sub[match(inter, atac_snp),, drop=F]
           
           ind=as.numeric(dna_ind[match(inter, dna_snp)])
           #ind=dna_ind
