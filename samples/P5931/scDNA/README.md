@@ -5,7 +5,7 @@ Chi-Yun Wu, Zhang Lab, University of Pennsylvania
 ## Description
 For scDNA-seq data, Alleloscope enables allele-specific copy number profiling at the single cell level to 1. detect complex multi-allelic copy number alterations (including copy neutral loss-of-heterozygosity and mirrored subclones that have the same total copy number) and 2. reconstruct tumor lineages based on the multi-allelic copy number profile.
 
-For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1101/2020.10.23.349407).
+For more information about the method, please check out the [github](https://github.com/seasoncloud/Alleloscope) and the [paper](https://doi.org/10.1038/s41587-021-00911-w).
 <br/>
 
 ## Prepare input files
