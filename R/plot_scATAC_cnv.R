@@ -8,20 +8,25 @@
 #' @param window_step step size for signal smoothing in individual cells.
 #' @param plot_path Path to plot the heatmap.
 #' @param nclust Integer. Number of clusters the rows are divided into for visualization and clustering.
+#' @param var.filter Logical (TRUE/FALSE) Whether or not to filter our highly variable features.
 #' 
 #' @import matrixStats
 #' @return A vector indicating the ordered cluster number (from hierarchical clustering) of each cell and a heatmap saved.
 #'
 #' @export
-plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL,normal_lab="normal", size=NULL, window_w=10000000, window_step=2000000, plot_path=NULL, nclust=3){
+plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL,normal_lab="normal", size=NULL, window_w=10000000, window_step=2000000, plot_path=NULL, nclust=3, var.filter=FALSE){
   
   if(is.null(plot_path)){
     plot_path=paste0("./plots/CNV_cov_w",window_w,"_s",window_step,"_sub.pdf")
     dir.create("./plots/")
   }
   ## normlize by cell size
+  if(var.filter==TRUE){
   vars=apply(raw_mat,1, var)
   cellsize=colSums(raw_mat[which(vars<quantile(vars,0.99)),])
+  }else{
+    cellsize=colSums(raw_mat)
+  }
   cellsize=matrix(rep(cellsize, nrow(raw_mat)), byrow =T, ncol=ncol(raw_mat))
   raw_mat=raw_mat/cellsize
   if(grepl("chr",size[1,1])){
