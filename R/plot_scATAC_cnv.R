@@ -2,6 +2,7 @@
 #'
 #' @param raw_mat A binned coverage matrix (m1 bin by n1 cell) with values being read counts for scATAC-seq of tumor sample (with some normal cells). The matrix can be generated using https://github.com/seasoncloud/Basic_CNV_SNV/blob/main/scripts/Gen_bin_cell_atac.R
 #' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types (Tumor cells should be labeled with "tumor1, tumor2 and etc.").
+#' @param normal_lab Character(s) indicating the cell types considered as normal cells. If not specify, "normal" cell type should exist in the cell_type dataframe. 
 #' @param size A matrix with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes (eq.1-22). 
 #' @param window_w window size for signal pooling in individual cells.
 #' @param window_step step size for signal smoothing in individual cells.
@@ -12,14 +13,15 @@
 #' @return A vector indicating the ordered cluster number (from hierarchical clustering) of each cell and a heatmap saved.
 #'
 #' @export
-plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL, size=NULL, window_w=10000000, window_step=2000000, plot_path=NULL, nclust=3){
+plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL,normal_lab="normal", size=NULL, window_w=10000000, window_step=2000000, plot_path=NULL, nclust=3){
   
   if(is.null(plot_path)){
     plot_path=paste0("./plots/CNV_cov_w",window_w,"_s",window_step,"_sub.pdf")
     dir.create("./plots/")
   }
   ## normlize by cell size
-  cellsize=colSums(raw_mat)
+  vars=apply(raw_mat,1, var)
+  cellsize=colSums(raw_mat[which(vars<quantile(vars,0.99)),])
   cellsize=matrix(rep(cellsize, nrow(raw_mat)), byrow =T, ncol=ncol(raw_mat))
   raw_mat=raw_mat/cellsize
   if(grepl("chr",size[1,1])){
@@ -48,8 +50,8 @@ plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL, size=NULL, window_w=100000
   rownames(smooth_mat)=paste0(as.character(seqnames(cnv_bin)),'-',start(cnv_bin),'-', end(cnv_bin))
   rownames(cell_type)=cell_type[,1]
   mat_celltype=cell_type[match(colnames(smooth_mat), rownames(cell_type)),2]
-  tumor_mat=smooth_mat[,which(grepl('tumor',mat_celltype))]
-  nontumor_mat=smooth_mat[,which(!grepl('tumor',mat_celltype))]
+  #tumor_mat=smooth_mat[,which(!grepl('tumor',mat_celltype))]###
+  nontumor_mat=smooth_mat[,which((mat_celltype %in% normal_lab))]###
   #tumor_mat=smooth_mat[,which(mat_celltype=='tumor')]
   #nontumor_mat=smooth_mat[,which(mat_celltype!='tumor')]
   
@@ -70,11 +72,25 @@ plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL, size=NULL, window_w=100000
   celltype=as.data.frame(cell_type)
   rownames(celltype)=celltype[,1]
   
-  pdf(plot_path, width=16, height=9)
+  ## break for coloring
+  plot_matrix=plot_matrix*2
+  plot_matrix=apply(plot_matrix, c(1,2), function(x) if(x<=2.5 & x>=1.5){x=2}else{x=x})
+  
+  breaklength = 50
+  setcolor = colorRampPalette(c("blue", "white", "red"))(breaklength)
+  setbreaks = c(seq(min(plot_matrix), 1.7, length.out=ceiling(breaklength/2) + 1), 
+                c(2.3,seq((max(plot_matrix)-2.3)/breaklength+2.3, max(plot_matrix), 
+                          length.out=floor(breaklength/2)))[1:(breaklength/2)])
+  
+  
+  #pdf(plot_path, width=16, height=9)
+  png(plot_path,width=800, height=450)
   tmp=pheatmap::pheatmap(plot_matrix,
                          cluster_cols = F, cluster_rows = TRUE,
                          show_rownames = F,
                          show_colnames = T,
+                         color=setcolor,
+                         breaks = setbreaks,
                          labels_col=col_lab,
                          clustering_distance_rows = "correlation",
                          clustering_method = "ward.D2",

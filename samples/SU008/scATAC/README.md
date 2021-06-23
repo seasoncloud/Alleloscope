@@ -74,7 +74,7 @@ cell_type=readRDS('data-raw/SU008/scATAC/cell_type_from_peaks.rds')
 
 * Visualize coverage of large genomic bins (optional)
 ```
-clust_order=plot_scATAC_cnv(raw_mat = raw_counts , cell_type = cell_type, size = size, plot_path = paste0(dir_path,"/cov_cna_plot.pdf"))
+clust_order=plot_scATAC_cnv(raw_mat = raw_counts , cell_type = cell_type, normal_lab=c("endo","fibro"), size = size, plot_path = paste0(dir_path,"/cov_cna_plot_new.png"))
 ```
 Heatmap across chromosomes with example regions shown.
 
