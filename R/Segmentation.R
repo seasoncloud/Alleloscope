@@ -53,6 +53,8 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   }
   dir.create(rds_path)
   
+  dir.create(paste0(dir_path,"/plots/"))
+  
   ## check if tumor and normal are from the same genome assembly
   
   
