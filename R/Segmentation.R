@@ -10,13 +10,15 @@
 #' @param hmm_states An ordered vector for the HMM numeric states (deletion, 1-copy gain, 2-copy gains).
 #' @param hmm_sd Numeric. Fixed standard deviation for the HMM states. 
 #' @param hmm_p Numeric. Transition probability for the HMM algorithm.
+#' @param nmean Integer. Width of moving window for runmean. 
 #' @param adj Numeric. Value for tumor coverage adjustment.
 #' @param rds_path The path for saving the rds files for the estimated results for each region.
+#' @param max_qt Numeric value in [0,1]. Setting the maximum value to the max_qt quantile to avoid extreme values. 
 #' 
 #' @return A Alleloscope object with "seg_table" added.
 #'
 #' @export
-Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), hmm_sd=0.2, hmm_p=0.000001, plot_seg=TRUE,rds_path=NULL, adj=0){
+Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_states=c(0.5, 1.5, 1.8), hmm_sd=0.2, hmm_p=0.000001,nmean=100, plot_seg=TRUE,rds_path=NULL, adj=0, max_qt=0.99){
   
   # check parameters
   if(is.null(Obj_filtered)){
@@ -108,9 +110,10 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   
   
   cov3=cov2
-  cov3=pmin(cov3, quantile(cov3, 0.99))
+  cov3=pmin(cov3, quantile(cov3, max_qt))
   cov3=cov3
   cov4=cov3/median(cov3)
+  
   
   
   ## HMM
@@ -118,7 +121,7 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   seg_table_all=NULL
   for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
     cov4=(cov3/median(cov3))[which(chromnum==paste0(ii))]+adj
-    cov5=caTools::runmean(cov4, 100)
+    cov5=caTools::runmean(cov4, nmean)
     
     ppa1= hmm_states[3]
     ppa2= hmm_states[2]
@@ -180,13 +183,15 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   
   colnames(seg_table_all)=c("chr","start", "end", "states","length","mean","var")
   
+  
   ## visualization
   if(plot_seg==TRUE){
+    ylim=c(0,max((cov3/median(cov3))+adj))
     pdf(paste0(dir_path,"/plots/",samplename,"_seg_hmm.pdf"))
     par(mfrow=c(3,1))
     plot(x=maploc, y=(cov3/median(cov3))+adj, ylab="COV",
          main=paste("HMM segmentation across all chroms"),
-         xaxt="n", pch=20, cex=0.3, xlab = "chromosome" )
+         xaxt="n", pch=20, cex=0.3, xlab = "chromosome", ylim=ylim)
     points(x=maploc, y=rep(seg_table_all[,4],nsnp), type='l', col='red', lwd=1)
     if(length(unique(chromnum))==1){
       axis(side=1, at=table(chromnum)*0.5, labels = sapply(strsplit(chr_name,'hr'),'[',2), cex.axis=1)
@@ -195,7 +200,7 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
     abline(v=chrline, col='blue', lty=1, lwd=1)
     
     for(ii in sapply(strsplit(chr_name,'hr'),'[',2)){
-      plot(x=maploc[which(chromnum==ii)], y=((cov3/median(cov3))+adj)[which(chromnum==ii)], ylab="COV",main=paste("chr",ii), xaxt="n", pch=20, cex=0.3, xlab = "chromosome" ) # limit to only the "high coverage" SNPs.
+      plot(x=maploc[which(chromnum==ii)], y=((cov3/median(cov3))+adj)[which(chromnum==ii)], ylab="COV",main=paste("chr",ii), xaxt="n", pch=20, cex=0.3, xlab = "chromosome", ylim=ylim ) # limit to only the "high coverage" SNPs.
       points(x=maploc[which(chromnum==ii)], y=rep(seg_table_all[,4],nsnp)[which(chromnum==ii)], type='l', col='red', lwd=3)
       if(length(unique(chromnum))==1){
         axis(side=1, at=table(chromnum)*0.5, labels = sapply(strsplit(chr_name,'hr'),'[',2), cex.axis=1)
@@ -211,7 +216,7 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   seg_table_all$chrr=as.character(paste0(seg_table_all$chr,":", seg_table_all$start))
   
   Obj_filtered[['seg_table']]=seg_table_all
-  saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all.rds"))
+  saveRDS(seg_table_all, paste0(rds_path, "/seg_table_all_",samplename,".rds"))
   
   message("Segmentation done!")
   cat("\"seg_table\" was added to the Obj_filtered object.\n")
