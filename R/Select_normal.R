@@ -177,11 +177,13 @@ Select_normal=function(Obj_filtered=NULL, raw_counts=NULL, cell_nclust=5 , plot_
         cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_tumor)]='tumor'
         cell_label[which(rownames(theta_hat_cbn2) %in% barcodes_normal)]='normal'
         cell_label=data.frame('cell type'=cell_label, row.names = rownames(theta_hat_cbn2))
+        #cell_label=data.frame('cell type'=cell_type[,2], row.names = cell_type[,1])
         my_colour = list(
           cell.type = c(tumor = "#d53e4f", normal="#1f78b4",unknown="#696969" )
         )
         
         tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, annotation_colors = my_colour, cutree_rows = cutree_rows,  labels_col=region_name)
+        #tmp=pheatmap::pheatmap(theta_hat_cbn2, cluster_cols = F, cluster_rows = T, show_rownames = F, clustering_method = "ward.D2", gaps_col=1:(dim(theta_hat_cbn2)[2]), annotation_row = cell_label, cutree_rows = cutree_rows,  labels_col=region_name)
       }
       dev.off()
       

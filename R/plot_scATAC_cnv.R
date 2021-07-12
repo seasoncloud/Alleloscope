@@ -112,7 +112,9 @@ plot_scATAC_cnv=function(raw_mat=NULL,cell_type=NULL,normal_lab="normal", size=N
   clust=cutree(tmp$tree_row, k=nclust)
   clust_order=clust[od]
   
-  return(clust_order)
+  
+  cov_obj=list(clust_order=clust_order, plot_matrix=plot_matrix)
+  return(cov_obj)
   
   
 }
