@@ -52,7 +52,7 @@ WGSt=WGSt[,4, drop=F]; WGSn=WGSn[,4, drop=F]
 
 * First, create an Alleloscope obj
 ```
-Obj_filtered=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename=name, genome_assembly="GRCh38", dir_path=dir_path, size=size, assay='WGS', cov=TRUE)
+Obj_filtered=Createobj(samplename=name, genome_assembly="GRCh38", dir_path=dir_path, size=size, assay='WGS', cov=TRUE)
 ```
 <br/>
 
