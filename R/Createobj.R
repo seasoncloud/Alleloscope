@@ -76,7 +76,7 @@ Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
   size=as.numeric(as.character(size[,2]))
   names(size)=size_name
   
-  output=list("barcodes"=barcodes[,1], "size"=size,"samplename"=samplename,
+  output=list("size"=size,"samplename"=samplename,
               "dir_path"=dir_path,"genome_assembly"=genome_assembly,
               #"cell_info" = cell_info,
               "cell_filter"=NULL, "SNP_filter"=NULL, "min_vaf"=NULL, "max_vaf"=NULL,

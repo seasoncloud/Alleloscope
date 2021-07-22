@@ -34,7 +34,7 @@ The following are the input files for different steps.
 <br/>
 
 5. Matrix for segmentation results from scDNA-seq or bulk WGS/WES. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SU008/scATAC/seg_table_WES.rds) 
-* The matrix can be generated using the Step2. in the [tutorial](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SNU601/scDNA).
+* The matrix can be generated using the [example pipeline](https://github.com/seasoncloud/Alleloscope/tree/main/samples/SU008/scATAC/Gen_seg_table.md).
 <br/>
 
 ## Tutorial for scATAC-seq data
