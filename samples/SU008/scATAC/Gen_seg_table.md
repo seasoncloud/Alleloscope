@@ -35,7 +35,7 @@ setwd("~/Alleloscope/") # set path to the github folder
 
 dir_path <- "./WGS/"; dir.create(dir_path) # set up output directory
 
-size=read.table("data-raw/sizes.cellranger-atac-hg19-1.2.0.txt", stringsAsFactors = F) # read size file
+size=read.table("data-raw/sizes.cellranger-GRCh38-1.0.0.txt", stringsAsFactors = F) # read size file
 size=size[1:22,]
 
 WGSt=read.table("~/hg38.100Kb.windows.counts.tumor.bedg", stringsAsFactors = F, sep='\t')
@@ -50,7 +50,7 @@ WGSt=WGSt[,4, drop=F]; WGSn=WGSn[,4, drop=F]
 
 #### Step1. Creating a Alleloscope object for the analysis
 
-* First, create an Alleloscope obj
+* First, create an Alleloscope object
 ```
 Obj_filtered=Createobj(samplename=name, genome_assembly="GRCh38", dir_path=dir_path, size=size, assay='WGS', cov=TRUE)
 ```
@@ -58,7 +58,6 @@ Obj_filtered=Createobj(samplename=name, genome_assembly="GRCh38", dir_path=dir_p
 
 #### Step2. Unbiased segmentation based on matched WES/WGS data
 
-* Load the segmentation results of the matched WES data from Yost et al., 2019.
 ```
 Obj_filtered=Segmentation(Obj_filtered=Obj_filtered, 
                           raw_counts=WGSt, # from matched DNA sequencing (bulk/single)
