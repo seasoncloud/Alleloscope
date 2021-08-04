@@ -85,6 +85,8 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   chr_sum=c()
   ref_sum=c()
   chromnum=c()
+  raw_counts[,1]=as.numeric(raw_counts[,1])
+  ref_counts[,1]=as.numeric(ref_counts[,1])
   
   for(chrr in chr_name){
     chr_mm=raw_counts[which(raw_chr %in% chrr),, drop=F]
