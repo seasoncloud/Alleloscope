@@ -11,7 +11,8 @@ Lineage_plot(
   nclust = 5,
   plot_conf = FALSE,
   plot_path = NULL,
-  all_chr = FALSE
+  all_chr = FALSE,
+  maxcp = 6
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ Every 2 columns in the genotype_values matrix are (rho_hat, theta_hat) of each r
 \item{plot_path}{The path for saving the plot.}
 
 \item{all_chr}{Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level.}
+
+\item{maxcp}{Integer. Setting the maximum number of copies for the analysis.}
 }
 \value{
 Plot the lineage tree constructed using cell-level genotypes across all regions and return a vector indicating the cluster identity (of the nclust clusters) of each cell.

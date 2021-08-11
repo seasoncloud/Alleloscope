@@ -4,11 +4,15 @@
 #' @noRd
 #' @keywords internal
 #' @export
-genotype_neighbor=function(X, cluster_name=F){
-  mu=matrix(c(c(0.5,0), c(0.5,1),c(1,0),c(1,0.5),c(1,1),c(1.5,0),c(1.5,0.33),c(1.5, 0.66),c(1.5, 1),c(2, 0), c(2, 0.25), c(2,0.5),c(2,0.75),c(2,1),c(2.5, 0),c(2.5,0.2),c(2.5,0.4), c(2.5, 0.6), c(2.5, 0.8), c(2.5, 1), c(3,0),c(3,1/6),c(3,2/6),c(3,3/6),c(3,4/6),c(3,5/6),c(3,1))
-            , byrow=T, ncol=2)
+genotype_neighbor=function(X, cluster_name=F, maxcp=maxcp){
+  
+  mu=NULL
+  for(ii in 1:maxcp){
+    mu_tmp=c(rep(0.5*ii,ii+1),c(0,( (1:(ii))/ii)))
+    mu=rbind(mu, matrix(mu_tmp, byrow=F, ncol=2))
+  }
 
-  center_dict=1:27
+  center_dict=1:nrow(mu)
   names(center_dict)=paste0("rho",mu[,1],"_theta", round(mu[,2],2))
 
   d_matrix=matrix(nrow=dim(X)[1], ncol=dim(mu)[1])

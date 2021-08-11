@@ -147,8 +147,6 @@ Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] # choose one normal
 ```
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts)  # for tumor
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='cellline', raw_counts=raw_counts, ref_counts = ref_counts ) # for cell line without normal cells in the tumor sample.
-
-# Alleloscope allows estimation of up to 6 copies for now.
 ```
 
 * Genotype all cells and generate a genotype plot for each region.

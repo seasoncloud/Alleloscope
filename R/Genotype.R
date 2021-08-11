@@ -7,6 +7,7 @@
 #' @param rds_path The path for saving the rds object. 
 #' @param ref_gt A reference "genotypes" (from scDNA-seq) to help with genotype estimation.
 #' @param cell_type A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)
+#' @param maxcp Integer. Setting the maximum number of copies for the analysis.
 #' @param legend Logical (TRUE/FALSE) Whether or not to show the figure legends.
 #'
 #' @return A list of ggplot objects of the genotyping results for all the regions.
@@ -14,7 +15,7 @@
 #' @import ggplot2
 #' @import cowplot
 #' @export
-Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, ref_gt=NULL, cell_type=NULL, legend=FALSE){
+Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, ref_gt=NULL, cell_type=NULL,maxcp=6, legend=FALSE){
   # check parameters
   if(is.null(Obj_filtered)){
     stop("Please provide a valid Alleloscope object for Obj_filtered.")
@@ -49,8 +50,13 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
   genotypeConfidence=matrix(nrow=nrow(theta_hat_cbn), ncol=length(region_list))
   
   pp_list=list()
-  mu0=matrix(c(c(0.5,0), c(0.5,1),c(1,0),c(1,0.5),c(1,1),c(1.5,0),c(1.5,0.33),c(1.5, 0.66),c(1.5, 1),c(2, 0), c(2, 0.25), c(2,0.5),c(2,0.75),c(2,1),c(2.5, 0),c(2.5,0.2),c(2.5,0.4), c(2.5, 0.6), c(2.5, 0.8), c(2.5, 1), c(3,0),c(3,1/6),c(3,2/6),c(3,3/6),c(3,4/6),c(3,5/6),c(3,1))
-             , byrow=T, ncol=2)
+  
+  mu0=NULL
+  for(ii in 1:maxcp){
+    mu_tmp=c(rep(0.5*ii,ii+1),c(0,( (1:(ii))/ii)))
+    mu0=rbind(mu0, matrix(mu_tmp, byrow=F, ncol=2))
+  }
+  
   rownames(mu0)=paste0("center",1:dim(mu0)[1])
   mu0=as.data.frame(mu0, stringsAsFactors = F)
   
@@ -70,7 +76,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
     if(is.null(cell_type)){
       
       if(is.null(ref_gt)){
-        cluster=genotype_neighbor(df)
+        cluster=genotype_neighbor(df, maxcp=maxcp)
         genotypeConfidence[,ii]=genotype_conf(X=df, gt=cluster)
         
         
@@ -86,16 +92,24 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
         
       }
       
-      df$cluster=factor(cluster, levels = 1:27)
+      df$cluster=factor(cluster, levels = 1:nrow(mu0))
       genotype_table[,ii]=cluster
       
+      if(nrow(mu0)>=21){
       col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
             "#fff1ba","#ffb521","#DC7633","#BA4A00",
             "#fde0dd","#fcc5c0","#f768a1","#ae017e","#49006a",
             "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
-            "#7B241C", "#7B241C", "#7B241C","#7B241C","#7B241C","#7B241C","#7B241C")
+            "#7B241C", rep("#7B241C", (nrow(mu0)-21)))
+      }else{
+        col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
+              "#fff1ba","#ffb521","#DC7633","#BA4A00",
+              "#fde0dd","#fcc5c0","#f768a1","#ae017e","#49006a",
+              "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
+              "#7B241C")[1:nrow(mu0)]
+      }
       
-      names(col) <- as.character(1:27)
+      names(col) <- as.character(1:nrow(mu0))
       
       pp1=ggplot(df, aes(rho_hat, theta_hat)) +
         geom_hline(yintercept = 0.5)+
@@ -183,6 +197,7 @@ Genotype=function(Obj_filtered=NULL, xmax=NULL, plot_path=NULL,rds_path=NULL, re
   Obj_filtered$genotypes=genotype_table
   Obj_filtered$genotypeProb=genotypeProb
   Obj_filtered$genotypeConfidence=genotypeConfidence
+
   
   
   #Obj_filtered$region_plot=pp_list

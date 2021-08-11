@@ -11,9 +11,11 @@ Segmentation(
   hmm_states = c(0.5, 1.5, 1.8),
   hmm_sd = 0.2,
   hmm_p = 1e-06,
+  nmean = 100,
   plot_seg = TRUE,
   rds_path = NULL,
-  adj = 0
+  adj = 0,
+  max_qt = 0.99
 )
 }
 \arguments{
@@ -30,11 +32,15 @@ Numbers of bins (rows) should be the same in the paired chromosomal regions for 
 
 \item{hmm_p}{Numeric. Transition probability for the HMM algorithm.}
 
+\item{nmean}{Integer. Width of moving window for runmean.}
+
 \item{plot_seg}{Logical (TRUE/ FALSE). Whether or not to plot the segmentation result.}
 
 \item{rds_path}{The path for saving the rds files for the estimated results for each region.}
 
 \item{adj}{Numeric. Value for tumor coverage adjustment.}
+
+\item{max_qt}{Numeric value in \link{0,1}. Setting the maximum value to the max_qt quantile to avoid extreme values.}
 }
 \value{
 A Alleloscope object with "seg_table" added.

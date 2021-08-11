@@ -11,6 +11,7 @@ Genotype(
   rds_path = NULL,
   ref_gt = NULL,
   cell_type = NULL,
+  maxcp = 6,
   legend = FALSE
 )
 }
@@ -27,6 +28,8 @@ Every 2 columns in the genotype_table matrix are (rho_hat, theta_hat) of each re
 \item{ref_gt}{A reference "genotypes" (from scDNA-seq) to help with genotype estimation.}
 
 \item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types ("tumor" and others)}
+
+\item{maxcp}{Integer. Setting the maximum number of copies for the analysis.}
 
 \item{legend}{Logical (TRUE/FALSE) Whether or not to show the figure legends.}
 }

@@ -117,8 +117,6 @@ Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] # choose one normal
 * Estimate cell-specific (rho_hat, theta_hat) values for each region.
 ```
 Obj_filtered=Genotype_value(Obj_filtered = Obj_filtered, type='tumor', raw_counts=raw_counts)  # for tumor
-
-# Alleloscope allows estimation of up to 6 copies for now.
 ```
 
 * Genotype all cells and generate a genotype plot for each region.

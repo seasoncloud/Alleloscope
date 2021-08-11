@@ -8,6 +8,7 @@
 #' @param nclust An integer for the number of subclones gapped in the plot.
 #' @param plot_path The path for saving the plot.
 #' @param all_chr Logical (TRUE/FALSE). Whether or not the analysis is at the whole-genome level. 
+#' @param maxcp Integer. Setting the maximum number of copies for the analysis.
 #'
 #' @return Plot the lineage tree constructed using cell-level genotypes across all regions and return a vector indicating the cluster identity (of the nclust clusters) of each cell.
 #'
@@ -16,7 +17,7 @@
 #' @import cluster
 #' @export
 
-Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL, all_chr=FALSE){
+Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=5, plot_conf=FALSE,plot_path=NULL, all_chr=FALSE, maxcp=6){
   
   # check parameters
   if(is.null(Obj_filtered)){
@@ -52,8 +53,8 @@ Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=
     theta_N_sub=theta_hat_cbn[,which(sapply(strsplit(colnames(theta_hat_cbn),'_'),'[',2)==chrr)]
     df=data.frame("rho_hat"=theta_N_sub[,1], "theta_hat"=theta_N_sub[,2])
     
-    cluster1=genotype_neighbor(df,cluster_name = TRUE)
-    cluster2=genotype_neighbor(df, cluster_name = FALSE)
+    cluster1=genotype_neighbor(df,cluster_name = TRUE, maxcp = maxcp)
+    cluster2=genotype_neighbor(df, cluster_name = FALSE, maxcp = maxcp)
     
     cluster_cbn=cbind(cluster_cbn, cluster1)
     cluster_cbn2=cbind(cluster_cbn2, cluster2)
@@ -109,11 +110,25 @@ Lineage_plot=function(Obj_filtered=NULL, nSNP=0, clust_method='ward.D2', nclust=
     chrgap=c(chrgap,sum(nrep[which(segmentation$chr==ii)]))
   }
   
-  col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
-        "#fff1ba","#ffb521","#DC7633","#BA4A00",
-        "#fde0dd","#fcc5c0","#f768a1","#ae017e","#49006a",
-        "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
-        "#7B241C", "#7B241C", "#7B241C","#7B241C","#7B241C","#7B241C","#7B241C")
+  mu0=NULL
+  for(ii in 1:maxcp){
+    mu_tmp=c(rep(0.5*ii,ii+1),c(0,( (1:(ii))/ii)))
+    mu0=rbind(mu0, matrix(mu_tmp, byrow=F, ncol=2))
+  }
+  
+  if(nrow(mu0)>=21){
+    col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
+          "#fff1ba","#ffb521","#DC7633","#BA4A00",
+          "#fde0dd","#fcc5c0","#f768a1","#ae017e","#49006a",
+          "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
+          "#7B241C", rep("#7B241C", (nrow(mu0)-21)))
+  }else{
+    col=c('#4d9efa','#0323a1','#9ecae1','#b0b0b0','#00d9ff',
+          "#fff1ba","#ffb521","#DC7633","#BA4A00",
+          "#fde0dd","#fcc5c0","#f768a1","#ae017e","#49006a",
+          "#c7e9b4","#7fcdbb","#41b6c4","#41ab5d","#006d2c", "#000000",
+          "#7B241C")[1:nrow(mu0)]
+  }
   
   #cluster_cbn_all=data.frame(cluster_cbn_all, stringsAsFactors = F)
   
