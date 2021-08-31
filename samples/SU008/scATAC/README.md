@@ -19,6 +19,7 @@ The following are the input files for different steps.
 2. A tsv file with all cell barcodes. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/barcodes_sub.tsv)
 * Each row is a barcode indicating cell identity.
 * The "barcodes.tsv" files are the standard outputs of the Cell Ranger software.
+* A tsv file with filtered barcodes is suggested. (The filtered barcode file can be found in the "filtered_peak_bc_matrix" folder from Cell Ranger.)
 <br/>
  
 3. SNP by cell (sparse) matrices for both reference allele and alternative alleles. [EXAMPLE](https://github.com/seasoncloud/Alleloscope/blob/main/data-raw/SNU601/scDNA/alt_all_sub.mtx) 

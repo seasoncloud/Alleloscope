@@ -34,6 +34,14 @@ Createobj=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
       var_all[,1]=paste0('chr', var_all[,1])
     }
     
+    ## filter for chr1-22
+    ind <- which(var_all[,1] %in% paste0('chr', 1:22))
+    if(length(ind) != nrow(alt_all)){
+    alt_all=alt_all[ind,]
+    ref_all=ref_all[ind,]
+    var_all=var_all[ind,]
+    }
+    
     ##
     colnames(alt_all)=barcodes[,1]
     colnames(ref_all)=barcodes[,1]
