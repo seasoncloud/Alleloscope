@@ -290,8 +290,9 @@ Cov_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_counts=
   
   cluster_cbn=theta_hat_cbn
   cluster_cbn=cluster_cbn*2
+  cluster_cbn=apply(cluster_cbn, c(1,2), function(x) if(x<=2.5 & x>=1.5){x=2}else{x=x})
   #cluster_cbn=apply(cluster_cbn, c(1,2), function(x) if(x<=2.3 & x>=1.7){x=2}else{x=x})
-  cluster_cbn=apply(cluster_cbn, c(1,2), function(x){pmin(x,5)})
+  #cluster_cbn=apply(cluster_cbn, c(1,2), function(x){pmin(x,5)})
   
   segmentation=Obj_filtered$seg_table_filtered
   nrep=round(as.numeric(segmentation[,5])/5000000)

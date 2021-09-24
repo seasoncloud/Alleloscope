@@ -67,6 +67,9 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
     chr_name=paste0('chr',names(Obj_filtered$size)) # size does not have 'chr'
   }
   
+  ## check if raw and ref counts matrices are ordered based on chr
+  raw_counts=raw_counts[order(as.numeric(gsub("chr","",sapply(strsplit(rownames(raw_counts),"-"),'[',1)))),, drop=F]
+  ref_counts=ref_counts[order(as.numeric(gsub("chr","",sapply(strsplit(rownames(ref_counts),"-"),'[',1)))),, drop=F]
   
   ## raw/ref count matrix info
   raw_chr=sapply(strsplit(rownames(raw_counts),'-'),'[',1)
