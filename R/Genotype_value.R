@@ -163,8 +163,8 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
         
       }else if(type=='cellline'){
         #normal sample from other normal dataset
-        ref_counts_chr=ref_counts[which(ref_chr %in% paste0('chr', as.character(chrrn))),]
-        ref_counts_ref=ref_counts[which(ref_chr %in% paste0('chr', as.character(refn))),]
+        ref_counts_chr=ref_counts[which(ref_chr %in% paste0('chr', as.character(chrrn))),, drop=F]
+        ref_counts_ref=ref_counts[which(ref_chr %in% paste0('chr', as.character(refn))),, drop=F]
         
         ref_chr_sub=ref_chr[which(ref_chr %in% paste0('chr', as.character(chrrn)))]
         ref_start_sub=ref_start[which(ref_chr %in% paste0('chr', as.character(chrrn)))]
@@ -182,7 +182,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
         
         bin_start=min(ov[,2])
         bin_end=max(ov[,2])
-        ref_counts_chr=ref_counts_chr[bin_start:bin_end,] ## for p and q #for cytoarm
+        ref_counts_chr=ref_counts_chr[bin_start:bin_end,, drop=F] ## for p and q #for cytoarm
         
         ## ref ref
         query=GenomicRanges::GRanges(paste0('chr',refn),IRanges::IRanges(as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),2]), as.numeric(seg_table_filtered[which(seg_table_filtered$chrr == ref),3])))
@@ -192,7 +192,7 @@ Genotype_value=function(Obj_filtered=NULL, type="tumor", raw_counts=NULL, ref_co
         
         bin_start=min(ov[,2])
         bin_end=max(ov[,2])
-        ref_counts_ref=ref_counts_ref[bin_start:bin_end,] ## for p and q #for cytoarm
+        ref_counts_ref=ref_counts_ref[bin_start:bin_end,, drop=F] ## for p and q #for cytoarm
         
         Nrref=colSums(ref_counts_chr)
         N0ref=colSums(ref_counts_ref)

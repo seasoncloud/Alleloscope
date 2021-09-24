@@ -26,7 +26,7 @@ Rundf_dna=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
                    raw_counts=NULL, ref_counts=NULL, type='tumor', 
                    cell_filter=5, SNP_filter=10 ,min_vaf=0, max_vaf=1){
   
-  Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename='Sample', genome_assembly="GRCh38", dir_path=dir_path, barcodes=barcodes, size=size, assay='scDNAseq')
+  Obj=Createobj(alt_all =alt_all, ref_all = ref_all, var_all = var_all ,samplename=samplename, genome_assembly=genome_assembly, dir_path=dir_path, barcodes=barcodes, size=size, assay=assay)
   
   Obj_filtered=Matrix_filter(Obj=Obj, cell_filter = cell_filter, SNP_filter = SNP_filter, min_vaf = min_vaf, max_vaf = max_vaf)
   
@@ -37,11 +37,11 @@ Rundf_dna=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
                             ref_counts=ref_counts,
                             plot_seg = TRUE)
   
-  Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered)
+  Obj_filtered=Segments_filter(Obj_filtered=Obj_filtered, nSNP = 200)
   
   Obj_filtered=Est_regions(Obj_filtered = Obj_filtered)
   
-  Obj_filtered=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts)
+  Obj_filtered=Select_normal(Obj_filtered = Obj_filtered, raw_counts=raw_counts, plot_theta = T)
   
   Obj_filtered$ref=Obj_filtered$select_normal$region_normal[1] 
   
