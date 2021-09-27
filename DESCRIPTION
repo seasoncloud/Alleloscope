@@ -1,7 +1,7 @@
 Package: Alleloscope
 Type: Package
 Title: Allele-specific copy number genotyping for single cell sequencing data
-Version: 1.0.0
+Version: 1.0.1
 Author: Chi-Yun Wu, Nancy Zhang
 Maintainer: Chi-Yun Wu <chiyunwu@pennmedicine.upenn.edu>
 Description: Alleloscope is a method for allele-specific copy number estimation that can be applied to single cell DNA and ATAC sequencing data (separately or in combination), allowing for integrative multi-omic analysis of allele-specific copy number and chromatin accessibility for the same cell. 
@@ -17,8 +17,7 @@ Imports:
     pheatmap,
     cowplot,
     HiddenMarkov,
-    cluster,
-    matrixStats
+    cluster
 Depends: 
     R (>= 3.6.0),
     Matrix,

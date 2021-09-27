@@ -49,7 +49,7 @@ Rundf_dna=function(alt_all=NULL, ref_all=NULL, var_all=NULL, samplename='sample'
   
   Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
   
-  linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 5)
+  linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 5,  all_chr = T)
   
   saveRDS(Obj_filtered,paste0(dir_path, "rds/Obj_filtered.rds"))
   
