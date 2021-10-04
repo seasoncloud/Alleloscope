@@ -74,6 +74,8 @@ var_all=read.table("data-raw/SNU601/scDNA/var_all_sub.vcf", header = F, sep='\t'
 # bin by cell matrices for tumor and normal for segmentation
 raw_counts=read.table("data-raw/SNU601/scDNA/tumor_sub.txt", sep='\t', header=T, row.names = 1,stringsAsFactors = F)
 ref_counts=read.table("data-raw/SNU601/scDNA/normal_sub.txt", sep='\t', header=T, row.names = 1,stringsAsFactors = F) # Normal sample from patient 6198 was used for the cell line.
+
+* Please make sure the SNPs are located on chromosome 1-22.
 ```
 <br/>
 
@@ -155,8 +157,12 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered)
 ```
 The output genotying results for the five regions are shown below.
 
-![Alt text](../../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
+![](../../../inst/plots/genotype.png?raw=true "SNU601 genotypes")
+
+More explanation about the colors can be found [here](https://github.com/seasoncloud/Alleloscope/issues/3).
 <br/><br/>
+
+
 
 #### Step6. Construct lineage structure using genotypes for each cell across all regions
 
@@ -166,7 +172,9 @@ linplot=Lineage_plot(Obj_filtered = Obj_filtered, nSNP = 2000,  nclust = 10 )
 ```
 The output clustering result for the five regions is shown below.
 
-![Alt text](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
+![](../../../inst/plots/lineage.png?raw=true "SNU601 lineage")
+
+More explanation about the colors can be found [here](https://github.com/seasoncloud/Alleloscope/issues/3).
 <br/><br/>
 
 ## Citation

@@ -135,7 +135,9 @@ Obj_filtered=Genotype(Obj_filtered = Obj_filtered, ref_gt = Obj_scDNA$genotypes,
 ```
 The genotying results for the 10 marker regions are shown below.
 
-![Alt text](../../../inst/plots/genotype_scATAC.png?raw=true)
+![](../../../inst/plots/genotype_scATAC.png?raw=true)
+
+More explanation about the colors can be found [here](https://github.com/seasoncloud/Alleloscope/issues/3).
 <br/><br/>
 
 #### Step6. Infer clonal identity for each cell in the scATAC-seq data
