@@ -13,7 +13,8 @@ Createobj(
   dir_path = "./",
   barcodes = NULL,
   size = NULL,
-  assay = "scDNAseq"
+  assay = "scDNAseq",
+  cov = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ Createobj(
 \item{size}{A matrix with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes.}
 
 \item{assay}{A character indicating the type of sequencing data. (ex: "scDNAseq" or "scATACseq")}
+
+\item{cov}{Logical (TRUE/FALSE). Whether or not to use only coverage. If "cov" is TRUE, alt_all, ref_all, andvcf_all are not required.}
 
 \item{vcf_all}{A matrix/ data.frame of the vcf format for SNP information. (The length and order are the same as nrow(alt_all) and nrow(alt_all))}
 }

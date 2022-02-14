@@ -32,6 +32,8 @@ Matrix_filter(
 
 \item{telo}{A Matrix/ data.frame of telomere information.}
 
+\item{snp_ind}{A numeric vector indexing the SNPs to be included.}
+
 \item{plot_stat}{Logical (TRUE/FALSE). Whether or not to plot the summary statistics.}
 
 \item{plot_vaf}{Logical (TRUE/FALSE). Whether or not to plot the variant allele frequency for the pseudo bulk for all the chromosomes.}

@@ -14,7 +14,8 @@ Genotype_value(
   mincell = NULL,
   qt_filter = TRUE,
   cell_filter = TRUE,
-  refr = TRUE
+  refr = TRUE,
+  cov_only = FALSE
 )
 }
 \arguments{
@@ -32,13 +33,17 @@ Genotype_value(
 
 \item{mincell}{An integer to filter out regions with minimum number of cells.}
 
+\item{qt_filter}{Logical (TRUE/ FALSE). Whether or not to exclude cells with rho_hat>0.99 or <0.01 for each region.}
+
 \item{cell_filter}{Logical (TRUE/ FALSE). Whether or not to exclude low quality cells in the output matrix.}
 
 \item{refr}{Logical (TRUE/ FALSE). Whether or not to use diplid region for normalization (otherwise, cell size is used).}
+
+\item{cov_only}{Logical (TRUE/FALSE). Whether or not to use only compute fold chagne values for each cell across the regions.}
 }
 \value{
 (rho_hat, theta_hat) of each cell for all region in the "genotype_values".
-Every 2 columns in the genotype_table are (rho_hat, theta_hat) of each region. Each row is a cell.
+Every 2 columns in the genotype_values are (rho_hat, theta_hat) of each region. Each row is a cell.
 }
 \description{
 rho_hat: Relative coverage change for each cell in a region

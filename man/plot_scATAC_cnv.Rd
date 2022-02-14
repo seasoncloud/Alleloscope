@@ -7,17 +7,21 @@
 plot_scATAC_cnv(
   raw_mat = NULL,
   cell_type = NULL,
+  normal_lab = "normal",
   size = NULL,
   window_w = 1e+07,
   window_step = 2e+06,
   plot_path = NULL,
-  nclust = 3
+  nclust = 3,
+  var.filter = FALSE
 )
 }
 \arguments{
 \item{raw_mat}{A binned coverage matrix (m1 bin by n1 cell) with values being read counts for scATAC-seq of tumor sample (with some normal cells). The matrix can be generated using https://github.com/seasoncloud/Basic_CNV_SNV/blob/main/scripts/Gen_bin_cell_atac.R}
 
 \item{cell_type}{A matrix with two columns: COL1- cell barcodes; COL2- cell types (Tumor cells should be labeled with "tumor1, tumor2 and etc.").}
+
+\item{normal_lab}{Character(s) indicating the cell types considered as normal cells. If not specify, "normal" cell type should exist in the cell_type dataframe.}
 
 \item{size}{A matrix with two columns: col1: different chromosome; col2: for the size (bp) of different chromosomes (eq.1-22).}
 
@@ -28,6 +32,8 @@ plot_scATAC_cnv(
 \item{plot_path}{Path to plot the heatmap.}
 
 \item{nclust}{Integer. Number of clusters the rows are divided into for visualization and clustering.}
+
+\item{var.filter}{Logical (TRUE/FALSE) Whether or not to filter our highly variable features.}
 }
 \value{
 A vector indicating the ordered cluster number (from hierarchical clustering) of each cell and a heatmap saved.

@@ -7,7 +7,7 @@
 #' @param max_vaf A numerical value in the range (0,1) of minimum SNP variant allele frequency in the pseudo bulk for SNP selection.
 #' @param centro A Matrix/ data.frame of centromere information.
 #' @param telo A Matrix/ data.frame of telomere information.
-#' @snp_ind A numeric vector indexing the SNPs to be included.
+#' @param snp_ind A numeric vector indexing the SNPs to be included.
 #' @param plot_stat Logical (TRUE/FALSE). Whether or not to plot the summary statistics.
 #' @param plot_vaf Logical (TRUE/FALSE). Whether or not to plot the variant allele frequency for the pseudo bulk for all the chromosomes.
 #'

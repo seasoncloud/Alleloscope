@@ -106,12 +106,12 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   cov2[is.na(cov2)]=0
   cov2[cov2==Inf]=100
   
-  if(grepl('chr',chromnum[1])){
-    chromnum=as.numeric(sapply(strsplit(chromnum,'hr'),'[',2)) ## if chrommnum with chr
-  }else{
-    chromnum=as.numeric(chromnum)}
-  chrline=cumsum(table(chromnum))
-  maploc=1:length(cov2)
+  # if(grepl('chr',chromnum[1])){
+  #   chromnum=as.numeric(sapply(strsplit(chromnum,'hr'),'[',2)) ## if chrommnum with chr
+  # }else{
+  #   chromnum=as.numeric(chromnum)}
+  # chrline=cumsum(table(chromnum))
+  # maploc=1:length(cov2)
   
   
   cov3=cov2
@@ -119,6 +119,25 @@ Segmentation=function(Obj_filtered=NULL, raw_counts=NULL, ref_counts=NULL,hmm_st
   cov3=cov3
   cov4=cov3/median(cov3)
   
+  
+  sel_bin=which(cov4>0.4)
+  cov4=cov4[sel_bin]
+  cov2=cov2[sel_bin]
+  cov3=cov3[sel_bin]
+  chromnum=chromnum[sel_bin]
+  
+  
+  raw_chr=raw_chr[sel_bin]
+  raw_start=raw_start[sel_bin]
+  raw_end=raw_end[sel_bin]
+  ref_chr=ref_chr[sel_bin]
+  
+  if(grepl('chr',chromnum[1])){
+    chromnum=as.numeric(sapply(strsplit(chromnum,'hr'),'[',2)) ## if chrommnum with chr
+  }else{
+    chromnum=as.numeric(chromnum)}
+  chrline=cumsum(table(chromnum))
+  maploc=1:length(cov4)
   
   
   ## HMM
